@@ -104,3 +104,256 @@
   </section>
 
   <!-- SCREEN 4: Reading Splash -->
+  <section class="screen" id="screen-reading-splash">
+    <div class="modal-container">
+      <div class="card">
+        <h1>Section 2: Reading</h1>
+        <p>You have exactly <strong>60 minutes</strong> to complete all 3 reading passages. There is no extra transfer time.</p>
+        <button class="btn-card" onclick="startReading()">Start Reading (60 Minutes)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 5: Reading Workspace -->
+  <section class="screen" id="screen-reading-exam">
+    <div class="exam-split">
+      <div class="pane">
+        <h3 style="margin-bottom: 10px;">Reading Passage 1</h3>
+        <p style="line-height: 1.6; text-align: justify; margin-bottom: 12px;">
+          The Roman aqueduct was an engineering marvel that supplied freshwater across vast territories...
+        </p>
+      </div>
+      <div class="pane">
+        <h3 style="margin-bottom: 10px;">Questions 1–5</h3>
+        <p style="margin-bottom: 12px;">Choose the correct letter A, B, C or D.</p>
+        <div>
+          <label style="display:block; margin-bottom: 6px;"><input type="radio" name="rd_q1" value="A"> A. Structural durability</label>
+          <label style="display:block; margin-bottom: 6px;"><input type="radio" name="rd_q1" value="B"> B. Prevention of contamination</label>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div>Reading Section &nbsp;|&nbsp; 40 Questions total</div>
+      <div>Passage 1 Active</div>
+    </footer>
+  </section>
+
+  <!-- SCREEN 6: Writing Splash -->
+  <section class="screen" id="screen-writing-splash">
+    <div class="modal-container">
+      <div class="card">
+        <h1>Section 3: Writing</h1>
+        <p>You have exactly <strong>60 minutes</strong> to complete Task 1 (150 words) and Task 2 (250 words).</p>
+        <button class="btn-card" onclick="startWriting()">Start Writing (60 Minutes)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 7: Writing Workspace -->
+  <section class="screen" id="screen-writing-exam">
+    <div style="padding: 10px 12px 0 12px; display: flex; gap: 8px;">
+      <button class="task-tab active" id="tab-w1" onclick="switchWritingTask(1)">Task 1</button>
+      <button class="task-tab" id="tab-w2" onclick="switchWritingTask(2)">Task 2</button>
+    </div>
+    <div class="exam-split">
+      <div class="pane" id="writing-prompt-pane">
+        <h3 id="w-prompt-title">Writing Task 1</h3>
+        <p id="w-prompt-text" style="margin-top: 12px; line-height: 1.6;">Summarise the information by selecting and reporting the main features...</p>
+      </div>
+      <div class="pane">
+        <textarea class="exam-text" id="writing-area" placeholder="Type your response here..." oninput="handleWordCount()"></textarea>
+      </div>
+    </div>
+    <footer>
+      <div>Writing Section &nbsp;|&nbsp; Candidate responses saved continuously</div>
+      <div>Words: <strong id="word-counter">0</strong></div>
+    </footer>
+  </section>
+
+  <!-- SCREEN 8: Thank You / Exit -->
+  <section class="screen" id="screen-finished">
+    <div class="modal-container">
+      <div class="card">
+        <h1>Exam Completed</h1>
+        <p>Thank you. Your responses have been finalized and recorded in the database. You may now step back from your desk.</p>
+        <button class="btn-card" style="background: #475569;" onclick="leaveApp()">Leave</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // 1. Инициализация вашей базы данных Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCN_FTvYGnk0dF-2RSjsiJbS8Kyb-SI7qY",
+      authDomain: "ielts-mock-portal-30e72.firebaseapp.com",
+      projectId: "ielts-mock-portal-30e72",
+      storageBucket: "ielts-mock-portal-30e72.firebasestorage.app",
+      messagingSenderId: "808485604528",
+      appId: "1:808485604528:web:9867f3dc1ee4363b573f75"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // 2. Переменные экзамена
+    let candidate = { fullName: "" };
+    let examData = {
+      listening: {},
+      reading: {},
+      writing: { task1: "", task2: "" }
+    };
+    let currentWritingTask = 1;
+    let timerInterval = null;
+    let remainingSeconds = 0;
+    let currentSection = "";
+
+    const LISTENING_MINUTES = 36; // Ровно 36 минут
+
+    function showScreen(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+      document.getElementById(id).classList.add("active");
+    }
+
+    // Регистрация
+    function handleLogin() {
+      const name = document.getElementById("candidate-name").value.trim();
+      if (!name) {
+        alert("Please enter your full name to begin the exam.");
+        return;
+      }
+      candidate.fullName = name;
+      document.getElementById("header-user").innerText = `Candidate: ${name}`;
+      showScreen("screen-listening-splash");
+    }
+
+    // Старт Listening
+    function startListening() {
+      currentSection = "listening";
+      document.getElementById("header-stage").innerText = "IELTS — Listening";
+      document.getElementById("header-timer-wrap").style.display = "flex";
+      showScreen("screen-listening-exam");
+      runTimer(LISTENING_MINUTES * 60, () => {
+        showScreen("screen-reading-splash");
+      });
+    }
+
+    // Старт Reading
+    function startReading() {
+      currentSection = "reading";
+      document.getElementById("header-stage").innerText = "IELTS — Reading";
+      document.getElementById("header-timer-wrap").style.display = "flex";
+      showScreen("screen-reading-exam");
+      runTimer(60 * 60, () => {
+        showScreen("screen-writing-splash");
+      });
+    }
+
+    // Старт Writing
+    function startWriting() {
+      currentSection = "writing";
+      document.getElementById("header-stage").innerText = "IELTS — Writing";
+      document.getElementById("header-timer-wrap").style.display = "flex";
+      showScreen("screen-writing-exam");
+      runTimer(60 * 60, () => {
+        completeAllExams();
+      });
+    }
+
+    // Переключение Task 1 / Task 2
+    function switchWritingTask(taskNum) {
+      examData.writing[`task${currentWritingTask}`] = document.getElementById("writing-area").value;
+      currentWritingTask = taskNum;
+      document.getElementById("tab-w1").classList.toggle("active", taskNum === 1);
+      document.getElementById("tab-w2").classList.toggle("active", taskNum === 2);
+      document.getElementById("w-prompt-title").innerText = `Writing Task ${taskNum}`;
+      document.getElementById("writing-area").value = examData.writing[`task${taskNum}`] || "";
+      handleWordCount();
+    }
+
+    function handleWordCount() {
+      const text = document.getElementById("writing-area").value.trim();
+      const count = text ? text.split(/\s+/).length : 0;
+      document.getElementById("word-counter").innerText = count;
+      examData.writing[`task${currentWritingTask}`] = document.getElementById("writing-area").value;
+    }
+
+    // Таймер
+    function runTimer(seconds, onComplete) {
+      clearInterval(timerInterval);
+      remainingSeconds = seconds;
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        remainingSeconds--;
+        updateTimerDisplay();
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          onComplete();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(remainingSeconds / 60).toString().padStart(2, '0');
+      const s = (remainingSeconds % 60).toString().padStart(2, '0');
+      document.getElementById("time-display").innerText = `${m}:${s}`;
+    }
+
+    function advanceSectionManually() {
+      if (confirm("Are you sure you want to finish this section early? You cannot return to it.")) {
+        clearInterval(timerInterval);
+        if (currentSection === "listening") showScreen("screen-reading-splash");
+        else if (currentSection === "reading") showScreen("screen-writing-splash");
+        else if (currentSection === "writing") completeAllExams();
+      }
+    }
+
+    // Финал: Автосохранение в Cloud Firestore
+    async function completeAllExams() {
+      clearInterval(timerInterval);
+      document.getElementById("header-timer-wrap").style.display = "none";
+      document.getElementById("header-stage").innerText = "IELTS — Finished";
+
+      const submissionData = {
+        fullName: candidate.fullName,
+        submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        listeningAnswers: {
+          q1: document.getElementById("lis_q1") ? document.getElementById("lis_q1").value.trim() : "",
+          q2: document.getElementById("lis_q2") ? document.getElementById("lis_q2").value.trim() : "",
+          q3: document.getElementById("lis_q3") ? document.getElementById("lis_q3").value.trim() : ""
+        },
+        readingAnswers: {
+          q1: document.querySelector('input[name="rd_q1"]:checked')?.value || ""
+        },
+        writing: {
+          task1: examData.writing.task1 || "",
+          task2: examData.writing.task2 || "",
+          task1Words: examData.writing.task1.trim() ? examData.writing.task1.trim().split(/\s+/).length : 0,
+          task2Words: examData.writing.task2.trim() ? examData.writing.task2.trim().split(/\s+/).length : 0
+        },
+        status: "Completed"
+      };
+
+      try {
+        await db.collection("mock_results").add(submissionData);
+        console.log("Successfully saved to Firebase!");
+      } catch (err) {
+        console.error("Firebase save failed:", err);
+        // Резервная копия на диск ПК при отсутствии интернета
+        const cleanName = candidate.fullName.replace(/[^a-zA-Z0-9А-Яа-яЁё_-]/g, "_");
+        const blob = new Blob([JSON.stringify(submissionData, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `${cleanName}_BACKUP.json`;
+        a.click();
+      }
+
+      showScreen("screen-finished");
+    }
+
+    function leaveApp() {
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>
