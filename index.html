@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>IELTS Computer-Delivered Examination</title>
+
+  <!-- Подключение Google Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
     body { background-color: #f1f5f9; color: #0f172a; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
@@ -14,11 +19,11 @@
     .btn-action { background: #dc2626; color: #fff; border: none; padding: 7px 16px; border-radius: 4px; font-weight: bold; cursor: pointer; }
     .btn-action:hover { background: #b91c1c; }
 
-    /* Screen Views Container */
+    /* Screen Views */
     .screen { display: none; flex: 1; flex-direction: column; height: calc(100vh - 54px); }
     .screen.active { display: flex; }
 
-    /* Centered Cards (Login & Transition Splash Screens) */
+    /* Cards */
     .modal-container { display: flex; flex: 1; align-items: center; justify-content: center; }
     .card { background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 36px; width: 480px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; }
     .card h1 { font-size: 22px; margin-bottom: 12px; color: #0b1a30; }
@@ -37,28 +42,28 @@
     .task-tab { padding: 8px 16px; border: 1px solid #cbd5e1; background: #e2e8f0; cursor: pointer; font-weight: bold; font-size: 13px; }
     .task-tab.active { background: #0b1a30; color: #fff; border-color: #0b1a30; }
 
-    /* Bottom Exam Status Footer */
+    /* Footer */
     footer { background: #fff; border-top: 1px solid #cbd5e1; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
   </style>
 </head>
 <body>
 
-  <!-- Persistent Header -->
+  <!-- Top Header -->
   <header>
-    <div class="header-title" id="header-stage">IELTS Mock Portal</div>
-    <div id="header-user" style="font-size: 13px; color: #cbd5e1;">Not logged in</div>
+    <div class="header-title" id="header-stage">IELTS Mock Examination</div>
+    <div id="header-user" style="font-size: 13px; color: #cbd5e1;">Candidate: Not registered</div>
     <div id="header-timer-wrap" style="display: none; align-items: center; gap: 14px;">
       <div class="timer-box" id="time-display">00:00</div>
       <button class="btn-action" onclick="advanceSectionManually()">Submit Section</button>
     </div>
   </header>
 
- <!-- SCREEN 1: Candidate Login -->
+  <!-- SCREEN 1: Candidate Full Name Registration -->
   <section class="screen active" id="screen-login">
     <div class="modal-container">
       <div class="card">
         <h1>Candidate Registration</h1>
-        <p>Enter your full legal name exactly as it appears on your identification document.</p>
+        <p>Enter your full legal name to begin the exam session.</p>
         <div class="input-group">
           <label>Full Name</label>
           <input type="text" id="candidate-name" placeholder="e.g. John Doe" autocomplete="off" autofocus>
@@ -99,217 +104,3 @@
   </section>
 
   <!-- SCREEN 4: Reading Splash -->
-  <section class="screen" id="screen-reading-splash">
-    <div class="modal-container">
-      <div class="card">
-        <h1>Section 2: Reading</h1>
-        <p>You have exactly <strong>60 minutes</strong> to complete all 3 reading passages. There is no transfer time.</p>
-        <button class="btn-card" onclick="startReading()">Start Reading (60 Minutes)</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCREEN 5: Reading Workspace -->
-  <section class="screen" id="screen-reading-exam">
-    <div class="exam-split">
-      <div class="pane">
-        <h3 style="margin-bottom: 10px;">Reading Passage 1</h3>
-        <p style="line-height: 1.6; text-align: justify; margin-bottom: 12px;">
-          The Roman aqueduct was an engineering marvel that supplied freshwater across vast territories...
-        </p>
-      </div>
-      <div class="pane">
-        <h3 style="margin-bottom: 10px;">Questions 1–5</h3>
-        <p style="margin-bottom: 12px;">Choose the correct letter A, B, C or D.</p>
-        <div>
-          <label style="display:block; margin-bottom: 6px;"><input type="radio" name="rd_q1" value="A"> A. Structural durability</label>
-          <label style="display:block; margin-bottom: 6px;"><input type="radio" name="rd_q1" value="B"> B. Prevention of contamination</label>
-        </div>
-      </div>
-    </div>
-    <footer>
-      <div>Reading Section &nbsp;|&nbsp; 40 Questions total</div>
-      <div>Passage 1 Active</div>
-    </footer>
-  </section>
-
-  <!-- SCREEN 6: Writing Splash -->
-  <section class="screen" id="screen-writing-splash">
-    <div class="modal-container">
-      <div class="card">
-        <h1>Section 3: Writing</h1>
-        <p>You have exactly <strong>60 minutes</strong> to complete Task 1 (150 words) and Task 2 (250 words).</p>
-        <button class="btn-card" onclick="startWriting()">Start Writing (60 Minutes)</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCREEN 7: Writing Workspace -->
-  <section class="screen" id="screen-writing-exam">
-    <div style="padding: 10px 12px 0 12px; display: flex; gap: 8px;">
-      <button class="task-tab active" id="tab-w1" onclick="switchWritingTask(1)">Task 1</button>
-      <button class="task-tab" id="tab-w2" onclick="switchWritingTask(2)">Task 2</button>
-    </div>
-    <div class="exam-split">
-      <div class="pane" id="writing-prompt-pane">
-        <h3 id="w-prompt-title">Writing Task 1</h3>
-        <p id="w-prompt-text" style="margin-top: 12px; line-height: 1.6;">Summarise the information by selecting and reporting the main features...</p>
-      </div>
-      <div class="pane">
-        <textarea class="exam-text" id="writing-area" placeholder="Type your response here..." oninput="handleWordCount()"></textarea>
-      </div>
-    </div>
-    <footer>
-      <div>Writing Section &nbsp;|&nbsp; Candidate responses saved continuously</div>
-      <div>Words: <strong id="word-counter">0</strong></div>
-    </footer>
-  </section>
-
-  <!-- SCREEN 8: Thank You / Exit -->
-  <section class="screen" id="screen-finished">
-    <div class="modal-container">
-      <div class="card">
-        <h1>Exam Completed</h1>
-        <p>Thank you. Your responses have been finalized and secured. You may now step back from your workstation.</p>
-        <button class="btn-card" style="background: #475569;" onclick="leaveApp()">Leave</button>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    let candidate = { fullName: "" };
-    let examData = {
-      listening: {},
-      reading: {},
-      writing: { task1: "", task2: "" }
-    };
-    let currentWritingTask = 1;
-    let timerInterval = null;
-    let remainingSeconds = 0;
-    let currentSection = "";
-
-    function showScreen(id) {
-      document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-      document.getElementById(id).classList.add("active");
-    }
-
-    // 1. Candidate Login
-    function handleLogin() {
-      const name = document.getElementById("candidate-name").value.trim();
-      if (!name) {
-        alert("Please enter your full name to begin the exam.");
-        return;
-      }
-      candidate.fullName = name;
-      document.getElementById("header-user").innerText = `Candidate: ${name}`;
-      showScreen("screen-listening-splash");
-    }
-
-    // 2. Listening Section
-    const LISTENING_MINUTES = 36; // Hardcoded exam time
-
-    function startListening() {
-      currentSection = "listening";
-      document.getElementById("header-stage").innerText = "IELTS — Listening";
-      document.getElementById("header-timer-wrap").style.display = "flex";
-      showScreen("screen-listening-exam");
-      runTimer(LISTENING_MINUTES * 60, () => {
-        showScreen("screen-reading-splash");
-      });
-    }
-
-    // 3. Reading Section (60 mins)
-    function startReading() {
-      currentSection = "reading";
-      document.getElementById("header-stage").innerText = "IELTS — Reading";
-      document.getElementById("header-timer-wrap").style.display = "flex";
-      showScreen("screen-reading-exam");
-      runTimer(60 * 60, () => {
-        showScreen("screen-writing-splash");
-      });
-    }
-
-    // 4. Writing Section (60 mins)
-    function startWriting() {
-      currentSection = "writing";
-      document.getElementById("header-stage").innerText = "IELTS — Writing";
-      document.getElementById("header-timer-wrap").style.display = "flex";
-      showScreen("screen-writing-exam");
-      runTimer(60 * 60, () => {
-        completeAllExams();
-      });
-    }
-
-    // Writing Task Switching & Word Count
-    function switchWritingTask(taskNum) {
-      examData.writing[`task${currentWritingTask}`] = document.getElementById("writing-area").value;
-      currentWritingTask = taskNum;
-      document.getElementById("tab-w1").classList.toggle("active", taskNum === 1);
-      document.getElementById("tab-w2").classList.toggle("active", taskNum === 2);
-      document.getElementById("w-prompt-title").innerText = `Writing Task ${taskNum}`;
-      document.getElementById("writing-area").value = examData.writing[`task${taskNum}`] || "";
-      handleWordCount();
-    }
-
-    function handleWordCount() {
-      const text = document.getElementById("writing-area").value.trim();
-      const count = text ? text.split(/\s+/).length : 0;
-      document.getElementById("word-counter").innerText = count;
-      examData.writing[`task${currentWritingTask}`] = document.getElementById("writing-area").value;
-    }
-
-    // Timer utility
-    function runTimer(seconds, onComplete) {
-      clearInterval(timerInterval);
-      remainingSeconds = seconds;
-      updateTimerDisplay();
-
-      timerInterval = setInterval(() => {
-        remainingSeconds--;
-        updateTimerDisplay();
-        if (remainingSeconds <= 0) {
-          clearInterval(timerInterval);
-          onComplete();
-        }
-      }, 1000);
-    }
-
-    function updateTimerDisplay() {
-      const m = Math.floor(remainingSeconds / 60).toString().padStart(2, '0');
-      const s = (remainingSeconds % 60).toString().padStart(2, '0');
-      document.getElementById("time-display").innerText = `${m}:${s}`;
-    }
-
-    function advanceSectionManually() {
-      if (confirm("Are you sure you want to finish this section early? You cannot return to it.")) {
-        clearInterval(timerInterval);
-        if (currentSection === "listening") showScreen("screen-reading-splash");
-        else if (currentSection === "reading") showScreen("screen-writing-splash");
-        else if (currentSection === "writing") completeAllExams();
-      }
-    }
-
-    /// 5. Finalizing & Exiting
-    function completeAllExams() {
-      clearInterval(timerInterval);
-      document.getElementById("header-timer-wrap").style.display = "none";
-      document.getElementById("header-stage").innerText = "IELTS — Finished";
-      
-      const cleanFileName = candidate.fullName.replace(/[^a-zA-Z0-9А-Яа-яЁё_-]/g, "_");
-      const summary = `CANDIDATE: ${candidate.fullName}\nDATE: ${new Date().toLocaleString()}\n\n==============================\nTASK 1\n==============================\n${examData.writing.task1}\n\n==============================\nTASK 2\n==============================\n${examData.writing.task2}`;
-      
-      const blob = new Blob([summary], { type: "text/plain;charset=utf-8" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `${cleanFileName}_Writing_Mock.txt`;
-      a.click();
-
-      showScreen("screen-finished");
-    }
-
-    function leaveApp() {
-      window.location.reload();
-    }
-  </script>
-</body>
-</html>
