@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IELTS Computer-Delivered Mock Exam — Writing</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+      background-color: #f4f4f4;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    /* Top Bar */
+    header {
+      background-color: #0b1a30;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e02424;
+    }
+    .header-info {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .timer-container {
+      font-size: 18px;
+      font-weight: bold;
+      background: #1f2937;
+      padding: 6px 14px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+    .top-actions button {
+      background: #e02424;
+      color: #fff;
+      border: none;
+      padding: 7px 14px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .top-actions button:hover {
+      background: #c81e1e;
+    }
+
+    /* Main Split View */
+    main {
+      flex: 1;
+      display: flex;
+      padding: 12px;
+      gap: 12px;
+      overflow: hidden;
+    }
+    .pane {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .left-pane {
+      flex: 1;
+      line-height: 1.5;
+    }
+    .right-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Task Navigation Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .tab-btn {
+      padding: 8px 16px;
+      background: #e5e7eb;
+      border: 1px solid #d1d5db;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      border-radius: 3px;
+    }
+    .tab-btn.active {
+      background: #0b1a30;
+      color: #fff;
+      border-color: #0b1a30;
+    }
+
+    /* Task Prompts */
+    .task-meta {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .task-prompt {
+      font-size: 15px;
+      line-height: 1.6;
+      border-left: 4px solid #0b1a30;
+      padding-left: 12px;
+      background: #fafafa;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* Textarea */
+    textarea {
+      flex: 1;
+      width: 100%;
+      resize: none;
+      border: 1px solid #bbb;
+      padding: 14px;
+      font-size: 15px;
+      line-height: 1.6;
+      border-radius: 4px;
+      outline: none;
+    }
+    textarea:focus {
+      border-color: #0b1a30;
+    }
+
+    /* Bottom Status Bar */
+    footer {
+      background: #fff;
+      border-top: 1px solid #ccc;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .word-counter {
+      color: #1f2937;
+    }
+    .instructions {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: normal;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-info">IELTS Academic / General — Writing Test</div>
+    <div class="timer-container">
+      Time Remaining: <span id="timer">60:00</span>
+    </div>
+    <div class="top-actions">
+      <button onclick="finishExam()">Finish Exam</button>
+    </div>
+  </header>
+
+  <div style="padding: 8px 12px 0 12px;">
+    <div class="tab-bar">
+      <button class="tab-btn active" id="btn-task1" onclick="switchTask(1)">Part 1 (Task 1)</button>
+      <button class="tab-btn" id="btn-task2" onclick="switchTask(2)">Part 2 (Task 2)</button>
+    </div>
+  </div>
+
+  <main>
+    <!-- Left Column: Instructions & Prompt -->
+    <section class="pane left-pane">
+      <div class="task-meta" id="task-title">Task 1</div>
+      <div class="task-prompt" id="task-text">
+        Loading prompt...
+      </div>
+      <div style="font-size: 13px; color: #444; margin-top: auto;">
+        <em>Note: You can switch between Task 1 and Task 2 at any time. Your text is saved automatically.</em>
+      </div>
+    </section>
+
+    <!-- Right Column: Student Essay Area -->
+    <section class="pane right-pane">
+      <textarea id="essay-box" placeholder="Type your answer here..." oninput="updateStats()"></textarea>
+    </section>
+  </main>
+
+  <footer>
+    <div class="instructions">Candidate ID: 001239 &nbsp;|&nbsp; CD-IELTS Engine v1.0</div>
+    <div class="word-counter">
+      Word count: <span id="word-count">0</span>
+    </div>
+  </footer>
+
+  <script>
+    // 1. Data configuration
+    const testData = {
+      task1: {
+        title: "Writing Task 1 (Suggested time: 20 minutes)",
+        prompt: `You should spend about 20 minutes on this task.\n\n` +
+                `The chart below shows the number of men and women in further education in Britain in three periods and whether they were studying full-time or part-time.\n\n` +
+                `Summarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\n` +
+                `Write at least 150 words.`
+      },
+      task2: {
+        title: "Writing Task 2 (Suggested time: 40 minutes)",
+        prompt: `You should spend about 40 minutes on this task.\n\n` +
+                `Write about the following topic:\n\n` +
+                `Some people believe that university education should be free for everyone, regardless of their financial background. Others believe that students should pay for their higher education.\n\n` +
+                `Discuss both views and give your own opinion.\n\n` +
+                `Give reasons for your answer and include any relevant examples from your own knowledge or experience.\n\n` +
+                `Write at least 250 words.`
+      }
+    };
+
+    let currentTask = 1;
+    let essays = {
+      task1: "",
+      task2: ""
+    };
+
+    // 2. Timer Setup (60 minutes)
+    let totalSeconds = 60 * 60;
+    const timerElement = document.getElementById("timer");
+
+    const timerInterval = setInterval(() => {
+      if (totalSeconds <= 0) {
+        clearInterval(timerInterval);
+        alert("Time is up! The exam will now submit.");
+        finishExam();
+        return;
+      }
+      totalSeconds--;
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      timerElement.textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }, 1000);
+
+    // 3. Tab Switching
+    function switchTask(taskId) {
+      // Save current input before switching
+      essays[`task${currentTask}`] = document.getElementById("essay-box").value;
+
+      currentTask = taskId;
+
+      // Update active tab buttons
+      document.getElementById("btn-task1").classList.toggle("active", taskId === 1);
+      document.getElementById("btn-task2").classList.toggle("active", taskId === 2);
+
+      // Render new task content
+      const task = testData[`task${taskId}`];
+      document.getElementById("task-title").innerText = task.title;
+      document.getElementById("task-text").innerText = task.prompt;
+
+      // Restore saved answer
+      document.getElementById("essay-box").value = essays[`task${taskId}`];
+      updateStats();
+    }
+
+    // 4. Word Counter
+    function countWords(str) {
+      const trimmed = str.trim();
+      if (!trimmed) return 0;
+      return trimmed.split(/\s+/).length;
+    }
+
+    function updateStats() {
+      const text = document.getElementById("essay-box").value;
+      essays[`task${currentTask}`] = text;
+      document.getElementById("word-count").innerText = countWords(text);
+    }
+
+    // 5. Submit & Export to TXT File
+    function finishExam() {
+      essays[`task${currentTask}`] = document.getElementById("essay-box").value;
+
+      const task1Words = countWords(essays.task1);
+      const task2Words = countWords(essays.task2);
+
+      const report = 
+`==============================================
+IELTS COMPUTER-DELIVERED MOCK TEST REPORT
+==============================================
+Date: ${new Date().toLocaleString()}
+Status: Completed
+
+----------------------------------------------
+TASK 1 (Words: ${task1Words})
+----------------------------------------------
+${essays.task1.trim() || "[No submission for Task 1]"}
+
+----------------------------------------------
+TASK 2 (Words: ${task2Words})
+----------------------------------------------
+${essays.task2.trim() || "[No submission for Task 2]"}
+==============================================`;
+
+      // Download report as a file
+      const blob = new Blob([report], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `IELTS_Writing_Mock_${Date.now()}.txt`;
+      link.click();
+
+      alert("Exam submitted! The submission file has been downloaded to your computer.");
+    }
+
+    // Initialize initial view
+    switchTask(1);
+  </script>
+</body>
+</html>
