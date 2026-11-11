@@ -260,10 +260,19 @@
 
   <header>
     <div class="header-info">IELTS Academic Reading — Practice Test 1</div>
-    <div class="timer-badge">
-      Time: <span id="timer">60:00</span>
+
+    <div style="display: flex; gap: 8px;">
+      <a href="index.html" style="color: #fff; text-decoration: none; font-size: 13px; background: #374151; padding: 4px 10px; border-radius: 3px;">✍️ Writing</a>
+      <a href="reading.html" style="color: #fff; text-decoration: none; font-size: 13px; background: #e02424; padding: 4px 10px; border-radius: 3px;">📖 Reading</a>
+      <a href="listening.html" style="color: #fff; text-decoration: none; font-size: 13px; background: #374151; padding: 4px 10px; border-radius: 3px;">🎧 Listening</a>
     </div>
-    <button class="btn-submit" onclick="finishTest()">Finish Test</button>
+
+    <div style="display: flex; align-items: center; gap: 12px;">
+      <div class="timer-badge">
+        Time: <span id="timer">60:00</span>
+      </div>
+      <button class="btn-submit" onclick="finishTest()">Finish Test</button>
+    </div>
   </header>
 
   <div class="part-bar">
