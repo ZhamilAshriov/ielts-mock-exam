@@ -212,13 +212,14 @@
     }
 
     // 2. Listening Section
+    const LISTENING_MINUTES = 36; // Hardcoded exam time
+
     function startListening() {
-      const mins = parseInt(document.getElementById("listening-duration").value, 10) || 30;
       currentSection = "listening";
       document.getElementById("header-stage").innerText = "IELTS — Listening";
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-listening-exam");
-      runTimer(mins * 60, () => {
+      runTimer(LISTENING_MINUTES * 60, () => {
         showScreen("screen-reading-splash");
       });
     }
