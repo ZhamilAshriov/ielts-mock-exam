@@ -53,19 +53,15 @@
     </div>
   </header>
 
-  <!-- SCREEN 1: Candidate Login -->
+ <!-- SCREEN 1: Candidate Login -->
   <section class="screen active" id="screen-login">
     <div class="modal-container">
       <div class="card">
-        <h1>Candidate Verification</h1>
-        <p>Please enter your candidate number and desk password provided by the invigilator.</p>
+        <h1>Candidate Registration</h1>
+        <p>Enter your full legal name exactly as it appears on your identification document.</p>
         <div class="input-group">
-          <label>Candidate Number (6 Digits)</label>
-          <input type="text" id="candidate-id" placeholder="e.g. 004123">
-        </div>
-        <div class="input-group">
-          <label>Password</label>
-          <input type="password" id="candidate-pass" placeholder="••••••••">
+          <label>Full Name</label>
+          <input type="text" id="candidate-name" placeholder="e.g. John Doe" autocomplete="off" autofocus>
         </div>
         <button class="btn-card" onclick="handleLogin()">Proceed to Exam</button>
       </div>
@@ -181,7 +177,7 @@
   </section>
 
   <script>
-    let candidate = { id: "", deskPass: "" };
+    let candidate = { fullName: "" };
     let examData = {
       listening: {},
       reading: {},
@@ -199,15 +195,13 @@
 
     // 1. Candidate Login
     function handleLogin() {
-      const id = document.getElementById("candidate-id").value.trim();
-      const pass = document.getElementById("candidate-pass").value.trim();
-      if (!id || !pass) {
-        alert("Please enter both Candidate Number and Password.");
+      const name = document.getElementById("candidate-name").value.trim();
+      if (!name) {
+        alert("Please enter your full name to begin the exam.");
         return;
       }
-      candidate.id = id;
-      candidate.deskPass = pass;
-      document.getElementById("header-user").innerText = `Candidate: ${id}`;
+      candidate.fullName = name;
+      document.getElementById("header-user").innerText = `Candidate: ${name}`;
       showScreen("screen-listening-splash");
     }
 
@@ -295,18 +289,19 @@
       }
     }
 
-    // 5. Finalizing & Exiting
+    /// 5. Finalizing & Exiting
     function completeAllExams() {
       clearInterval(timerInterval);
       document.getElementById("header-timer-wrap").style.display = "none";
       document.getElementById("header-stage").innerText = "IELTS — Finished";
       
-      // Auto-save download report
-      const summary = `CANDIDATE: ${candidate.id}\nDATE: ${new Date().toISOString()}\n\nTASK 1:\n${examData.writing.task1}\n\nTASK 2:\n${examData.writing.task2}`;
-      const blob = new Blob([summary], { type: "text/plain" });
+      const cleanFileName = candidate.fullName.replace(/[^a-zA-Z0-9А-Яа-яЁё_-]/g, "_");
+      const summary = `CANDIDATE: ${candidate.fullName}\nDATE: ${new Date().toLocaleString()}\n\n==============================\nTASK 1\n==============================\n${examData.writing.task1}\n\n==============================\nTASK 2\n==============================\n${examData.writing.task2}`;
+      
+      const blob = new Blob([summary], { type: "text/plain;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
-      a.download = `Candidate_${candidate.id}_Report.txt`;
+      a.download = `${cleanFileName}_Writing_Mock.txt`;
       a.click();
 
       showScreen("screen-finished");
