@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IELTS Computer-Delivered Mock Exam — Listening</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+      background-color: #e5e7eb;
+      color: #111;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Top Bar */
+    header {
+      background-color: #0b1a30;
+      color: #fff;
+      padding: 8px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid #e02424;
+    }
+    .header-info {
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 13px;
+      background: #1f2937;
+      padding: 5px 10px;
+      border-radius: 3px;
+      margin-right: 6px;
+    }
+    .nav-links a.active {
+      background: #e02424;
+    }
+    .timer-badge {
+      font-size: 18px;
+      font-weight: bold;
+      background: #1f2937;
+      padding: 5px 14px;
+      border-radius: 4px;
+      letter-spacing: 1px;
+    }
+    .btn-submit {
+      background: #e02424;
+      color: #fff;
+      border: none;
+      padding: 7px 15px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-submit:hover {
+      background: #b91c1c;
+    }
+
+    /* Audio Controller Notice */
+    .audio-bar {
+      background: #1e293b;
+      color: #f1f5f9;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+    }
+    .volume-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Part Tabs */
+    .part-bar {
+      background: #fff;
+      border-bottom: 1px solid #cbd5e1;
+      padding: 6px 16px;
+      display: flex;
+      gap: 8px;
+    }
+    .part-btn {
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: bold;
+      border: 1px solid #94a3b8;
+      background: #f8fafc;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .part-btn.active {
+      background: #0b1a30;
+      color: #fff;
+      border-color: #0b1a30;
+    }
+
+    /* Test Area */
+    main {
+      flex: 1;
+      padding: 16px;
+      overflow-y: auto;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .section-card {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: #0b1a30;
+      margin-bottom: 8px;
+    }
+    .section-instructions {
+      background: #f8fafc;
+      border-left: 4px solid #0284c7;
+      padding: 10px 14px;
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    /* Questions Styling */
+    .form-box {
+      border: 1px solid #cbd5e1;
+      padding: 18px;
+      border-radius: 4px;
+      background: #fafafa;
+      line-height: 2.2;
+      font-size: 15px;
+    }
+    .q-gap {
+      display: inline-block;
+      border-bottom: 2px solid #0b1a30;
+      margin: 0 4px;
+    }
+    .q-input {
+      border: 1px solid #94a3b8;
+      border-radius: 3px;
+      padding: 4px 8px;
+      font-size: 14px;
+      width: 130px;
+      outline: none;
+    }
+    .q-input:focus {
+      border-color: #0284c7;
+      background: #f0f9ff;
+    }
+
+    /* Footer Navigation */
+    footer {
+      background: #fff;
+      border-top: 2px solid #cbd5e1;
+      padding: 8px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .q-matrix {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      max-height: 48px;
+      overflow-y: auto;
+    }
+    .q-btn {
+      width: 32px;
+      height: 28px;
+      font-size: 12px;
+      font-weight: bold;
+      border: 1px solid #94a3b8;
+      background: #f8fafc;
+      border-radius: 3px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .q-btn.answered {
+      background: #e2e8f0;
+      text-decoration: underline;
+    }
+
+    /* Results Modal */
+    #score-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .modal-card {
+      background: #fff;
+      padding: 24px;
+      border-radius: 8px;
+      width: 420px;
+      text-align: center;
+    }
+    .score-circle {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: #0b1a30;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: bold;
+      margin: 16px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-info">IELTS Computer-Delivered — Listening Test</div>
+    
+    <div class="nav-links">
+      <a href="index.html">✍️ Writing</a>
+      <a href="reading.html">📖 Reading</a>
+      <a href="listening.html" class="active">🎧 Listening</a>
+    </div>
+
+    <div class="timer-badge">
+      Time: <span id="timer">32:00</span>
+    </div>
+    <button class="btn-submit" onclick="finishExam()">Finish Test</button>
+  </header>
+
+  <!-- Audio bar with volume slider (no pause / rewind allowed) -->
+  <div class="audio-bar">
+    <div id="audio-status">Audio Track: <strong>Ready to start</strong></div>
+    <div class="volume-box">
+      <span>Volume:</span>
+      <input type="range" id="vol-slider" min="0" max="1" step="0.05" value="0.8" oninput="changeVolume(this.value)">
+    </div>
+  </div>
+
+  <div class="part-bar">
+    <button class="part-btn active" onclick="switchPart(1)">Part 1 (Questions 1–10)</button>
+    <button class="part-btn" onclick="switchPart(2)">Part 2 (Questions 11–20)</button>
+    <button class="part-btn" onclick="switchPart(3)">Part 3 (Questions 21–30)</button>
+    <button class="part-btn" onclick="switchPart(4)">Part 4 (Questions 31–40)</button>
+  </div>
+
+  <main>
+    <div class="section-card">
+      <h2 class="section-title">Part 1: Customer Order Inquiry</h2>
+      <div class="section-instructions">
+        Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.
+      </div>
+
+      <!-- Demo Part 1 Form Completion -->
+      <div class="form-box">
+        <h3 style="margin-bottom: 8px;">Order Details</h3>
+        • Customer Name: Andrea <strong>(1)</strong> <input type="text" class="q-input" id="q1" oninput="recordInput(1, this.value)"> <br>
+        • Delivery Address: Flat 4B, <strong>(2)</strong> <input type="text" class="q-input" id="q2" oninput="recordInput(2, this.value)"> Street, Bristol<br>
+        • Postcode: <strong>(3)</strong> <input type="text" class="q-input" id="q3" oninput="recordInput(3, this.value)"><br>
+        • Preferred delivery time: Afternoon before <strong>(4)</strong> <input type="text" class="q-input" id="q4" oninput="recordInput(4, this.value)"> PM<br>
+        • Special instructions: Leave package near the <strong>(5)</strong> <input type="text" class="q-input" id="q5" oninput="recordInput(5, this.value)"> gate.
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div style="font-size: 13px; font-weight: bold; margin-bottom: 4px;">Questions Navigation:</div>
+    <div class="q-matrix" id="q-buttons">
+      <!-- 40 Question markers -->
+    </div>
+  </footer>
+
+  <!-- Invisible Audio Element -->
+  <audio id="exam-audio" preload="auto">
+    <!-- Replace source URL with your audio file or keep sample -->
+    <source src="https://actions.google.com/sounds/v1/ambiences/coffee_shop.ogg" type="audio/ogg">
+  </audio>
+
+  <!-- Modal Result -->
+  <div id="score-modal">
+    <div class="modal-card">
+      <h2>Listening Test Completed</h2>
+      <div class="score-circle" id="band-val">0.0</div>
+      <p id="score-details" style="font-size: 15px; margin-bottom: 16px;">Raw Score: 0 / 40</p>
+      <button class="btn-submit" onclick="document.getElementById('score-modal').style.display='none'">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // 1. Correct Answer Keys (sample for first 5 questions)
+    const answerKeys = {
+      1: ["brown", "browne"],
+      2: ["highbury", "highbury st"],
+      3: ["bs8 4ty", "bs84ty"],
+      4: ["5", "5:00", "5 pm"],
+      5: ["garden", "side"]
+    };
+
+    let userAnswers = {};
+
+    // 2. Audio control: play once, adjust volume only
+    const audio = document.getElementById("exam-audio");
+    audio.volume = 0.8;
+
+    window.addEventListener("click", () => {
+      // Auto-start audio on first student interaction
+      if (audio.paused && audio.currentTime === 0) {
+        audio.play().catch(e => console.log("Autoplay waiting for student click"));
+        document.getElementById("audio-status").innerHTML = "Audio Track: <strong style='color:#4ade80;'>Playing...</strong>";
+      }
+    }, { once: true });
+
+    function changeVolume(val) {
+      audio.volume = val;
+    }
+
+    // 3. Render 40 Navigation buttons
+    const navBox = document.getElementById("q-buttons");
+    for (let i = 1; i <= 40; i++) {
+      const btn = document.createElement("button");
+      btn.className = "q-btn";
+      btn.id = `btn-${i}`;
+      btn.innerText = i;
+      navBox.appendChild(btn);
+    }
+
+    function recordInput(qNum, value) {
+      if (value.trim() !== "") {
+        userAnswers[qNum] = value.trim();
+        document.getElementById(`btn-${qNum}`).classList.add("answered");
+      } else {
+        delete userAnswers[qNum];
+        document.getElementById(`btn-${qNum}`).classList.remove("answered");
+      }
+    }
+
+    // 4. Timer: 32 minutes countdown
+    let totalSecs = 32 * 60;
+    const timerElem = document.getElementById("timer");
+    setInterval(() => {
+      if (totalSecs <= 0) {
+        finishExam();
+        return;
+      }
+      totalSecs--;
+      let m = Math.floor(totalSecs / 60).toString().padStart(2, '0');
+      let s = (totalSecs % 60).toString().padStart(2, '0');
+      timerElem.innerText = `${m}:${s}`;
+    }, 1000);
+
+    // 5. Band Score conversion for Listening
+    function calcBand(score) {
+      if (score >= 39) return "9.0";
+      if (score >= 37) return "8.5";
+      if (score >= 35) return "8.0";
+      if (score >= 32) return "7.5";
+      if (score >= 30) return "7.0";
+      if (score >= 26) return "6.5";
+      if (score >= 23) return "6.0";
+      if (score >= 18) return "5.5";
+      if (score >= 16) return "5.0";
+      return "4.5";
+    }
+
+    function finishExam() {
+      audio.pause();
+      let rawScore = 0;
+
+      for (let [qId, validKeys] of Object.entries(answerKeys)) {
+        const studentAns = (userAnswers[qId] || "").toLowerCase();
+        if (validKeys.includes(studentAns)) {
+          rawScore++;
+        }
+      }
+
+      document.getElementById("band-val").innerText = calcBand(rawScore);
+      document.getElementById("score-details").innerText = `Raw Score: ${rawScore} / 40 (Demo sample)`;
+      document.getElementById("score-modal").style.display = "flex";
+    }
+  </script>
+</body>
+</html>
