@@ -359,7 +359,22 @@
   (function () {
     let examActive = false;
     let studentName = 'Неизвестный кандидат';
-    const warningOverlay = document.getElementById('fullscreen-warning');
+
+    // 1. Автоматически создаём красный экран блокировки в документе
+    const warningOverlay = document.createElement('div');
+    warningOverlay.id = 'fullscreen-warning';
+    warningOverlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(185, 28, 28, 0.98); color: #ffffff; z-index: 2147483647; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: sans-serif; box-sizing: border-box;';
+    warningOverlay.innerHTML = `
+      <h1 style="font-size: 32px; margin-bottom: 12px; color: #fff;">ВНИМАНИЕ! НАРУШЕНИЕ РЕЖИМА ЭКЗАМЕНА</h1>
+      <p style="font-size: 18px; max-width: 560px; margin-bottom: 24px; color: #fff;">
+        Выход из полноэкранного режима или переключение окон запрещены. Уведомление уже отправлено проктору.
+      </p>
+      <button id="return-fullscreen-btn" type="button" style="background: #ffffff; color: #b91c1c; border: none; padding: 14px 28px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+        Вернуться в полноэкранный режим
+      </button>
+    `;
+    document.body.appendChild(warningOverlay);
+
     const returnBtn = document.getElementById('return-fullscreen-btn');
 
     function enterFullscreen() {
@@ -372,8 +387,12 @@
       return !!(document.fullscreenElement || document.webkitFullscreenElement);
     }
 
-    // Отправка уведомления в Firebase (поддерживает и Firestore, и Realtime Database)
-    function sendViolationAlert(reason) {
+    function triggerViolation(reason) {
+      if (!examActive) return;
+      // Показываем красный экран студенту
+      warningOverlay.style.setProperty('display', 'flex', 'important');
+
+      // Отправляем тревогу в Firebase
       const alertData = {
         student: studentName,
         reason: reason,
@@ -394,11 +413,11 @@
       }
     }
 
-    // Перехват нажатия кнопки "Proceed to Exam"
+    // Старт и завершение экзамена
     document.addEventListener('click', function (e) {
-      const btn = e.target.closest('button');
+      const btn = e.target.closest('button, input[type="submit"], a');
       if (!btn) return;
-      const text = (btn.innerText || '').toLowerCase();
+      const text = (btn.innerText || btn.value || '').toLowerCase();
 
       if (text.includes('proceed') || text.includes('start') || text.includes('начать')) {
         const nameInput = document.querySelector('input[type="text"]');
@@ -415,12 +434,11 @@
       }
     });
 
-    // Реакция на выход из полного экрана (Esc / F11)
+    // Выход из полноэкранного режима (Esc / F11)
     function handleFullscreenChange() {
       if (!examActive) return;
       if (!isFullscreen()) {
-        warningOverlay.style.display = 'flex';
-        sendViolationAlert('Вышел из полноэкранного режима (Esc/F11)');
+        triggerViolation('Вышел из полноэкранного режима (Esc/F11)');
       } else {
         warningOverlay.style.display = 'none';
       }
@@ -429,13 +447,14 @@
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 
-    // Реакция на переключение вкладки или сворачивание браузера (Alt+Tab)
+    // Переключение вкладки или сворачивание окна (Alt+Tab)
     document.addEventListener('visibilitychange', function () {
       if (examActive && document.hidden) {
-        sendViolationAlert('Переключил вкладку или свернул окно');
+        triggerViolation('Переключил вкладку или свернул окно');
       }
     });
 
+    // Возврат в полноэкранный режим по кнопке
     returnBtn.addEventListener('click', function () {
       enterFullscreen();
       warningOverlay.style.display = 'none';
