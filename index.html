@@ -355,5 +355,79 @@
       window.location.reload();
     }
   </script>
+  <!-- Модуль автоматического полноэкранного режима и контроля выхода -->
+<div id="fullscreen-warning" style="display: none; position: fixed; inset: 0; background: rgba(185, 28, 28, 0.97); color: #ffffff; z-index: 999999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: sans-serif;">
+  <h1 style="font-size: 32px; margin-bottom: 12px;">ВНИМАНИЕ! ПОЛНОЭКРАННЫЙ РЕЖИМ ПРЕРВАН</h1>
+  <p style="font-size: 18px; max-width: 560px; margin-bottom: 24px;">
+    Выход из полноэкранного режима во время экзамена запрещён. Проктор уведомлён. Нажмите кнопку ниже, чтобы вернуться к тесту.
+  </p>
+  <button id="return-fullscreen-btn" style="background: #ffffff; color: #b91c1c; border: none; padding: 14px 28px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+    Вернуться в полноэкранный режим
+  </button>
+</div>
+
+<script>
+  (function () {
+    let examActive = false;
+    const warningOverlay = document.getElementById('fullscreen-warning');
+    const returnBtn = document.getElementById('return-fullscreen-btn');
+
+    function enterFullscreen() {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen().catch(() => {});
+      } else if (elem.webkitRequestFullscreen) { // Safari / Mac
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { // Старый Edge
+        elem.msRequestFullscreen();
+      }
+    }
+
+    function isFullscreen() {
+      return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+    }
+
+    // Автоматически запускаем полный экран при клике на кнопку старта экзамена
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const text = (btn.innerText || '').toLowerCase();
+      if (text.includes('начать') || text.includes('start') || text.includes('старт')) {
+        examActive = true;
+        enterFullscreen();
+      }
+    });
+
+    // Отслеживаем попытку выйти из полного экрана (клавиша Esc или F11)
+    function handleFullscreenChange() {
+      if (!examActive) return;
+      if (!isFullscreen()) {
+        warningOverlay.style.display = 'flex';
+      } else {
+        warningOverlay.style.display = 'none';
+      }
+    }
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+
+    // Кнопка возврата в полный экран на красном предупреждении
+    returnBtn.addEventListener('click', function () {
+      enterFullscreen();
+      warningOverlay.style.display = 'none';
+    });
+
+    // Автоматически отключаем слежение, когда студент нажал кнопку сдачи теста
+    document.addEventListener('click', function (e) {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      const text = (btn.innerText || '').toLowerCase();
+      if (text.includes('сдать') || text.includes('завершить') || text.includes('submit') || text.includes('finish')) {
+        examActive = false;
+        warningOverlay.style.display = 'none';
+      }
+    });
+  })();
+</script>
 </body>
 </html>
