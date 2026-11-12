@@ -45,6 +45,65 @@
     /* Footer */
     footer { background: #fff; border-top: 1px solid #cbd5e1; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
   </style>
+  <!-- Подключение фирменного шрифта для логотипа HIGH SCORE -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --hs-red: #D32F2F;       /* Основной красный цвет эмблемы */
+    --hs-red-dark: #B71C1C;  /* Тёмно-красный при наведении на кнопку */
+    --hs-bg: #F8F9FA;        /* Светлый академический фон */
+  }
+
+  /* Фирменный блок логотипа HIGH SCORE EDUCATIONAL CENTER */
+  .hs-brand-header {
+    text-align: center;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid #F1F1F1;
+    user-select: none;
+  }
+  .hs-brand-title {
+    font-family: 'Oswald', sans-serif;
+    font-size: 38px;
+    font-weight: 700;
+    color: var(--hs-red);
+    letter-spacing: 1px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .hs-brand-subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--hs-red);
+    letter-spacing: 1.5px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* Перекраска главных кнопок (Proceed to Exam, Submit и др.) в фирменный стиль */
+  button, input[type="submit"] {
+    background-color: var(--hs-red) !important;
+    color: #ffffff !important;
+    border: none !important;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+  }
+  button:hover, input[type="submit"]:hover {
+    background-color: var(--hs-red-dark) !important;
+  }
+
+  /* Красный акцент при клике в поле ввода имени кандидата */
+  input[type="text"]:focus, textarea:focus {
+    outline: none !important;
+    border-color: var(--hs-red) !important;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15) !important;
+  }
+</style>
 </head>
 <body>
 
