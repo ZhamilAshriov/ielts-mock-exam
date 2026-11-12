@@ -325,5 +325,65 @@
       document.getElementById("review-modal").style.display = "none";
     }
   </script>
+  <!-- Панель живых уведомлений для администратора -->
+<div id="proctor-alerts-box" style="position: fixed; bottom: 20px; right: 20px; width: 340px; max-height: 80vh; overflow-y: auto; z-index: 99999; font-family: sans-serif; display: flex; flex-direction: column; gap: 10px;"></div>
+
+<script>
+  (function () {
+    const alertsBox = document.getElementById('proctor-alerts-box');
+    const pageLoadTime = Date.now();
+
+    // Короткий звуковой сигнал без внешних аудиофайлов
+    function playBeep() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.25);
+      } catch (e) {}
+    }
+
+    function showAlertCard(data) {
+      // Игнорируем старые нарушения, которые были до открытия admin.html
+      if (data.timestamp && data.timestamp < pageLoadTime - 5000) return;
+
+      playBeep();
+      const card = document.createElement('div');
+      card.style.cssText = 'background: #fee2e2; border-left: 5px solid #dc2626; color: #7f1d1d; padding: 14px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); position: relative;';
+      card.innerHTML = `
+        <div style="font-weight: bold; font-size: 15px; margin-bottom: 4px;">⚠️ Нарушение: ${data.student}</div>
+        <div style="font-size: 13px; margin-bottom: 4px;">${data.reason}</div>
+        <div style="font-size: 11px; opacity: 0.8;">Время: ${data.time}</div>
+        <button onclick="this.parentElement.remove()" style="position: absolute; top: 8px; right: 10px; background: none; border: none; font-weight: bold; cursor: pointer; color: #7f1d1d;">✕</button>
+      `;
+      alertsBox.prepend(card);
+    }
+
+    // Подписка на новые нарушения в реальном времени
+    setTimeout(function () {
+      if (typeof firebase === 'undefined') return;
+
+      if (firebase.firestore) {
+        firebase.firestore().collection('violations')
+          .where('timestamp', '>', pageLoadTime)
+          .onSnapshot(function (snapshot) {
+            snapshot.docChanges().forEach(function (change) {
+              if (change.type === 'added') showAlertCard(change.doc.data());
+            });
+          });
+      } else if (firebase.database) {
+        firebase.database().ref('violations')
+          .orderByChild('timestamp')
+          .startAt(pageLoadTime)
+          .on('child_added', function (snapshot) {
+            showAlertCard(snapshot.val());
+          });
+      }
+    }, 1000);
+  })();
+</script>
 </body>
 </html>
