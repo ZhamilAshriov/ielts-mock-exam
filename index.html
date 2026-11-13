@@ -229,10 +229,10 @@
       <button class="task-tab active" id="tab-w1" onclick="switchWritingTask(1)">Task 1</button>
       <button class="task-tab" id="tab-w2" onclick="switchWritingTask(2)">Task 2</button>
     </div>
-    <div class="exam-split">
-      <div class="pane" id="writing-prompt-pane">
+    <div class="pane" id="writing-prompt-pane">
         <h3 id="w-prompt-title">Writing Task 1</h3>
-        <p id="w-prompt-text" style="margin-top: 12px; line-height: 1.6;">Summarise the information by selecting and reporting the main features...</p>
+        <p id="w-prompt-text" style="margin-top: 12px; line-height: 1.6; white-space: pre-line;"></p>
+        <img id="w-prompt-image" src="" alt="Task 1 Chart" style="display: none; max-width: 100%; height: auto; margin-top: 16px; border: 1px solid #cbd5e1; border-radius: 4px;">
       </div>
       <div class="pane">
         <textarea class="exam-text" id="writing-area" placeholder="Type your response here..." oninput="handleWordCount()"></textarea>
