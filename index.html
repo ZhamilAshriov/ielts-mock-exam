@@ -245,6 +245,7 @@
   </section>
 
  <!-- SCREEN 8: Thank You / Review / Exit -->
+  <!-- SCREEN 8: Thank You / Review / Exit -->
   <section class="screen" id="screen-finished">
     <div class="modal-container">
       <div class="card" style="width: 520px;">
@@ -254,7 +255,7 @@
         </div>
         <h1>Exam Completed</h1>
         <p style="margin-bottom: 16px;">
-          Thank you for attending today’s IELTS Mock Examination. Your test has been submitted. If you would like to share your feedback on the exam or platform, please leave a review below:
+          Thank you for taking the IELTS Mock Exam with us. Your responses have been recorded. If you have a moment, we’d love to hear your feedback below:
         </p>
 
         <div id="review-form-wrap" style="text-align: left; margin-bottom: 16px;">
@@ -270,7 +271,7 @@
         </div>
 
         <div id="review-thanks-msg" style="display: none; color: #15803d; font-weight: bold; margin-bottom: 16px; font-size: 14px;">
-          Thank you! Your review has been saved.
+          Thank you! Your review has been published.
         </div>
 
         <button class="btn-card" style="background: #475569 !important;" onclick="leaveApp()">Leave</button>
@@ -531,7 +532,10 @@
       const comment = reviewInput.value.trim();
       const btn = document.getElementById("submit-review-btn");
 
-      if (!comment && selectedRating === 5) {
+      if (!comment) {
+        alert("Please write a short comment before submitting your review.");
+        return;
+      }
         // Allows quick 5-star submission even without text, or prompts if empty
       }
 
