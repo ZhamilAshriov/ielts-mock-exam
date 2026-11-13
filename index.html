@@ -244,13 +244,36 @@
     </footer>
   </section>
 
-  <!-- SCREEN 8: Thank You / Exit -->
+ <!-- SCREEN 8: Thank You / Review / Exit -->
   <section class="screen" id="screen-finished">
     <div class="modal-container">
-      <div class="card">
+      <div class="card" style="width: 520px;">
+        <div class="hs-brand-header" style="margin-bottom: 14px; padding-bottom: 10px;">
+          <div class="hs-brand-title" style="font-size: 28px;">HIGH SCORE</div>
+          <div class="hs-brand-subtitle" style="font-size: 13px;">EDUCATIONAL CENTER</div>
+        </div>
         <h1>Exam Completed</h1>
-        <p>Thank you. Your responses have been finalized and recorded in the database. You may now step back from your desk.</p>
-        <button class="btn-card" style="background: #475569;" onclick="leaveApp()">Leave</button>
+        <p style="margin-bottom: 16px;">
+          Thank you for attending today’s IELTS Mock Examination. Your test has been submitted. If you would like to share your feedback on the exam or platform, please leave a review below:
+        </p>
+
+        <div id="review-form-wrap" style="text-align: left; margin-bottom: 16px;">
+          <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;" id="star-rating">
+            <span class="review-star" data-val="1" onclick="setRating(1)" style="font-size: 28px; cursor: pointer; color: #f59e0b;">★</span>
+            <span class="review-star" data-val="2" onclick="setRating(2)" style="font-size: 28px; cursor: pointer; color: #f59e0b;">★</span>
+            <span class="review-star" data-val="3" onclick="setRating(3)" style="font-size: 28px; cursor: pointer; color: #f59e0b;">★</span>
+            <span class="review-star" data-val="4" onclick="setRating(4)" style="font-size: 28px; cursor: pointer; color: #f59e0b;">★</span>
+            <span class="review-star" data-val="5" onclick="setRating(5)" style="font-size: 28px; cursor: pointer; color: #f59e0b;">★</span>
+          </div>
+          <textarea id="review-text" rows="3" placeholder="Share your feedback about the mock exam or platform..." style="width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; resize: none;"></textarea>
+          <button class="btn-card" id="submit-review-btn" onclick="submitReview()" style="margin-top: 10px;">Submit Review</button>
+        </div>
+
+        <div id="review-thanks-msg" style="display: none; color: #15803d; font-weight: bold; margin-bottom: 16px; font-size: 14px;">
+          Thank you! Your review has been saved.
+        </div>
+
+        <button class="btn-card" style="background: #475569 !important;" onclick="leaveApp()">Leave</button>
       </div>
     </div>
   </section>
@@ -492,6 +515,46 @@
       
       sessionStorage.removeItem("hs_active_writing_idx");
       showScreen("screen-finished");
+    }
+    let selectedRating = 5;
+
+    function setRating(stars) {
+      selectedRating = stars;
+      document.querySelectorAll(".review-star").forEach(star => {
+        const val = Number(star.getAttribute("data-val"));
+        star.style.color = val <= stars ? "#f59e0b" : "#cbd5e1";
+      });
+    }
+
+    async function submitReview() {
+      const reviewInput = document.getElementById("review-text");
+      const comment = reviewInput.value.trim();
+      const btn = document.getElementById("submit-review-btn");
+
+      if (!comment && selectedRating === 5) {
+        // Allows quick 5-star submission even without text, or prompts if empty
+      }
+
+      btn.disabled = true;
+      btn.innerText = "Saving...";
+
+      try {
+        await db.collection("reviews").add({
+          fullName: candidate.fullName || "Anonymous Candidate",
+          rating: selectedRating,
+          comment: comment,
+          writingVariant: assignedWriting ? assignedWriting.variantId : "Unknown",
+          submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        document.getElementById("review-form-wrap").style.display = "none";
+        document.getElementById("review-thanks-msg").style.display = "block";
+      } catch (err) {
+        console.error("Failed to save review:", err);
+        alert("Could not save review right now. Please check your internet connection.");
+        btn.disabled = false;
+        btn.innerText = "Submit Review";
+      }
     }
 
     function leaveApp() {
