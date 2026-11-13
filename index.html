@@ -489,7 +489,8 @@
         a.download = `${cleanName}_BACKUP.json`;
         a.click();
       }
-
+      
+      sessionStorage.removeItem("hs_active_writing_idx");
       showScreen("screen-finished");
     }
 
