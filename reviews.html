@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidate Reviews — High Score IELTS Mock Portal</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+    body { background-color: #f8fafc; color: #0f172a; line-height: 1.6; }
+
+    header {
+      background: #ffffff;
+      border-bottom: 3px solid #D32F2F;
+      padding: 28px 20px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .hs-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: #D32F2F;
+      letter-spacing: 1px;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+    .hs-subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: #D32F2F;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+    .page-desc {
+      max-width: 640px;
+      margin: 14px auto 0;
+      font-size: 15px;
+      color: #475569;
+    }
+
+    .stats-bar {
+      max-width: 900px;
+      margin: 28px auto 10px;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .avg-badge {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #0f172a;
+    }
+    .avg-badge span { color: #f59e0b; font-size: 18px; }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto 60px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+    }
+
+    .review-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .stars { color: #f59e0b; font-size: 18px; letter-spacing: 2px; margin-bottom: 10px; }
+    .comment { font-size: 14px; color: #334155; margin-bottom: 16px; white-space: pre-line; }
+    .meta {
+      border-top: 1px solid #f1f5f9;
+      padding-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #64748b;
+    }
+    .author { font-weight: bold; color: #0f172a; font-size: 13px; }
+    .verified { color: #15803d; font-weight: bold; font-size: 11px; }
+
+    .status-msg {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 40px;
+      color: #64748b;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="hs-title">HIGH SCORE</div>
+    <div class="hs-subtitle">EDUCATIONAL CENTER</div>
+    <p class="page-desc">
+      Verified Candidate Feedback — Computer-Delivered IELTS Mock Examination Platform
+    </p>
+  </header>
+
+  <div class="stats-bar">
+    <div class="avg-badge" id="stats-summary">Loading reviews...</div>
+    <div style="font-size: 13px; color: #64748b;">Submitted upon exam completion</div>
+  </div>
+
+  <main class="container" id="reviews-grid">
+    <div class="status-msg">Fetching verified candidate reviews...</div>
+  </main>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCN_FTvYGnk0dF-2RSjsiJbS8Kyb-SI7qY",
+      authDomain: "ielts-mock-portal-30e72.firebaseapp.com",
+      projectId: "ielts-mock-portal-30e72",
+      storageBucket: "ielts-mock-portal-30e72.firebasestorage.app",
+      messagingSenderId: "808485604528",
+      appId: "1:808485604528:web:9867f3dc1ee4363b573f75"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    function escapeHTML(str) {
+      return String(str).replace(/[&<>"']/g, m => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[m]));
+    }
+
+    async function loadReviews() {
+      const grid = document.getElementById("reviews-grid");
+      const stats = document.getElementById("stats-summary");
+
+      try {
+        const snapshot = await db.collection("reviews").orderBy("submittedAt", "desc").get();
+
+        if (snapshot.empty) {
+          stats.innerText = "0 Reviews Yet";
+          grid.innerHTML = '<div class="status-msg">No candidate reviews have been published yet.</div>';
+          return;
+        }
+
+        let totalStars = 0;
+        let count = 0;
+        let cardsHTML = "";
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const rating = Math.min(5, Math.max(1, Number(data.rating) || 5));
+          totalStars += rating;
+          count++;
+
+          const starsStr = "★".repeat(rating) + "☆".repeat(5 - rating);
+          const dateStr = data.submittedAt && data.submittedAt.toDate
+            ? data.submittedAt.toDate().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })
+            : "Verified Session";
+
+          cardsHTML += `
+            <div class="review-card">
+              <div>
+                <div class="stars">${starsStr}</div>
+                <div class="comment">"${escapeHTML(data.comment || "")}"</div>
+              </div>
+              <div class="meta">
+                <div>
+                  <div class="author">${escapeHTML(data.fullName || "Candidate")}</div>
+                  <div class="verified">✓ Verified Mock Candidate</div>
+                </div>
+                <div>${dateStr}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        const avg = (totalStars / count).toFixed(1);
+        stats.innerHTML = `<span>★</span> ${avg} / 5.0 Average Rating (${count} ${count === 1 ? "Review" : "Reviews"})`;
+        grid.innerHTML = cardsHTML;
+
+      } catch (err) {
+        console.error("Error loading reviews:", err);
+        stats.innerText = "Reviews Unavailable";
+        grid.innerHTML = '<div class="status-msg">Unable to load reviews. Please check Firestore read permissions for the "reviews" collection.</div>';
+      }
+    }
+
+    loadReviews();
+  </script>
+</body>
+</html>
