@@ -45,82 +45,78 @@
     /* Footer */
     footer { background: #fff; border-top: 1px solid #cbd5e1; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
   </style>
+
   <!-- Подключение фирменного шрифта для логотипа HIGH SCORE -->
-<<!-- Подключение фирменного шрифта для логотипа HIGH SCORE -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet">
 
-<style>
-  :root {
-    --hs-red: #D32F2F;       /* Основной красный цвет эмблемы */
-    --hs-red-dark: #B71C1C;  /* Тёмно-красный при наведении */
-  }
+  <style>
+    :root {
+      --hs-red: #D32F2F;
+      --hs-red-dark: #B71C1C;
+    }
 
-  /* Фирменный блок логотипа HIGH SCORE EDUCATIONAL CENTER */
-  .hs-brand-header {
-    text-align: center;
-    margin-bottom: 20px;
-    padding-bottom: 16px;
-    border-bottom: 2px solid #F1F1F1;
-    user-select: none;
-  }
-  .hs-brand-title {
-    font-family: 'Oswald', sans-serif;
-    font-size: 38px;
-    font-weight: 700;
-    color: var(--hs-red);
-    letter-spacing: 1px;
-    line-height: 1.05;
-    text-transform: uppercase;
-    margin: 0;
-  }
-  .hs-brand-subtitle {
-    font-family: 'Oswald', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: var(--hs-red);
-    letter-spacing: 1.5px;
-    line-height: 1.2;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
+    .hs-brand-header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #F1F1F1;
+      user-select: none;
+    }
+    .hs-brand-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: var(--hs-red);
+      letter-spacing: 1px;
+      line-height: 1.05;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .hs-brand-subtitle {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--hs-red);
+      letter-spacing: 1.5px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
 
-  /* Красные кнопки только для действий (Proceed to Exam, Submit Section) */
-  .btn-card, .btn-action, #return-fullscreen-btn {
-    background-color: var(--hs-red) !important;
-    color: #ffffff !important;
-    border: none !important;
-    transition: background-color 0.2s ease;
-  }
-  .btn-card:hover, .btn-action:hover, #return-fullscreen-btn:hover {
-    background-color: var(--hs-red-dark) !important;
-  }
+    .btn-card, .btn-action, #return-fullscreen-btn {
+      background-color: var(--hs-red) !important;
+      color: #ffffff !important;
+      border: none !important;
+      transition: background-color 0.2s ease;
+    }
+    .btn-card:hover, .btn-action:hover, #return-fullscreen-btn:hover {
+      background-color: var(--hs-red-dark) !important;
+    }
 
-  /* Активная вкладка Task 1 / Task 2 в фирменном цвете, неактивная остаётся серой */
-  .task-tab.active {
-    background-color: var(--hs-red) !important;
-    border-color: var(--hs-red) !important;
-    color: #ffffff !important;
-  }
+    .task-tab.active {
+      background-color: var(--hs-red) !important;
+      border-color: var(--hs-red) !important;
+      color: #ffffff !important;
+    }
 
-  /* Красный акцент при вводе имени и ответов */
-  .input-group input:focus, textarea.exam-text:focus {
-    outline: none !important;
-    border-color: var(--hs-red) !important;
-    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15) !important;
-  }
-</style>
+    .input-group input:focus, textarea.exam-text:focus {
+      outline: none !important;
+      border-color: var(--hs-red) !important;
+      box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15) !important;
+    }
+  </style>
 </head>
 <body>
 
   <!-- Top Header -->
   <header>
     <div style="display: flex; align-items: center; gap: 12px;">
-  <span style="font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 18px; color: #ef4444; letter-spacing: 0.5px;">HIGH SCORE</span>
-  <span style="color: #475569;">|</span>
-  <div class="header-title" id="header-stage">IELTS Mock Examination</div>
-</div>
+      <span style="font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 18px; color: #ef4444; letter-spacing: 0.5px;">HIGH SCORE</span>
+      <span style="color: #475569;">|</span>
+      <div class="header-title" id="header-stage">IELTS Mock Examination</div>
+    </div>
     <div id="header-user" style="font-size: 13px; color: #cbd5e1;">Candidate: Not registered</div>
     <div id="header-timer-wrap" style="display: none; align-items: center; gap: 14px;">
       <div class="timer-box" id="time-display">00:00</div>
@@ -133,9 +129,9 @@
     <div class="modal-container">
       <div class="card">
         <div class="hs-brand-header">
-  <div class="hs-brand-title">HIGH SCORE</div>
-  <div class="hs-brand-subtitle">EDUCATIONAL CENTER</div>
-</div>
+          <div class="hs-brand-title">HIGH SCORE</div>
+          <div class="hs-brand-subtitle">EDUCATIONAL CENTER</div>
+        </div>
         <h1>Candidate Registration</h1>
         <p>Enter your full legal name to begin the exam session.</p>
         <div class="input-group">
@@ -229,7 +225,8 @@
       <button class="task-tab active" id="tab-w1" onclick="switchWritingTask(1)">Task 1</button>
       <button class="task-tab" id="tab-w2" onclick="switchWritingTask(2)">Task 2</button>
     </div>
-    <div class="pane" id="writing-prompt-pane">
+    <div class="exam-split">
+      <div class="pane" id="writing-prompt-pane">
         <h3 id="w-prompt-title">Writing Task 1</h3>
         <p id="w-prompt-text" style="margin-top: 12px; line-height: 1.6; white-space: pre-line;"></p>
         <img id="w-prompt-image" src="" alt="Task 1 Chart" style="display: none; max-width: 100%; height: auto; margin-top: 16px; border: 1px solid #cbd5e1; border-radius: 4px;">
@@ -244,7 +241,6 @@
     </footer>
   </section>
 
- <!-- SCREEN 8: Thank You / Review / Exit -->
   <!-- SCREEN 8: Thank You / Review / Exit -->
   <section class="screen" id="screen-finished">
     <div class="modal-container">
@@ -310,13 +306,14 @@
     let currentSection = "";
 
     const LISTENING_MINUTES = 36;
+    const isPractice = new URLSearchParams(window.location.search).get("mode") === "practice";
 
     function showScreen(id) {
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.getElementById(id).classList.add("active");
     }
 
-    // Регистрация + случайный выбор 1 из 5 вариантов Writing
+    // Регистрация + последовательная ротация 5 вариантов Writing
     async function handleLogin() {
       const name = document.getElementById("candidate-name").value.trim();
       if (!name) {
@@ -328,12 +325,10 @@
       if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.writingVariants && EXAM_DATA.writingVariants.length > 0) {
         const total = EXAM_DATA.writingVariants.length;
 
-        // 1. If the student refreshed mid-session, keep their locked variant
         const savedIndex = sessionStorage.getItem("hs_active_writing_idx");
         if (savedIndex !== null && EXAM_DATA.writingVariants[Number(savedIndex)]) {
           assignedWriting = EXAM_DATA.writingVariants[Number(savedIndex)];
         } else {
-          // 2. Otherwise, ask Firebase for the next sequential variant index (0 -> 1 -> 2 -> 3 -> 4 -> 0...)
           try {
             const counterRef = db.collection("exam_meta").doc("counters");
             const nextIndex = await db.runTransaction(async (transaction) => {
@@ -345,7 +340,6 @@
             assignedWriting = EXAM_DATA.writingVariants[nextIndex];
             sessionStorage.setItem("hs_active_writing_idx", String(nextIndex));
           } catch (err) {
-            // Offline fallback: pick a variant not yet used on this computer
             let used = JSON.parse(localStorage.getItem("hs_used_writing") || "[]");
             if (used.length >= total) used = [];
             const available = EXAM_DATA.writingVariants.map((_, i) => i).filter(i => !used.includes(i));
@@ -482,6 +476,7 @@
 
       const submissionData = {
         fullName: candidate.fullName,
+        examMode: isPractice ? "Practice / Beta" : "Official Mock",
         submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
         listeningAnswers: {
           q1: document.getElementById("lis_q1") ? document.getElementById("lis_q1").value.trim() : "",
@@ -513,10 +508,12 @@
         a.download = `${cleanName}_BACKUP.json`;
         a.click();
       }
-      
+
       sessionStorage.removeItem("hs_active_writing_idx");
       showScreen("screen-finished");
     }
+
+    // Система отзывов
     let selectedRating = 5;
 
     function setRating(stars) {
@@ -536,8 +533,6 @@
         alert("Please write a short comment before submitting your review.");
         return;
       }
-        // Allows quick 5-star submission even without text, or prompts if empty
-      }
 
       btn.disabled = true;
       btn.innerText = "Saving...";
@@ -547,6 +542,7 @@
           fullName: candidate.fullName || "Anonymous Candidate",
           rating: selectedRating,
           comment: comment,
+          examMode: isPractice ? "Practice / Beta" : "Official Mock",
           writingVariant: assignedWriting ? assignedWriting.variantId : "Unknown",
           submittedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -565,20 +561,22 @@
       window.location.reload();
     }
   </script>
+
+  <!-- Скрипт контроля полноэкранного режима и античита -->
   <script>
   (function () {
     const MAX_WARNINGS = 3;
-    const BAN_DURATION_MS = 24 * 60 * 60 * 1000; // 24 часа (1 день)
+    const BAN_DURATION_MS = 24 * 60 * 60 * 1000;
     const STORAGE_BAN_KEY = 'hs_ielts_ban_until';
-    const isPracticeMode = new URLSearchParams(window.location.search).get('mode') === 'practice';
-    if (isPracticeMode) return; // Skip full-screen enforcement and bans during beta testing
     const STORAGE_WARN_KEY = 'hs_ielts_warn_count';
+
+    const isPracticeMode = new URLSearchParams(window.location.search).get('mode') === 'practice';
+    if (isPracticeMode) return;
 
     let examActive = false;
     let studentName = 'Неизвестный кандидат';
     let warningCount = parseInt(localStorage.getItem(STORAGE_WARN_KEY) || '0', 10);
 
-    // 1. Создаём красный экран предупреждения / блокировки
     const warningOverlay = document.createElement('div');
     warningOverlay.id = 'fullscreen-warning';
     warningOverlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(185, 28, 28, 0.99); color: #ffffff; z-index: 2147483647; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: sans-serif; box-sizing: border-box;';
@@ -622,14 +620,12 @@
       });
     }
 
-    // Проверка активного бана сразу при загрузке страницы (защита от F5)
     function checkExistingBan() {
       const banUntil = parseInt(localStorage.getItem(STORAGE_BAN_KEY) || '0', 10);
       if (banUntil > Date.now()) {
         showBanScreen(banUntil);
         return true;
       } else if (banUntil > 0) {
-        // Срок 24 часа истёк — очищаем старый бан
         localStorage.removeItem(STORAGE_BAN_KEY);
         localStorage.removeItem(STORAGE_WARN_KEY);
         warningCount = 0;
@@ -637,7 +633,7 @@
       return false;
     }
 
-    if (checkExistingBan()) return; // Останавливаем работу страницы, если студент в бане
+    if (checkExistingBan()) return;
 
     function enterFullscreen() {
       const elem = document.documentElement;
@@ -670,7 +666,6 @@
       }
     }
 
-    // Защита от двойного срабатывания (когда одновременно срабатывают Esc и смена вкладки)
     let lastTriggerTime = 0;
 
     function triggerViolation(reason) {
@@ -692,7 +687,6 @@
       }
     }
 
-    // Старт и завершение экзамена
     document.addEventListener('click', function (e) {
       const btn = e.target.closest('button, input[type="submit"], a');
       if (!btn) return;
@@ -714,7 +708,6 @@
       }
     });
 
-    // Выход из полноэкранного режима (Esc / F11)
     function handleFullscreenChange() {
       if (!examActive) return;
       if (!isFullscreen()) {
@@ -727,13 +720,12 @@
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
 
-    // Переключение вкладки или сворачивание окна (Alt+Tab)
     document.addEventListener('visibilitychange', function () {
       if (examActive && document.hidden) {
         triggerViolation('Переключил вкладку или свернул окно');
       }
     });
   })();
-</script>
+  </script>
 </body>
 </html>
