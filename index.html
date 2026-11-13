@@ -293,7 +293,7 @@
     }
 
     // Регистрация + случайный выбор 1 из 5 вариантов Writing
-    function handleLogin() {
+    async function handleLogin() {
       const name = document.getElementById("candidate-name").value.trim();
       if (!name) {
         alert("Please enter your full name to begin the exam.");
@@ -302,8 +302,36 @@
       candidate.fullName = name;
 
       if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.writingVariants && EXAM_DATA.writingVariants.length > 0) {
-        const randomIndex = Math.floor(Math.random() * EXAM_DATA.writingVariants.length);
-        assignedWriting = EXAM_DATA.writingVariants[randomIndex];
+        const total = EXAM_DATA.writingVariants.length;
+
+        // 1. If the student refreshed mid-session, keep their locked variant
+        const savedIndex = sessionStorage.getItem("hs_active_writing_idx");
+        if (savedIndex !== null && EXAM_DATA.writingVariants[Number(savedIndex)]) {
+          assignedWriting = EXAM_DATA.writingVariants[Number(savedIndex)];
+        } else {
+          // 2. Otherwise, ask Firebase for the next sequential variant index (0 -> 1 -> 2 -> 3 -> 4 -> 0...)
+          try {
+            const counterRef = db.collection("exam_meta").doc("counters");
+            const nextIndex = await db.runTransaction(async (transaction) => {
+              const doc = await transaction.get(counterRef);
+              const current = doc.exists ? (doc.data().writingIndex || 0) : 0;
+              transaction.set(counterRef, { writingIndex: (current + 1) % total }, { merge: true });
+              return current % total;
+            });
+            assignedWriting = EXAM_DATA.writingVariants[nextIndex];
+            sessionStorage.setItem("hs_active_writing_idx", String(nextIndex));
+          } catch (err) {
+            // Offline fallback: pick a variant not yet used on this computer
+            let used = JSON.parse(localStorage.getItem("hs_used_writing") || "[]");
+            if (used.length >= total) used = [];
+            const available = EXAM_DATA.writingVariants.map((_, i) => i).filter(i => !used.includes(i));
+            const pick = available[Math.floor(Math.random() * available.length)];
+            used.push(pick);
+            localStorage.setItem("hs_used_writing", JSON.stringify(used));
+            assignedWriting = EXAM_DATA.writingVariants[pick];
+            sessionStorage.setItem("hs_active_writing_idx", String(pick));
+          }
+        }
       }
 
       document.getElementById("header-user").innerText = `Candidate: ${name}`;
