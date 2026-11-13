@@ -431,25 +431,75 @@
   </script>
   <script>
   (function () {
+    const MAX_WARNINGS = 3;
+    const BAN_DURATION_MS = 24 * 60 * 60 * 1000; // 24 часа (1 день)
+    const STORAGE_BAN_KEY = 'hs_ielts_ban_until';
+    const STORAGE_WARN_KEY = 'hs_ielts_warn_count';
+
     let examActive = false;
     let studentName = 'Неизвестный кандидат';
+    let warningCount = parseInt(localStorage.getItem(STORAGE_WARN_KEY) || '0', 10);
 
-    // 1. Автоматически создаём красный экран блокировки в документе
+    // 1. Создаём красный экран предупреждения / блокировки
     const warningOverlay = document.createElement('div');
     warningOverlay.id = 'fullscreen-warning';
-    warningOverlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(185, 28, 28, 0.98); color: #ffffff; z-index: 2147483647; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: sans-serif; box-sizing: border-box;';
-    warningOverlay.innerHTML = `
-      <h1 style="font-size: 32px; margin-bottom: 12px; color: #fff;">ВНИМАНИЕ! НАРУШЕНИЕ РЕЖИМА ЭКЗАМЕНА</h1>
-      <p style="font-size: 18px; max-width: 560px; margin-bottom: 24px; color: #fff;">
-        Выход из полноэкранного режима или переключение окон запрещены. Уведомление уже отправлено проктору.
-      </p>
-      <button id="return-fullscreen-btn" type="button" style="background: #ffffff; color: #b91c1c; border: none; padding: 14px 28px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;">
-        Вернуться в полноэкранный режим
-      </button>
-    `;
+    warningOverlay.style.cssText = 'display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(185, 28, 28, 0.99); color: #ffffff; z-index: 2147483647; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; font-family: sans-serif; box-sizing: border-box;';
     document.body.appendChild(warningOverlay);
 
-    const returnBtn = document.getElementById('return-fullscreen-btn');
+    function showBanScreen(banUntilTimestamp) {
+      examActive = false;
+      const unlockDate = new Date(banUntilTimestamp).toLocaleString('ru-RU', {
+        day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit'
+      });
+
+      warningOverlay.innerHTML = `
+        <div style="font-size: 56px; margin-bottom: 12px;">⛔</div>
+        <h1 style="font-size: 32px; margin-bottom: 12px; color: #fff;">ДОСТУП К ЭКЗАМЕНУ ЗАБЛОКИРОВАН НА 24 ЧАСА</h1>
+        <p style="font-size: 18px; max-width: 600px; margin-bottom: 16px; color: #fff; line-height: 1.5;">
+          Вы нарушили правила проведения экзамена 3 раза. Попытка аннулирована, проктор получил уведомление о блокировке.
+        </p>
+        <div style="background: rgba(0,0,0,0.3); padding: 12px 24px; border-radius: 8px; font-size: 16px;">
+          Повторный доступ откроется: <strong>${unlockDate}</strong>
+        </div>
+      `;
+      warningOverlay.style.setProperty('display', 'flex', 'important');
+    }
+
+    function showWarningScreen(currentCount) {
+      warningOverlay.innerHTML = `
+        <h1 style="font-size: 32px; margin-bottom: 12px; color: #fff;">ВНИМАНИЕ! ПРЕДУПРЕЖДЕНИЕ ${currentCount} ИЗ ${MAX_WARNINGS}</h1>
+        <p style="font-size: 18px; max-width: 580px; margin-bottom: 24px; color: #fff; line-height: 1.5;">
+          Выход из полноэкранного режима или переключение окон запрещены. Уведомление отправлено проктору.<br>
+          <strong>При 3-м нарушении экзамен будет заблокирован на 1 день!</strong>
+        </p>
+        <button id="return-fullscreen-btn" type="button" style="background: #ffffff !important; color: #b91c1c !important; border: none !important; padding: 14px 28px; font-size: 18px; font-weight: bold; border-radius: 8px; cursor: pointer;">
+          Вернуться в полноэкранный режим
+        </button>
+      `;
+      warningOverlay.style.setProperty('display', 'flex', 'important');
+
+      document.getElementById('return-fullscreen-btn').addEventListener('click', function () {
+        enterFullscreen();
+        warningOverlay.style.display = 'none';
+      });
+    }
+
+    // Проверка активного бана сразу при загрузке страницы (защита от F5)
+    function checkExistingBan() {
+      const banUntil = parseInt(localStorage.getItem(STORAGE_BAN_KEY) || '0', 10);
+      if (banUntil > Date.now()) {
+        showBanScreen(banUntil);
+        return true;
+      } else if (banUntil > 0) {
+        // Срок 24 часа истёк — очищаем старый бан
+        localStorage.removeItem(STORAGE_BAN_KEY);
+        localStorage.removeItem(STORAGE_WARN_KEY);
+        warningCount = 0;
+      }
+      return false;
+    }
+
+    if (checkExistingBan()) return; // Останавливаем работу страницы, если студент в бане
 
     function enterFullscreen() {
       const elem = document.documentElement;
@@ -461,12 +511,7 @@
       return !!(document.fullscreenElement || document.webkitFullscreenElement);
     }
 
-    function triggerViolation(reason) {
-      if (!examActive) return;
-      // Показываем красный экран студенту
-      warningOverlay.style.setProperty('display', 'flex', 'important');
-
-      // Отправляем тревогу в Firebase
+    function sendViolationAlert(reason) {
       const alertData = {
         student: studentName,
         reason: reason,
@@ -487,6 +532,28 @@
       }
     }
 
+    // Защита от двойного срабатывания (когда одновременно срабатывают Esc и смена вкладки)
+    let lastTriggerTime = 0;
+
+    function triggerViolation(reason) {
+      if (!examActive) return;
+      if (Date.now() - lastTriggerTime < 1500) return;
+      lastTriggerTime = Date.now();
+
+      warningCount += 1;
+      localStorage.setItem(STORAGE_WARN_KEY, String(warningCount));
+
+      if (warningCount >= MAX_WARNINGS) {
+        const banUntil = Date.now() + BAN_DURATION_MS;
+        localStorage.setItem(STORAGE_BAN_KEY, String(banUntil));
+        sendViolationAlert(`⛔ ЗАБЛОКИРОВАН НА 24 ЧАСА (3/3 нарушений): ${reason}`);
+        showBanScreen(banUntil);
+      } else {
+        sendViolationAlert(`Предупреждение ${warningCount}/${MAX_WARNINGS}: ${reason}`);
+        showWarningScreen(warningCount);
+      }
+    }
+
     // Старт и завершение экзамена
     document.addEventListener('click', function (e) {
       const btn = e.target.closest('button, input[type="submit"], a');
@@ -494,7 +561,8 @@
       const text = (btn.innerText || btn.value || '').toLowerCase();
 
       if (text.includes('proceed') || text.includes('start') || text.includes('начать')) {
-        const nameInput = document.querySelector('input[type="text"]');
+        if (checkExistingBan()) return;
+        const nameInput = document.getElementById('candidate-name') || document.querySelector('input[type="text"]');
         if (nameInput && nameInput.value.trim()) {
           studentName = nameInput.value.trim();
         }
@@ -513,7 +581,7 @@
       if (!examActive) return;
       if (!isFullscreen()) {
         triggerViolation('Вышел из полноэкранного режима (Esc/F11)');
-      } else {
+      } else if (warningCount < MAX_WARNINGS) {
         warningOverlay.style.display = 'none';
       }
     }
@@ -526,12 +594,6 @@
       if (examActive && document.hidden) {
         triggerViolation('Переключил вкладку или свернул окно');
       }
-    });
-
-    // Возврат в полноэкранный режим по кнопке
-    returnBtn.addEventListener('click', function () {
-      enterFullscreen();
-      warningOverlay.style.display = 'none';
     });
   })();
 </script>
