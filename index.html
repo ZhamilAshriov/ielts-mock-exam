@@ -570,6 +570,8 @@
     const MAX_WARNINGS = 3;
     const BAN_DURATION_MS = 24 * 60 * 60 * 1000; // 24 часа (1 день)
     const STORAGE_BAN_KEY = 'hs_ielts_ban_until';
+    const isPracticeMode = new URLSearchParams(window.location.search).get('mode') === 'practice';
+    if (isPracticeMode) return; // Skip full-screen enforcement and bans during beta testing
     const STORAGE_WARN_KEY = 'hs_ielts_warn_count';
 
     let examActive = false;
