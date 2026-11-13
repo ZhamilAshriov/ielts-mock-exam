@@ -255,6 +255,9 @@
     </div>
   </section>
 
+  <!-- Подключение файла с вариантами заданий -->
+  <script src="exam-data.js"></script>
+
   <script>
     // 1. Инициализация вашей базы данных Firebase
     const firebaseConfig = {
@@ -271,6 +274,7 @@
 
     // 2. Переменные экзамена
     let candidate = { fullName: "" };
+    let assignedWriting = null;
     let examData = {
       listening: {},
       reading: {},
@@ -281,14 +285,14 @@
     let remainingSeconds = 0;
     let currentSection = "";
 
-    const LISTENING_MINUTES = 36; // Ровно 36 минут
+    const LISTENING_MINUTES = 36;
 
     function showScreen(id) {
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.getElementById(id).classList.add("active");
     }
 
-    // Регистрация
+    // Регистрация + случайный выбор 1 из 5 вариантов Writing
     function handleLogin() {
       const name = document.getElementById("candidate-name").value.trim();
       if (!name) {
@@ -296,6 +300,12 @@
         return;
       }
       candidate.fullName = name;
+
+      if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.writingVariants && EXAM_DATA.writingVariants.length > 0) {
+        const randomIndex = Math.floor(Math.random() * EXAM_DATA.writingVariants.length);
+        assignedWriting = EXAM_DATA.writingVariants[randomIndex];
+      }
+
       document.getElementById("header-user").innerText = `Candidate: ${name}`;
       showScreen("screen-listening-splash");
     }
@@ -322,11 +332,41 @@
       });
     }
 
+    // Отрисовка текста и картинки для выбранного варианта Writing
+    function renderWritingPrompt(taskNum) {
+      const titleEl = document.getElementById("w-prompt-title");
+      const textEl = document.getElementById("w-prompt-text");
+      const imgEl = document.getElementById("w-prompt-image");
+
+      titleEl.innerText = `Writing Task ${taskNum}`;
+
+      if (!assignedWriting) {
+        textEl.innerText = "Writing prompt not loaded. Check exam-data.js.";
+        imgEl.style.display = "none";
+        return;
+      }
+
+      if (taskNum === 1) {
+        textEl.innerText = assignedWriting.task1Text;
+        if (assignedWriting.task1Image) {
+          imgEl.src = assignedWriting.task1Image;
+          imgEl.style.display = "block";
+        } else {
+          imgEl.style.display = "none";
+        }
+      } else {
+        textEl.innerText = assignedWriting.task2Text;
+        imgEl.style.display = "none";
+      }
+    }
+
     // Старт Writing
     function startWriting() {
       currentSection = "writing";
       document.getElementById("header-stage").innerText = "IELTS — Writing";
       document.getElementById("header-timer-wrap").style.display = "flex";
+      currentWritingTask = 1;
+      renderWritingPrompt(1);
       showScreen("screen-writing-exam");
       runTimer(60 * 60, () => {
         completeAllExams();
@@ -339,7 +379,7 @@
       currentWritingTask = taskNum;
       document.getElementById("tab-w1").classList.toggle("active", taskNum === 1);
       document.getElementById("tab-w2").classList.toggle("active", taskNum === 2);
-      document.getElementById("w-prompt-title").innerText = `Writing Task ${taskNum}`;
+      renderWritingPrompt(taskNum);
       document.getElementById("writing-area").value = examData.writing[`task${taskNum}`] || "";
       handleWordCount();
     }
@@ -400,6 +440,7 @@
           q1: document.querySelector('input[name="rd_q1"]:checked')?.value || ""
         },
         writing: {
+          variant: assignedWriting ? assignedWriting.variantId : "Unknown",
           task1: examData.writing.task1 || "",
           task2: examData.writing.task2 || "",
           task1Words: examData.writing.task1.trim() ? examData.writing.task1.trim().split(/\s+/).length : 0,
@@ -413,7 +454,6 @@
         console.log("Successfully saved to Firebase!");
       } catch (err) {
         console.error("Firebase save failed:", err);
-        // Резервная копия на диск ПК при отсутствии интернета
         const cleanName = candidate.fullName.replace(/[^a-zA-Z0-9А-Яа-яЁё_-]/g, "_");
         const blob = new Blob([JSON.stringify(submissionData, null, 2)], { type: "application/json" });
         const a = document.createElement("a");
