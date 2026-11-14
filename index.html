@@ -262,7 +262,15 @@
         <h1>Exam Completed</h1>
         <p style="margin-bottom: 16px;">
           Thank you for taking the IELTS Mock Exam with us. Your responses have been recorded. If you have a moment, we’d love to hear your feedback below:
-        </p>
+        </p
+          <div id="practice-score-box" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
+          <div style="font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; margin-bottom: 6px;">Practice Mode Results</div>
+          <div style="display: flex; justify-content: space-around; font-size: 16px; color: #0b1a30;">
+            <div>Listening: <strong id="final-lis-score">0</strong> / 40</div>
+            <div>Reading: <strong id="final-rd-score">0</strong> / 40</div>
+          </div>
+          <div style="font-size: 12px; color: #64748b; margin-top: 6px;">Writing will be reviewed by your instructor.</div>
+        </div>
 
         <div id="review-form-wrap" style="text-align: left; margin-bottom: 16px;">
           <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;" id="star-rating">
@@ -671,6 +679,11 @@
       }
 
       sessionStorage.removeItem("hs_active_writing_idx");
+      if (isPractice) {
+        document.getElementById("final-lis-score").innerText = scores.lisScore;
+        document.getElementById("final-rd-score").innerText = scores.rdScore;
+        document.getElementById("practice-score-box").style.display = "block";
+      }
       showScreen("screen-finished");
     }
     // Система отзывов
