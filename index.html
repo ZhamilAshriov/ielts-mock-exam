@@ -106,6 +106,12 @@
       border-color: var(--hs-red) !important;
       box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15) !important;
     }
+    .inline-q { padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; width: 155px; font-size: 14px; }
+    .q-block { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+    .q-block p { margin-bottom: 6px; font-size: 14px; }
+    .q-block label { display: block; margin-bottom: 4px; font-size: 14px; cursor: pointer; }
+    .q-row { margin-bottom: 10px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+    .q-row select { padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; font-size: 14px; min-width: 110px; }
   </style>
 </head>
 <body>
@@ -156,8 +162,18 @@
 
   <!-- SCREEN 3: Listening Workspace -->
   <section class="screen" id="screen-listening-exam">
+    <div id="listening-tabs-bar" style="padding: 10px 12px 0 12px; display: none; gap: 8px; align-items: center; flex-wrap: wrap;">
+      <button class="task-tab active" id="tab-l1" onclick="switchListeningPart(1)">Part 1 (Q1–10)</button>
+      <button class="task-tab" id="tab-l2" onclick="switchListeningPart(2)">Part 2 (Q11–20)</button>
+      <button class="task-tab" id="tab-l3" onclick="switchListeningPart(3)">Part 3 (Q21–30)</button>
+      <button class="task-tab" id="tab-l4" onclick="switchListeningPart(4)">Part 4 (Q31–40)</button>
+      <div id="listening-audio-wrap" style="margin-left: auto; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
+        <span style="font-size: 12px; font-weight: bold; color: #0b1a30;" id="audio-label">Part 1 Audio:</span>
+        <audio id="listening-audio-player" controls style="height: 30px;"></audio>
+      </div>
+    </div>
     <div class="exam-split">
-      <div class="pane">
+      <div class="pane" id="listening-workspace-pane">
         <h3 style="margin-bottom: 12px;">Part 1: Questions 1–10</h3>
         <p style="margin-bottom: 16px; color: #475569;">Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong>.</p>
         <div style="line-height: 2.2; font-size: 15px;">
@@ -168,32 +184,26 @@
       </div>
     </div>
     <footer>
-      <div>Listening Section &nbsp;|&nbsp; Candidates must listen to central speakers</div>
-      <div>Questions 1–10 active</div>
+      <div id="listening-footer-left">Listening Section &nbsp;|&nbsp; Candidates must listen to central speakers</div>
+      <div id="listening-footer-right">Questions 1–10 active</div>
     </footer>
-  </section>
-
-  <!-- SCREEN 4: Reading Splash -->
-  <section class="screen" id="screen-reading-splash">
-    <div class="modal-container">
-      <div class="card">
-        <h1>Section 2: Reading</h1>
-        <p>You have exactly <strong>60 minutes</strong> to complete all 3 reading passages. There is no extra transfer time.</p>
-        <button class="btn-card" onclick="startReading()">Start Reading (60 Minutes)</button>
-      </div>
-    </div>
   </section>
 
   <!-- SCREEN 5: Reading Workspace -->
   <section class="screen" id="screen-reading-exam">
+    <div id="reading-tabs-bar" style="padding: 10px 12px 0 12px; display: none; gap: 8px;">
+      <button class="task-tab active" id="tab-r1" onclick="switchReadingPart(1)">Passage 1 (Q1–13)</button>
+      <button class="task-tab" id="tab-r2" onclick="switchReadingPart(2)">Passage 2 (Q14–26)</button>
+      <button class="task-tab" id="tab-r3" onclick="switchReadingPart(3)">Passage 3 (Q27–40)</button>
+    </div>
     <div class="exam-split">
-      <div class="pane">
+      <div class="pane" id="reading-passage-pane">
         <h3 style="margin-bottom: 10px;">Reading Passage 1</h3>
         <p style="line-height: 1.6; text-align: justify; margin-bottom: 12px;">
           The Roman aqueduct was an engineering marvel that supplied freshwater across vast territories...
         </p>
       </div>
-      <div class="pane">
+      <div class="pane" id="reading-questions-pane">
         <h3 style="margin-bottom: 10px;">Questions 1–5</h3>
         <p style="margin-bottom: 12px;">Choose the correct letter A, B, C or D.</p>
         <div>
@@ -204,7 +214,7 @@
     </div>
     <footer>
       <div>Reading Section &nbsp;|&nbsp; 40 Questions total</div>
-      <div>Passage 1 Active</div>
+      <div id="reading-footer-right">Passage 1 Active</div>
     </footer>
   </section>
 
@@ -362,24 +372,127 @@
       showScreen("screen-listening-splash");
     }
       
+    let currentListeningPart = 1;
+    let currentReadingPart = 1;
+
+    function savePracticeListeningState() {
+      if (!isPractice) return;
+      for (let q = 1; q <= 40; q++) {
+        if (q >= 18 && q <= 20) continue;
+        const textEl = document.getElementById(`lis_q${q}`);
+        if (textEl) examData.listening[`q${q}`] = textEl.value.trim();
+        const radioEl = document.querySelector(`input[name="lis_q${q}"]:checked`);
+        if (radioEl) examData.listening[`q${q}`] = radioEl.value;
+      }
+      const checkedBoxes = Array.from(document.querySelectorAll('input[name="lis_multi_18_20"]:checked')).map(cb => cb.value);
+      if (document.getElementById("lis_q18_20_group")) {
+        examData.listening.multi_18_20 = checkedBoxes;
+        examData.listening.q18 = checkedBoxes[0] || "";
+        examData.listening.q19 = checkedBoxes[1] || "";
+        examData.listening.q20 = checkedBoxes[2] || "";
+      }
+    }
+
+    function restorePracticeListeningState() {
+      for (let q = 1; q <= 40; q++) {
+        const val = examData.listening[`q${q}`];
+        if (!val) continue;
+        const textEl = document.getElementById(`lis_q${q}`);
+        if (textEl) textEl.value = val;
+        const radioEl = document.querySelector(`input[name="lis_q${q}"][value="${val}"]`);
+        if (radioEl) radioEl.checked = true;
+      }
+      if (Array.isArray(examData.listening.multi_18_20)) {
+        document.querySelectorAll('input[name="lis_multi_18_20"]').forEach(cb => {
+          cb.checked = examData.listening.multi_18_20.includes(cb.value);
+        });
+      }
+    }
+
+    function switchListeningPart(partNum) {
+      savePracticeListeningState();
+      currentListeningPart = partNum;
+      [1, 2, 3, 4].forEach(n => document.getElementById(`tab-l${n}`).classList.toggle("active", n === partNum));
+
+      const partObj = EXAM_DATA.practiceListening.parts[partNum - 1];
+      document.getElementById("listening-workspace-pane").innerHTML = `<h3 style="margin-bottom:12px;">${partObj.title}</h3>${partObj.html}`;
+      document.getElementById("audio-label").innerText = `Part ${partNum} Audio:`;
+      const player = document.getElementById("listening-audio-player");
+      player.src = partObj.audio;
+      document.getElementById("listening-footer-right").innerText = `Part ${partNum} Active (40 Questions total)`;
+      restorePracticeListeningState();
+    }
+
     // Старт Listening
     function startListening() {
       currentSection = "listening";
       document.getElementById("header-stage").innerText = "IELTS — Listening";
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-listening-exam");
+
+      if (isPractice && typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceListening) {
+        document.getElementById("listening-tabs-bar").style.display = "flex";
+        document.getElementById("listening-footer-left").innerText = "Listening Practice Mode | Use the audio player at the top right for each part";
+        switchListeningPart(1);
+      }
+
       runTimer(LISTENING_MINUTES * 60, () => {
+        savePracticeListeningState();
         showScreen("screen-reading-splash");
       });
     }
 
+    function savePracticeReadingState() {
+      if (!isPractice) return;
+      for (let q = 1; q <= 40; q++) {
+        const selEl = document.getElementById(`rd_q${q}`);
+        if (selEl) examData.reading[`q${q}`] = selEl.value;
+        const radioEl = document.querySelector(`input[name="rd_q${q}"]:checked`);
+        if (radioEl) examData.reading[`q${q}`] = radioEl.value;
+      }
+    }
+
+    function restorePracticeReadingState() {
+      for (let q = 1; q <= 40; q++) {
+        const val = examData.reading[`q${q}`];
+        if (!val) continue;
+        const selEl = document.getElementById(`rd_q${q}`);
+        if (selEl) selEl.value = val;
+        const radioEl = document.querySelector(`input[name="rd_q${q}"][value="${val}"]`);
+        if (radioEl) radioEl.checked = true;
+      }
+    }
+
+    function switchReadingPart(partNum) {
+      savePracticeReadingState();
+      currentReadingPart = partNum;
+      [1, 2, 3].forEach(n => document.getElementById(`tab-r${n}`).classList.toggle("active", n === partNum));
+
+      const partObj = EXAM_DATA.practiceReading.passages[partNum - 1];
+      document.getElementById("reading-passage-pane").innerHTML = `<div style="line-height:1.65; text-align:justify;">${partObj.passageHtml}</div>`;
+      document.getElementById("reading-questions-pane").innerHTML = partObj.questionsHtml;
+      document.getElementById("reading-footer-right").innerText = `Passage ${partNum} Active (40 Questions total)`;
+      restorePracticeReadingState();
+    }
+
     // Старт Reading
     function startReading() {
+      savePracticeListeningState();
+      const player = document.getElementById("listening-audio-player");
+      if (player) player.pause();
+
       currentSection = "reading";
       document.getElementById("header-stage").innerText = "IELTS — Reading";
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-reading-exam");
+
+      if (isPractice && typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceReading) {
+        document.getElementById("reading-tabs-bar").style.display = "flex";
+        switchReadingPart(1);
+      }
+
       runTimer(60 * 60, () => {
+        savePracticeReadingState();
         showScreen("screen-writing-splash");
       });
     }
@@ -468,30 +581,72 @@
     function advanceSectionManually() {
       if (confirm("Are you sure you want to finish this section early? You cannot return to it.")) {
         clearInterval(timerInterval);
-        if (currentSection === "listening") showScreen("screen-reading-splash");
-        else if (currentSection === "reading") showScreen("screen-writing-splash");
-        else if (currentSection === "writing") completeAllExams();
+        if (currentSection === "listening") {
+          savePracticeListeningState();
+          const player = document.getElementById("listening-audio-player");
+          if (player) player.pause();
+          showScreen("screen-reading-splash");
+        } else if (currentSection === "reading") {
+          savePracticeReadingState();
+          showScreen("screen-writing-splash");
+        } else if (currentSection === "writing") {
+          completeAllExams();
+        }
       }
+    }
+
+    function gradePracticeAnswers() {
+      let lisScore = 0;
+      let rdScore = 0;
+
+      if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceListening) {
+        const key = EXAM_DATA.practiceListening.answers;
+        for (let q = 1; q <= 40; q++) {
+          if (q >= 18 && q <= 20) continue;
+          const userAns = (examData.listening[`q${q}`] || "").trim().toLowerCase().replace(/^£\s*/, "");
+          if (userAns && key[q] && key[q].includes(userAns)) lisScore++;
+        }
+        const multiPicks = [...new Set((examData.listening.multi_18_20 || []).map(v => v.toLowerCase()))].slice(0, 3);
+        multiPicks.forEach(pick => {
+          if (["c", "e", "f"].includes(pick)) lisScore++;
+        });
+      }
+
+      if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceReading) {
+        const rKey = EXAM_DATA.practiceReading.answers;
+        for (let q = 1; q <= 40; q++) {
+          const userAns = (examData.reading[`q${q}`] || "").trim().toUpperCase();
+          if (userAns && rKey[q] && userAns === rKey[q].toUpperCase()) rdScore++;
+        }
+      }
+
+      return { lisScore, rdScore };
     }
 
     // Финал: Автосохранение в Cloud Firestore
     async function completeAllExams() {
       clearInterval(timerInterval);
+      savePracticeListeningState();
+      savePracticeReadingState();
       document.getElementById("header-timer-wrap").style.display = "none";
       document.getElementById("header-stage").innerText = "IELTS — Finished";
+
+      const scores = isPractice ? gradePracticeAnswers() : { lisScore: null, rdScore: null };
 
       const submissionData = {
         fullName: candidate.fullName,
         examMode: isPractice ? "Practice / Beta" : "Official Mock",
         submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        listeningAnswers: {
+        listeningAnswers: isPractice ? examData.listening : {
           q1: document.getElementById("lis_q1") ? document.getElementById("lis_q1").value.trim() : "",
           q2: document.getElementById("lis_q2") ? document.getElementById("lis_q2").value.trim() : "",
           q3: document.getElementById("lis_q3") ? document.getElementById("lis_q3").value.trim() : ""
         },
-        readingAnswers: {
+        readingAnswers: isPractice ? examData.reading : {
           q1: document.querySelector('input[name="rd_q1"]:checked')?.value || ""
         },
+        listeningScore: scores.lisScore,
+        readingScore: scores.rdScore,
         writing: {
           variant: assignedWriting ? assignedWriting.variantId : "Unknown",
           task1: examData.writing.task1 || "",
@@ -518,7 +673,6 @@
       sessionStorage.removeItem("hs_active_writing_idx");
       showScreen("screen-finished");
     }
-
     // Система отзывов
     let selectedRating = 5;
 
