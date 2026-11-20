@@ -122,6 +122,12 @@
     td { padding: 14px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
     tr:hover { background-color: #f8fafc; }
 
+    .action-cell {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
     .btn-view {
       background: #0284c7;
       color: #fff;
@@ -133,6 +139,18 @@
       font-size: 12px;
     }
     .btn-view:hover { background: #0369a1; }
+
+    .btn-delete {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-delete:hover { background: #b91c1c; }
 
     /* Essay & Answer Review Modal */
     #review-modal {
@@ -267,7 +285,7 @@
               <th>Variants</th>
               <th>Task 1</th>
               <th>Task 2</th>
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody id="candidates-body">
@@ -432,14 +450,36 @@
             <td>${item.writing?.task1Words || 0} w</td>
             <td>${item.writing?.task2Words || 0} w</td>
             <td>
-              <button class="btn-view" onclick="openReview(${idx})">Review Paper</button>
+              <div class="action-cell">
+                <button class="btn-view" onclick="openReview(${idx})">Review Paper</button>
+                <button class="btn-delete" onclick="deleteSubmission(${idx})">Delete</button>
+              </div>
             </td>
           </tr>
         `;
       }).join("");
     }
 
-    // 5. Modal Display (Essays + Listening/Reading Answers)
+    // 5. Delete Submission from Cloud Firestore
+    async function deleteSubmission(index) {
+      const student = allDocs[index];
+      if (!student || !student.id) return;
+
+      const confirmed = confirm(`Are you sure you want to permanently delete "${student.fullName || "Anonymous"}"'s submission?`);
+      if (!confirmed) return;
+
+      try {
+        await db.collection("mock_results").doc(student.id).delete();
+        allDocs.splice(index, 1);
+        document.getElementById("count-badge").innerText = allDocs.length;
+        renderTable();
+      } catch (err) {
+        console.error("Delete failed:", err);
+        alert("Failed to delete submission: " + err.message);
+      }
+    }
+
+    // 6. Modal Display (Essays + Listening/Reading Answers)
     function formatAnswerGrid(ansObj) {
       if (!ansObj) return "<div>No answers recorded.</div>";
       let html = "";
