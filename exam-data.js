@@ -1,4 +1,7 @@
 const EXAM_DATA = {
+  // ==========================================
+  // 1. OFFICIAL WRITING (5 VARIANTS)
+  // ==========================================
   writingVariants: [
     {
       variantId: "Writing Variant 1",
@@ -32,513 +35,780 @@ const EXAM_DATA = {
     }
   ],
 
-  practiceWriting: {
-    variantId: "Practice Writing 1",
-    task1Text: "The bar graph below shows the percentage growth in average property prices in three different countries between 2007 and 2010.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.",
-    task1Image: "practice1.png",
-    task2Text: "Some people think that parents should teach their children how to be good members of society. Others, however, believe that school is the best place to learn this.\n\nDiscuss both views and give your own opinion.\n\nWrite at least 250 words."
-  },
-
-  practiceListening: {
+  // ==========================================
+  // 2. OFFICIAL LISTENING (Part_1.mpeg - Part_4.mpeg)
+  // ==========================================
+  officialListening: {
+    variantId: "Official Listening 1",
     parts: [
       {
         part: 1,
         title: "Part 1: Questions 1–10",
-        audio: "audio1.mp3",
+        audio: "Part_1.mpeg",
         html: `
-          <p style="margin-bottom: 14px; color: #475569;">Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+          <p style="margin-bottom: 14px; color: #475569;">Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
           <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:18px; line-height:2.2; font-size:15px;">
-            <h4 style="margin-bottom:8px; color:#0b1a30;">LIBRARY INFORMATION</h4>
-            <div><em>Example: Minimum joining age: <strong>18 years</strong></em></div>
-            <div><strong>For registration, must take:</strong></div>
-            <div>• two <strong>1</strong> <input type="text" id="lis_q1" class="inline-q"> and</div>
-            <div>• two forms of I.D. e.g. driving licence, <strong>2</strong> <input type="text" id="lis_q2" class="inline-q"></div>
-            <div>Cost to join per year (without current student card): £ <strong>3</strong> <input type="text" id="lis_q3" class="inline-q"></div>
-            <div>Number of items allowed: (members of public) <strong>4</strong> <input type="text" id="lis_q4" class="inline-q"></div>
-            <div>Loan times: four weeks</div>
-            <div>Fines start at £ <strong>5</strong> <input type="text" id="lis_q5" class="inline-q"></div>
-            <div>Computers can be booked up to <strong>6</strong> <input type="text" id="lis_q6" class="inline-q"> hours in advance</div>
-            <div>Library holds most national papers, all <strong>7</strong> <input type="text" id="lis_q7" class="inline-q">, and magazines</div>
-            <div>Need <strong>8</strong> <input type="text" id="lis_q8" class="inline-q"> to use photocopier</div>
-            <div style="margin-top:10px;"><strong>Creative Writing class:</strong></div>
-            <div>• tutor is John <strong>9</strong> <input type="text" id="lis_q9" class="inline-q"></div>
-            <div>• held on <strong>10</strong> <input type="text" id="lis_q10" class="inline-q"> evenings</div>
+            <h4 style="margin-bottom:8px; color:#0b1a30;">Hinchingbrooke Country Park</h4>
+            <div><strong>The park</strong></div>
+            <div>• Area: <strong>1</strong> <input type="text" id="lis_q1" class="inline-q"> hectares</div>
+            <div>• Habitats: wetland, grassland and woodland</div>
+            <div>• Wetland: lakes, ponds and a <strong>2</strong> <input type="text" id="lis_q2" class="inline-q"></div>
+            <div>• Wildlife includes birds, insects and animals</div>
+
+            <div style="margin-top:10px;"><strong>Subjects studied in educational visits include</strong></div>
+            <div>• Science: Children look at <strong>3</strong> <input type="text" id="lis_q3" class="inline-q"> about plants, etc.</div>
+            <div>• Geography: includes learning to use a <strong>4</strong> <input type="text" id="lis_q4" class="inline-q"> and compass</div>
+            <div>• History: changes in land use</div>
+            <div>• Leisure and tourism: mostly concentrates on the park’s <strong>5</strong> <input type="text" id="lis_q5" class="inline-q"></div>
+            <div>• Music: Children make <strong>6</strong> <input type="text" id="lis_q6" class="inline-q"> with natural materials, and experiment with rhythm and speed.</div>
+
+            <div style="margin-top:10px;"><strong>Benefits of outdoor educational visits</strong></div>
+            <div>• They give children a feeling of <strong>7</strong> <input type="text" id="lis_q7" class="inline-q"> that they may not have elsewhere.</div>
+            <div>• Children learn new <strong>8</strong> <input type="text" id="lis_q8" class="inline-q"> and gain self-confidence.</div>
+
+            <div style="margin-top:10px;"><strong>Practical issues</strong></div>
+            <div>• Cost per child: £ <strong>9</strong> <input type="text" id="lis_q9" class="inline-q"></div>
+            <div>• Adults, such as <strong>10</strong> <input type="text" id="lis_q10" class="inline-q">, free</div>
           </div>
         `
       },
       {
         part: 2,
         title: "Part 2: Questions 11–20",
-        audio: "audio2.mp3",
+        audio: "Part_2.mpeg",
         html: `
-          <p style="margin-bottom:12px; font-weight:bold;">Questions 11–15: Choose the correct letter, A, B or C.</p>
-          <div class="q-block">
-            <p><strong>11.</strong> In 1993 Dan Pearman went to Ecuador</p>
-            <label><input type="radio" name="lis_q11" value="A"> A. as a tourist guide.</label>
-            <label><input type="radio" name="lis_q11" value="B"> B. as part of his studies.</label>
-            <label><input type="radio" name="lis_q11" value="C"> C. as a voluntary worker.</label>
+          <p style="margin-bottom:10px; font-weight:bold;">Questions 11–16: Choose the correct letter, A–I, for each volunteer activity.</p>
+          <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:12px; border-radius:4px; font-size:13px; margin-bottom:14px; line-height:1.7;">
+            <strong>A.</strong> providing entertainment &nbsp;|&nbsp;
+            <strong>B.</strong> providing publicity about a council service &nbsp;|&nbsp;
+            <strong>C.</strong> contacting local businesses<br>
+            <strong>D.</strong> giving advice to visitors &nbsp;|&nbsp;
+            <strong>E.</strong> collecting feedback on events &nbsp;|&nbsp;
+            <strong>F.</strong> selling tickets<br>
+            <strong>G.</strong> introducing guest speakers at an event &nbsp;|&nbsp;
+            <strong>H.</strong> encouraging cooperation between local organisations &nbsp;|&nbsp;
+            <strong>I.</strong> helping people find their seats
           </div>
-          <div class="q-block">
-            <p><strong>12.</strong> Dan's neighbour was successful in business because he</p>
-            <label><input type="radio" name="lis_q12" value="A"> A. employed carpenters from the area.</label>
-            <label><input type="radio" name="lis_q12" value="B"> B. was the most skilled craftsman in the town.</label>
-            <label><input type="radio" name="lis_q12" value="C"> C. found it easy to reach customers.</label>
+          <div class="q-row"><strong>11.</strong> walking around the town centre
+            <select id="lis_q11"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
           </div>
-          <div class="q-block">
-            <p><strong>13.</strong> Dan says the charity relies on</p>
-            <label><input type="radio" name="lis_q13" value="A"> A. getting enough bicycles to send regularly.</label>
-            <label><input type="radio" name="lis_q13" value="B"> B. finding new areas which need the bicycles.</label>
-            <label><input type="radio" name="lis_q13" value="C"> C. charging for the bicycles it sends abroad.</label>
+          <div class="q-row"><strong>12.</strong> helping at concerts
+            <select id="lis_q12"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
           </div>
-          <div class="q-block">
-            <p><strong>14.</strong> What does Dan say about the town of Rivas?</p>
-            <label><input type="radio" name="lis_q14" value="A"> A. It has received the greatest number of bikes.</label>
-            <label><input type="radio" name="lis_q14" value="B"> B. It has almost as many bikes as Amsterdam.</label>
-            <label><input type="radio" name="lis_q14" value="C"> C. Its economy has been totally transformed.</label>
+          <div class="q-row"><strong>13.</strong> getting involved with community groups
+            <select id="lis_q13"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
           </div>
-          <div class="q-block">
-            <p><strong>15.</strong> What problem did the charity face in August 2000?</p>
-            <label><input type="radio" name="lis_q15" value="A"> A. It couldn't meet its overheads.</label>
-            <label><input type="radio" name="lis_q15" value="B"> B. It had to delay sending the bikes.</label>
-            <label><input type="radio" name="lis_q15" value="C"> C. It was criticised in the British media.</label>
+          <div class="q-row"><strong>14.</strong> helping with a magazine
+            <select id="lis_q14"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
           </div>
-
-          <p style="margin:18px 0 10px; font-weight:bold;">Questions 16–17: Answer the questions below. Write NO MORE THAN ONE WORD OR A NUMBER for each answer.</p>
-          <div style="line-height:2.2;">
-            <div><strong>16.</strong> How much money in pounds did the charity receive when it won an award? £ <input type="text" id="lis_q16" class="inline-q"></div>
-            <div><strong>17.</strong> What is the charity currently hoping to buy? <input type="text" id="lis_q17" class="inline-q"></div>
+          <div class="q-row"><strong>15.</strong> participating at lunches for retired people
+            <select id="lis_q15"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
+          </div>
+          <div class="q-row"><strong>16.</strong> helping with the website
+            <select id="lis_q16"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option><option>I</option></select>
           </div>
 
-          <p style="margin:18px 0 10px; font-weight:bold;">Questions 18–20: Choose THREE letters, A–G. Which THREE things can the general public do to help the charity Pedal Power?</p>
-          <div id="lis_q18_20_group" style="line-height:1.9;">
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="A"> A. organise a bicycle collection</label>
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="B"> B. repair the donated bikes</label>
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="C"> C. donate their unwanted tools</label>
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="D"> D. do voluntary work in its office</label>
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="E"> E. hold an event to raise money</label>
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="F"> F. identify areas that need bikes</label>
-            <label style="display:block;"><input type="checkbox" name="lis_multi_18_20" value="G"> G. write to the government</label>
+          <p style="margin:18px 0 10px; font-weight:bold;">Questions 17–20: Choose the correct letter, A, B or C.</p>
+          <div class="q-block">
+            <p><strong>17.</strong> Which event requires the largest number of volunteers?</p>
+            <label><input type="radio" name="lis_q17" value="A"> A. the music festival</label>
+            <label><input type="radio" name="lis_q17" value="B"> B. the science festival</label>
+            <label><input type="radio" name="lis_q17" value="C"> C. the book festival</label>
+          </div>
+          <div class="q-block">
+            <p><strong>18.</strong> What is the most important requirement for volunteers at the festivals?</p>
+            <label><input type="radio" name="lis_q18" value="A"> A. interpersonal skills</label>
+            <label><input type="radio" name="lis_q18" value="B"> B. personal interest in the event</label>
+            <label><input type="radio" name="lis_q18" value="C"> C. flexibility</label>
+          </div>
+          <div class="q-block">
+            <p><strong>19.</strong> New volunteers will start working in the week beginning</p>
+            <label><input type="radio" name="lis_q19" value="A"> A. 2 September</label>
+            <label><input type="radio" name="lis_q19" value="B"> B. 9 September</label>
+            <label><input type="radio" name="lis_q19" value="C"> C. 23 September</label>
+          </div>
+          <div class="q-block">
+            <p><strong>20.</strong> What is the next annual event for volunteers?</p>
+            <label><input type="radio" name="lis_q20" value="A"> A. a boat trip</label>
+            <label><input type="radio" name="lis_q20" value="B"> B. a barbecue</label>
+            <label><input type="radio" name="lis_q20" value="C"> C. a party</label>
           </div>
         `
       },
       {
         part: 3,
         title: "Part 3: Questions 21–30",
-        audio: "audio3.mp3",
+        audio: "Part_3.mpeg",
         html: `
-          <p style="margin-bottom: 14px; color: #475569;">Complete the table below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
-          <table style="width:100%; border-collapse:collapse; font-size:14px;">
-            <thead>
-              <tr style="background:#0b1a30; color:#fff;">
-                <th style="border:1px solid #cbd5e1; padding:10px; width:22%;">'Student Life' video project</th>
-                <th style="border:1px solid #cbd5e1; padding:10px; width:39%;">Cristina</th>
-                <th style="border:1px solid #cbd5e1; padding:10px; width:39%;">Ibrahim</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td style="border:1px solid #cbd5e1; padding:10px; font-weight:bold;">Enjoyed:</td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • using the camera<br>
-                  • going to a British <strong>21</strong> <input type="text" id="lis_q21" class="inline-q">
-                </td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • contact with students doing other courses (has asked some to <strong>22</strong> <input type="text" id="lis_q22" class="inline-q"> with him)
-                </td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #cbd5e1; padding:10px; font-weight:bold;">Most useful language practice:</td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • listening to instructions<br>
-                  • learning <strong>23</strong> <input type="text" id="lis_q23" class="inline-q"> vocabulary
-                </td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • listening to British students' language because of:<br>
-                  &nbsp;&nbsp;- normal speed<br>
-                  &nbsp;&nbsp;- large amount of <strong>24</strong> <input type="text" id="lis_q24" class="inline-q">
-                </td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #cbd5e1; padding:10px; font-weight:bold;">General usefulness:</td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • operating video camera<br>
-                  • working with other people:<br>
-                  &nbsp;&nbsp;- learning about <strong>25</strong> <input type="text" id="lis_q25" class="inline-q"><br>
-                  &nbsp;&nbsp;- compromising<br>
-                  &nbsp;&nbsp;- <strong>26</strong> <input type="text" id="lis_q26" class="inline-q"> people who have different views
-                </td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • the importance of <strong>27</strong> <input type="text" id="lis_q27" class="inline-q">
-                </td>
-              </tr>
-              <tr>
-                <td style="border:1px solid #cbd5e1; padding:10px; font-weight:bold;">Things to do differently in future:</td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • decide when to <strong>28</strong> <input type="text" id="lis_q28" class="inline-q"> each stage at the beginning<br>
-                  • make more effort to <strong>29</strong> <input type="text" id="lis_q29" class="inline-q"> with the camera
-                </td>
-                <td style="border:1px solid #cbd5e1; padding:10px; line-height:2;">
-                  • don't make the film too <strong>30</strong> <input type="text" id="lis_q30" class="inline-q">
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <p style="margin-bottom:10px; font-weight:bold;">Questions 21–26: Choose the correct letter, A, B, or C.</p>
+          <div class="q-block">
+            <p><strong>21.</strong> What was Jack’s attitude to nutritional food labels before this project?</p>
+            <label><input type="radio" name="lis_q21" value="A"> A. He didn’t read everything on them.</label>
+            <label><input type="radio" name="lis_q21" value="B"> B. He didn’t think they were important.</label>
+            <label><input type="radio" name="lis_q21" value="C"> C. He thought they were too complicated.</label>
+          </div>
+          <div class="q-block">
+            <p><strong>22.</strong> Alice says that before doing this project,</p>
+            <label><input type="radio" name="lis_q22" value="A"> A. she was unaware of what certain foods contained.</label>
+            <label><input type="radio" name="lis_q22" value="B"> B. she was too lazy to read food labels.</label>
+            <label><input type="radio" name="lis_q22" value="C"> C. she was only interested in the number of calories.</label>
+          </div>
+          <div class="q-block">
+            <p><strong>23.</strong> When discussing supermarket brands of pizza, Jack agrees with Alice that</p>
+            <label><input type="radio" name="lis_q23" value="A"> A. the list of ingredients is shocking.</label>
+            <label><input type="radio" name="lis_q23" value="B"> B. he will hesitate before buying pizza again.</label>
+            <label><input type="radio" name="lis_q23" value="C"> C. the nutritional label is misleading.</label>
+          </div>
+          <div class="q-block">
+            <p><strong>24.</strong> Jack prefers the daily value system to other labelling systems because it is</p>
+            <label><input type="radio" name="lis_q24" value="A"> A. more accessible.</label>
+            <label><input type="radio" name="lis_q24" value="B"> B. more logical.</label>
+            <label><input type="radio" name="lis_q24" value="C"> C. more comprehensive.</label>
+          </div>
+          <div class="q-block">
+            <p><strong>25.</strong> What surprised both students about one flavour of crisps?</p>
+            <label><input type="radio" name="lis_q25" value="A"> A. The percentage of artificial additives given was incorrect.</label>
+            <label><input type="radio" name="lis_q25" value="B"> B. The products did not contain any meat.</label>
+            <label><input type="radio" name="lis_q25" value="C"> C. The labels did not list all the ingredients.</label>
+          </div>
+          <div class="q-block">
+            <p><strong>26.</strong> What do the students think about research into the impact of nutritional food labelling?</p>
+            <label><input type="radio" name="lis_q26" value="A"> A. It did not produce clear results.</label>
+            <label><input type="radio" name="lis_q26" value="B"> B. It focused on the wrong people.</label>
+            <label><input type="radio" name="lis_q26" value="C"> C. It made unrealistic recommendations.</label>
+          </div>
+
+          <p style="margin:18px 0 10px; font-weight:bold;">Questions 27–28: Choose TWO letters, A–E. Which TWO things surprised the students about the traffic-light system for nutritional labels?</p>
+          <div id="lis_q27_28_group" style="line-height:1.9; margin-bottom:14px;">
+            <label style="display:block;"><input type="checkbox" name="lis_multi_27_28" value="A"> A. its widespread use</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_27_28" value="B"> B. the fact that it is voluntary for supermarkets</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_27_28" value="C"> C. how little research was done before its introduction</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_27_28" value="D"> D. its unpopularity with food manufacturers</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_27_28" value="E"> E. the way that certain colours are used</label>
+          </div>
+
+          <p style="margin:18px 0 10px; font-weight:bold;">Questions 29–30: Choose TWO letters, A–E. Which TWO things are true about the participants in the study on the traffic-light system?</p>
+          <div id="lis_q29_30_group" style="line-height:1.9;">
+            <label style="display:block;"><input type="checkbox" name="lis_multi_29_30" value="A"> A. They had low literacy levels.</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_29_30" value="B"> B. They were regular consumers of packaged food.</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_29_30" value="C"> C. They were selected randomly.</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_29_30" value="D"> D. They were from all socio-economic groups.</label>
+            <label style="display:block;"><input type="checkbox" name="lis_multi_29_30" value="E"> E. They were interviewed face-to-face.</label>
+          </div>
         `
       },
       {
         part: 4,
         title: "Part 4: Questions 31–40",
-        audio: "audio4.mp3",
+        audio: "Part_4.mpeg",
         html: `
-          <p style="margin-bottom: 14px; color: #475569;">Complete the notes below. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> for each answer.</p>
+          <p style="margin-bottom: 14px; color: #475569;">Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
           <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:18px; line-height:2.2; font-size:15px;">
-            <h4 style="margin-bottom:8px; color:#0b1a30;">ANTARCTICA</h4>
-            <div><strong>GEOGRAPHY</strong></div>
-            <div>• world's highest, coldest and windiest continent</div>
-            <div>• more than <strong>31</strong> <input type="text" id="lis_q31" class="inline-q"> times as big as the UK</div>
-            <div>• most of the area is classified as <strong>32</strong> <input type="text" id="lis_q32" class="inline-q"></div>
+            <h4 style="margin-bottom:8px; color:#0b1a30;">The history of coffee</h4>
+            <div><strong>Coffee in the Arab world</strong></div>
+            <div>• There was small-scale trade in wild coffee from Ethiopia.</div>
+            <div>• 1522: Coffee was approved in the Ottoman court as a type of medicine.</div>
+            <div>• 1623: In Constantinople, the ruler ordered the <strong>31</strong> <input type="text" id="lis_q31" class="inline-q"> of every coffee house.</div>
 
-            <div style="margin-top:10px;"><strong>RESEARCH STATIONS</strong></div>
-            <div>• international teams work together</div>
-            <div>• <strong>33</strong> <input type="text" id="lis_q33" class="inline-q"> is integrated with technical support</div>
-            <div>• stations contain accommodation, work areas, a kitchen, a <strong>34</strong> <input type="text" id="lis_q34" class="inline-q"> and a gym</div>
-            <div>• supplies were brought to Zero One station by sledge from a <strong>35</strong> <input type="text" id="lis_q35" class="inline-q"> at the edge of the ice 15 km away</div>
-            <div>• problem of snow build-ups solved by building stations on <strong>36</strong> <input type="text" id="lis_q36" class="inline-q"> with adjustable legs</div>
+            <div style="margin-top:10px;"><strong>Coffee arrives in Europe (17th century)</strong></div>
+            <div>• Coffee shops were compared to <strong>32</strong> <input type="text" id="lis_q32" class="inline-q">.</div>
+            <div>• They played an important part in social and <strong>33</strong> <input type="text" id="lis_q33" class="inline-q"> changes.</div>
 
-            <div style="margin-top:10px;"><strong>FOOD AND DIET</strong></div>
-            <div>• average daily requirement for an adult in Antarctica is approximately <strong>37</strong> <input type="text" id="lis_q37" class="inline-q"> kilocalories</div>
-            <div>• rations for field work prepared by process of freeze-drying</div>
+            <div style="margin-top:10px;"><strong>Coffee and European colonization</strong></div>
+            <div>• European powers established coffee plantations in their colonies.</div>
+            <div>• Types of coffee were often named according to the <strong>34</strong> <input type="text" id="lis_q34" class="inline-q"> they came from.</div>
+            <div>• In Brazil and the Caribbean, most cultivation depended on <strong>35</strong> <input type="text" id="lis_q35" class="inline-q">.</div>
+            <div>• In Java, coffee was used as a form of <strong>36</strong> <input type="text" id="lis_q36" class="inline-q">.</div>
+            <div>• Coffee became almost as important as <strong>37</strong> <input type="text" id="lis_q37" class="inline-q">.</div>
+            <div>• The move towards the consumption of <strong>38</strong> <input type="text" id="lis_q38" class="inline-q"> in Britain did not also take place in the USA.</div>
 
-            <div style="margin-top:10px;"><strong>RESEARCH</strong></div>
-            <div>The most important research focuses on climate change, including:</div>
-            <div>• measuring changes in the ice-cap (because of effects on sea levels and <strong>38</strong> <input type="text" id="lis_q38" class="inline-q">)</div>
-            <div>• monitoring the hole in the ozone layer</div>
-            <div>• analysing air from bubbles in ice to measure <strong>39</strong> <input type="text" id="lis_q39" class="inline-q"> caused by human activity</div>
-
-            <div style="margin-top:10px;"><strong>WORK OPPORTUNITIES</strong></div>
-            <div>Many openings for <strong>40</strong> <input type="text" id="lis_q40" class="inline-q"> people including research assistants, administrative and technical positions</div>
+            <div style="margin-top:10px;"><strong>Coffee in the 19th century</strong></div>
+            <div>• Prices dropped because of improvements in <strong>39</strong> <input type="text" id="lis_q39" class="inline-q">.</div>
+            <div>• Industrial workers found coffee helped them to work at <strong>40</strong> <input type="text" id="lis_q40" class="inline-q">.</div>
           </div>
         `
       }
     ],
     answers: {
-      1: ["passport photos", "photos", "passport photographs", "photographs"],
-      2: ["bank statement", "a bank statement"],
-      3: ["125", "125 per year"],
-      4: ["8", "eight"],
-      5: ["1.50"],
-      6: ["48", "forty-eight", "forty eight"],
-      7: ["local papers", "local newspapers"],
-      8: ["card", "a card", "cards"],
-      9: ["grantingham"],
-      10: ["friday"],
-      11: ["c"],
-      12: ["c"],
-      13: ["a"],
-      14: ["c"],
+      1: ["69", "sixty-nine", "sixty nine"],
+      2: ["stream"],
+      3: ["data"],
+      4: ["map"],
+      5: ["visitors"],
+      6: ["sounds"],
+      7: ["freedom"],
+      8: ["skills"],
+      9: ["4.95"],
+      10: ["leaders"],
+      11: ["d"],
+      12: ["i"],
+      13: ["h"],
+      14: ["e"],
       15: ["a"],
-      16: ["75,000", "75000"],
-      17: ["computers"],
-      18: ["c", "e", "f"],
-      19: ["c", "e", "f"],
-      20: ["c", "e", "f"],
-      21: ["home", "student's home", "students home"],
-      22: ["have dinner", "dinner", "come to dinner", "go to dinner"],
-      23: ["technical"],
-      24: ["slang"],
-      25: ["cooperating", "cooperation", "co-operating", "co-operation"],
-      26: ["persuading"],
-      27: ["editing"],
-      28: ["complete"],
-      29: ["experiment"],
-      30: ["long"],
-      31: ["58", "fifty-eight", "fifty eight"],
-      32: ["desert", "a desert"],
-      33: ["science"],
-      34: ["hospital", "small hospital"],
-      35: ["ship"],
-      36: ["platforms"],
-      37: ["3,500", "3500"],
-      38: ["currents", "ocean currents"],
-      39: ["pollution", "the pollution"],
-      40: ["young"]
+      16: ["b"],
+      17: ["b"],
+      18: ["a"],
+      19: ["b"],
+      20: ["a"],
+      21: ["a"],
+      22: ["a"],
+      23: ["c"],
+      24: ["c"],
+      25: ["b"],
+      26: ["a"],
+      27: ["b", "c"],
+      28: ["b", "c"],
+      29: ["d", "e"],
+      30: ["d", "e"],
+      31: ["destruction"],
+      32: ["university", "universities"],
+      33: ["political"],
+      34: ["port", "ports"],
+      35: ["slaves", "slavery"],
+      36: ["taxation"],
+      37: ["sugar"],
+      38: ["tea"],
+      39: ["transportation"],
+      40: ["night"]
     }
   },
 
-  practiceReading: {
-    passages: [
-      {
-        part: 1,
-        title: "Passage 1: Early Childhood Education (Questions 1–13)",
-        passageHtml: `
-          <h3 style="margin-bottom:6px;">Early Childhood Education</h3>
-          <p style="font-style:italic; color:#475569; margin-bottom:14px;">New Zealand's National Party spokesman on education, Dr Lockwood Smith, recently visited the US and Britain. Here he reports on the findings of his trip and what they could mean for New Zealand's education policy</p>
-          <p style="margin-bottom:12px;"><strong>A</strong> 'Education To Be More' was published last August. It was the report of the New Zealand Government's Early Childhood Care and Education Working Group. The report argued for enhanced equity of access and better funding for childcare and early childhood education institutions. Unquestionably, that's a real need; but since parents don't normally send children to pre-schools until the age of three, are we missing out on the most important years of all?</p>
-          <p style="margin-bottom:12px;"><strong>B</strong> A 13-year study of early childhood development at Harvard University has shown that, by the age of three, most children have the potential to understand about 1000 words - most of the language they will use in ordinary conversation for the rest of their lives. Furthermore, research has shown that while every child is born with a natural curiosity, it can be suppressed dramatically during the second and third years of life. Researchers claim that the human personality is formed during the first two years of life, and during the first three years children learn the basic skills they will use in all their later learning both at home and at school. Once over the age of three, children continue to expand on existing knowledge of the world.</p>
-          <p style="margin-bottom:12px;"><strong>C</strong> It is generally acknowledged that young people from poorer socio-economic backgrounds tend to do less well in our education system. That's observed not just in New Zealand, but also in Australia, Britain and America. In an attempt to overcome that educational under-achievement, a nationwide programme called 'Headstart' was launched in the United States in 1965. A lot of money was poured into it. It took children into pre-school institutions at the age of three and was supposed to help the children of poorer families succeed in school. Despite substantial funding, results have been disappointing. It is thought that there are two explanations for this. First, the programme began too late. Many children who entered it at the age of three were already behind their peers in language and measurable intelligence. Second, the parents were not involved. At the end of each day, 'Headstart' children returned to the same disadvantaged home environment.</p>
-          <p style="margin-bottom:12px;"><strong>D</strong> As a result of the growing research evidence of the importance of the first three years of a child's life and the disappointing results from 'Headstart', a pilot programme was launched in Missouri in the US that focused on parents as the child's first teachers. The 'Missouri' programme was predicated on research showing that working with the family, rather than bypassing the parents, is the most effective way of helping children get off to the best possible start in life. The four-year pilot study included 380 families who were about to have their first child and who represented a cross-section of socio-economic status, age and family configurations. They included single-parent and two-parent families, families in which both parents worked, and families with either the mother or father at home.<br>The programme involved trained parent-educators visiting the parents' home and working with the parent, or parents, and the child. Information on child development, and guidance on things to look for and expect as the child grows were provided, plus guidance in fostering the child's intellectual, language, social and motor-skill development. Periodic check-ups of the child's educational and sensory development (hearing and vision) were made to detect possible handicaps that interfere with growth and development. Medical problems were referred to professionals. Parent-educators made personal visits to homes and monthly group meetings were held with other new parents to share experience and discuss topics of interest. Parent resource centres, located in school buildings, offered learning materials for families and facilitators for child care.</p>
-          <p style="margin-bottom:12px;"><strong>E</strong> At the age of three, the children who had been involved in the 'Missouri' programme were evaluated alongside a cross-section of children selected from the same range of socio-economic backgrounds and family situations, and also a random sample of children that age. The results were phenomenal. By the age of three, the children in the programme were significantly more advanced in language development than their peers, had made greater strides in problem solving and other intellectual skills, and were further along in social development. In fact, the average child on the programme was performing at the level of the top 15 to 20 per cent of their peers in such things as auditory comprehension, verbal ability and language ability.<br>Most important of all, the traditional measures of 'risk', such as parents' age and education, or whether they were a single parent, bore little or no relationship to the measures of achievement and language development. Children in the programme performed equally well regardless of socio-economic disadvantages. Child abuse was virtually eliminated. The one factor that was found to affect the child's development was family stress leading to a poor quality of parent-child interaction. That interaction was not necessarily bad in poorer families.</p>
-          <p style="margin-bottom:12px;"><strong>F</strong> These research findings are exciting. There is growing evidence in New Zealand that children from poorer socio-economic backgrounds are arriving at school less well developed and that our school system tends to perpetuate that disadvantage. The initiative outlined above could break that cycle of disadvantage. The concept of working with parents in their homes, or at their place of work, contrasts quite markedly with the report of the Early Childhood Care and Education Working Group. Their focus is on getting children and mothers access to childcare and institutionalised early childhood education. Education from the age of three to five is undoubtedly vital, but without a similar focus on parent education and on the vital importance of the first three years, some evidence indicates that it will not be enough to overcome educational inequity.</p>
-        `,
-        questionsHtml: `
-          <h4 style="margin-bottom:8px;">Questions 1–4</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Reading Passage 1 has six sections, A–F. Which paragraph contains the following information?</p>
-          <div class="q-row"><strong>1.</strong> details of the range of family types involved in an education programme
-            <select id="rd_q1"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select>
-          </div>
-          <div class="q-row"><strong>2.</strong> reasons why a child's early years are so important
-            <select id="rd_q2"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select>
-          </div>
-          <div class="q-row"><strong>3.</strong> reasons why an education programme failed
-            <select id="rd_q3"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select>
-          </div>
-          <div class="q-row"><strong>4.</strong> a description of the positive outcomes of an education programme
-            <select id="rd_q4"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option></select>
-          </div>
+  // ==========================================
+  // 3. OFFICIAL READING (2 ROTATING VARIANTS)
+  // ==========================================
+  readingVariants: [
+    // --- READING VARIANT 1: Beatrix Potter / Waste Disposal / Movement Underwater ---
+    {
+      variantId: "Reading Variant 1",
+      passages: [
+        {
+          part: 1,
+          title: "Passage 1: The life of Beatrix Potter (Questions 1–13)",
+          passageHtml: `
+            <h3 style="margin-bottom:6px;">The life of Beatrix Potter</h3>
+            <p style="font-style:italic; color:#475569; margin-bottom:14px;">The children's author and illustrator who created Peter Rabbit</p>
+            <p style="margin-bottom:12px;">Beatrix Potter is one of the best-selling children's authors of all time. Her popular series of books that includes <em>The Tale of Peter Rabbit</em> was first published over one hundred years ago, and has never been out of print. Generations of children have enjoyed her many stories and illustrations, all of which celebrate the English lifestyle and rural landscape through the adventures of animals.</p>
+            <p style="margin-bottom:12px;">Born to a comfortable middle-class family in London in 1866, Potter spent much of her early life in her own company. She was educated in her parents' house by a governess and rarely saw her brother Bertram, who was sent to boarding school. Having little social contact with children of her own age, Potter began to be drawn into her own world of writing. When Beatrix was 15, she began to keep a diary written in a secret code of her own invention. Even Beatrix herself, when she read back over it in later life, found it difficult to understand. It was not until 15 years after her death that the code was cracked. To the outside world Beatrix appeared a shy and reserved person, but in her diary she was able to express herself openly, and she was critical of the paintings of a number of artists of the day.</p>
+            <p style="margin-bottom:12px;">Potter was a naturally gifted artist, and with the aid of some art lessons she also learnt the technical side of drawing. During her childhood, she looked after many animals, such as rabbits, frogs, and even bats. She drew these animals throughout her childhood, gradually improving the standard of her work by sketching in museums. She was also interested in natural history. She would spend many hours drawing wildlife such as fungi and flowers, and at one time she had an ambition to develop this scientific interest. An uncle tried to help her become a student at the Royal Botanic Gardens at Kew in London, but she was rejected because of her gender. Nevertheless, she achieved a measure of respect from the scientific establishment for her illustrations and contribution to mycology, the study of fungi.</p>
+            <p style="margin-bottom:12px;">When Potter was in her early 20s, her parents tried to arrange a partner for her to marry. Many likely suitors were found; however, Potter turned them all down. She was a fiercely independent woman, and she disliked the idea of being tied down to a domestic life that, at that time, consisted mostly of staying at home and bringing up children. Thus, unusually for British women of those times, she remained single and lived in her parents' home.</p>
+            <p style="margin-bottom:12px;">For several years, Potter tried to get her first children's book, <em>The Tale of Peter Rabbit</em>, published. Her initial attempts proved unsuccessful, but she persevered and eventually the book was accepted for publication by Frederick Warne & Company. The book finally came out in 1902, when Potter was 36, but the publishers did not expect it would sell many copies. In fact, the project was given to the youngest brother in the family company, Norman Warne, for his first project as a kind of test. Luckily, he proved to be a good choice as he warmed to both the book and Potter. He was determined to make a success of the book and developed a good working relationship with Potter as they pored over the individual details of the book. It was Norman who insisted that each drawing would be in colour. Potter insisted that the book remain small so that it would be easy for children to hold, and by the end of the year, 28,000 copies were in print.</p>
+            <p style="margin-bottom:12px;">The relationship between Warne and Potter blossomed, and eventually they became engaged. However, Potter's parents were unhappy about this because of his occupation. They eventually relented, but insisted the couple live apart for six months to give Potter time to change her mind. Tragically, before the wedding could take place, Warne developed pernicious anaemia, a blood disease, and passed away. Potter was devastated and she wrote in a letter to his sister, Millie, 'He did not live long, but he fulfilled a useful, happy life. I must try to make a fresh beginning next year.'</p>
+            <p style="margin-bottom:12px;">After Warne's death, Potter moved to the Lake District in northern England. In 1905 she bought a small farm there, and for the next eight years she busied herself writing more books, some of which were based in or around the area. She lived there for the remainder of her life, but due to failing eyesight she was forced to stop writing children's books. Instead, she devoted her time to the breeding of sheep and helping with the conservation of farms in the district. Using proceeds from her very successful books and later her inheritance, Potter was able to buy many working farms. On her death, she left over 4,000 acres to the National Trust, an organisation which protects historical buildings and areas of countryside in England. It has meant that her beloved countryside is now accessible to many visitors.</p>
+          `,
+          questionsHtml: `
+            <h4 style="margin-bottom:8px;">Questions 1–6</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Complete the notes below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:14px; line-height:2.1; font-size:14px; margin-bottom:16px;">
+              <div><strong>Beatrix Potter</strong></div>
+              <div><em>Success as an author:</em> Her books have been in print for more than 100 years.</div>
+              <div style="margin-top:6px;"><strong>Childhood</strong></div>
+              <div>• She received lessons at home from a <strong>1</strong> <input type="text" id="rd_q1" class="inline-q"></div>
+              <div>• She wrote in her <strong>2</strong> <input type="text" id="rd_q2" class="inline-q"> in code.</div>
+              <div>• She disliked the work of some <strong>3</strong> <input type="text" id="rd_q3" class="inline-q"> of the time.</div>
+              <div>• She took lessons in drawing.</div>
+              <div>• She practised drawing things she saw when she visited <strong>4</strong> <input type="text" id="rd_q4" class="inline-q"></div>
+              <div style="margin-top:6px;"><strong>Life as a young adult</strong></div>
+              <div>• Her <strong>5</strong> <input type="text" id="rd_q5" class="inline-q"> to have a career in natural history was not realised.</div>
+              <div>• Her illustrations were recognised as assisting research into <strong>6</strong> <input type="text" id="rd_q6" class="inline-q"></div>
+            </div>
 
-          <h4 style="margin:16px 0 8px;">Questions 5–10</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Classify the following features as characterising:<br>
-            <strong>A.</strong> the 'Headstart' programme &nbsp;|&nbsp; <strong>B.</strong> the 'Missouri' programme &nbsp;|&nbsp; <strong>C.</strong> both &nbsp;|&nbsp; <strong>D.</strong> neither
-          </p>
-          <div class="q-row"><strong>5.</strong> was administered to a variety of poor and wealthy families
-            <select id="rd_q5"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          </div>
-          <div class="q-row"><strong>6.</strong> continued with follow-up assistance in elementary schools
-            <select id="rd_q6"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          </div>
-          <div class="q-row"><strong>7.</strong> did not succeed in its aim
-            <select id="rd_q7"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          </div>
-          <div class="q-row"><strong>8.</strong> supplied many forms of support and training to parents
-            <select id="rd_q8"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          </div>
-          <div class="q-row"><strong>9.</strong> received insufficient funding
-            <select id="rd_q9"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          </div>
-          <div class="q-row"><strong>10.</strong> was designed to improve pre-schoolers' educational development
-            <select id="rd_q10"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option></select>
-          </div>
+            <h4 style="margin-bottom:8px;">Questions 7–13</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
+            <div class="q-block">
+              <p><strong>7.</strong> The life of a typical married woman at that time appealed to Potter.</p>
+              <label><input type="radio" name="rd_q7" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q7" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q7" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>8.</strong> Potter's publishers insisted on changing the title of her first book.</p>
+              <label><input type="radio" name="rd_q8" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q8" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q8" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>9.</strong> The publishers doubted whether Potter's first book would be successful.</p>
+              <label><input type="radio" name="rd_q9" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q9" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q9" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>10.</strong> Norman Warne suggested Potter include black and white illustrations in her first book.</p>
+              <label><input type="radio" name="rd_q10" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q10" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q10" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>11.</strong> At first, Potter's parents disapproved of Norman Warne as a potential husband.</p>
+              <label><input type="radio" name="rd_q11" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q11" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q11" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>12.</strong> Potter continued writing children's books until her death.</p>
+              <label><input type="radio" name="rd_q12" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q12" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q12" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>13.</strong> Potter's gift to the National Trust was the largest in recent times.</p>
+              <label><input type="radio" name="rd_q13" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q13" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q13" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+          `
+        },
+        {
+          part: 2,
+          title: "Passage 2: Solving the problem of waste disposal (Questions 14–26)",
+          passageHtml: `
+            <h3 style="margin-bottom:6px;">Solving the problem of waste disposal</h3>
+            <p style="font-style:italic; color:#475569; margin-bottom:14px;">With the amount of rubbish being produced around the world increasing, Mark Rowe asks whether a new generation of incineration plants can help to solve the problem.</p>
+            <p style="margin-bottom:12px;"><strong>A</strong> For many years, burning rubbish has been portrayed as the lazy option when it comes to dealing with the problem of waste disposal, since it sends toxic fumes into the air and appears to support a consumerist, throwaway society. Norway, however, appears to be burning its way through a sizeable chunk of Europe's municipal waste, using the heat created by this process to warm and power homes in many of its cities. Norway isn't alone: Germany, Sweden, Belgium and the Netherlands all burn significant quantities of rubbish, and across Europe there are 420 plants burning municipal waste. With Europe dumping 150 million tonnes of rubbish into landfill every year, there would seem to be limitless supply.</p>
+            <p style="margin-bottom:12px;"><strong>B</strong> Those who support burning waste say that a new generation of incinerators have made it a more attractive option. Filters and scrubbing mechanisms now capture harmful substances such as mercury, hydrochloric acid and heavy metals. According to Ted Michaels, president of the US-based Energy Recovery Centre, 'There has been constant evolution in combustion engineering and emissions-control technology, and the output from these facilities is now minuscule.' Above all, however, supporters say that incineration is the only way of preventing the long-term impacts of landfill. In ten years' time, says the World Bank, humans will be generating 2.2 billion tonnes of solid waste per year. Advocates see incineration as a practical way to deal swiftly with an immediate problem.</p>
+            <p style="margin-bottom:12px;"><strong>C</strong> Levels of waste generation vary hugely around the world. 'It's a problem for the developed nations,' says Joergen Fenhann, a senior scientist working with the UN Environment Programme in Denmark. 'The more you develop, the more you produce, buy and throw away.' But the growth of incineration hasn't been universally welcomed. Lars Haltbrekken, chairman of Friends of the Earth in Norway, is concerned that incineration plants appear to generate demand for their services. 'The problem in Norway,' he explains, 'is that we have built too many waste-burning factories. So we've ended up importing waste from other countries. If you look at this in a very small perspective, it is, of course, better for the climate to burn rubbish from the UK rather than leave it in landfill there,' he continues. 'But in a broader perspective, it's a lazy way of getting rid of waste; you don't stimulate the goals of reducing, reusing and recycling.'</p>
+            <p style="margin-bottom:12px;"><strong>D</strong> Incineration is also at odds with EU policy, which promotes a ‘recycling hierarchy’: ideally, we simply produce less waste in the first place; failing that, we reuse objects more; the next best option is recycling; only then should we consider incineration, while dumping in landfill is the last resort. Dealing with the problem of waste disposal involves tracing the whole process that took the material from its inception to landfill. We used to call this the ‘cradle to grave’ life cycle; now, the talk is of ‘cradle to cradle’ and an even more comprehensive concept known as ‘zero waste’. ‘The philosophy of cradle to cradle is about designing products that are actually good for the environment at the end of their life,’ says Joan Marc Simon, European spokesman for the environmental movement GAIA. ‘You design a bottle that contains no toxins, is fully recyclable and requires the minimum amount of energy to be produced.’ As Simon points out, however, without the right mechanisms in place, ‘nothing guarantees that this bottle will end up being properly collected and treated in the appropriate recycling facility.’</p>
+            <p style="margin-bottom:12px;"><strong>E</strong> Tim Burns, policy manager at Keep Britain Tidy, says, ‘In the UK alone, people waste 10 billion of food every year. You can argue about composting that, or not buying it in the first place—if you do that then that’s money the retailers don’t get, so it’s not always clear cut.’ The implications of zero waste are that we’re going to have to take a good long look at those well-stocked supermarket shelves, too. ‘Supermarkets keep their shelves stocked even when demand isn’t there, which means they have to pay to dispose of a lot of food,’ says Burns. ‘But that cost is less to them than the cost in brand damage of having empty shelves.’</p>
+            <p style="margin-bottom:12px;"><strong>F</strong> Recent history and changes in trends in recycling suggest that we should be prepared for unexpected developments. ‘If someone back in the 1980s had suggested what waste would be like now, they would be completely wrong,’ says Richard Fisher, a PhD researcher at Cranfield University. ‘Consumerism has developed at a pace we never expected. Nobody would have said there would be so much electronic waste. But recycling has grown, too—ten years ago nobody would have predicted today’s levels of recycling.’ But he points out that the need to reduce waste is still a difficult message to sell to consumers. He suggests that what people are really concerned about is their loved ones and the future they face. ‘Perhaps we can align the environmental message to these deep-seated values,’ he says. ‘We need to look at whether it’s business that drives consumers or the other way around. You need government to play a leadership role, whereas countries such as the UK seem to be stepping away from the environment in pursuit of short-term economic goals.’</p>
+          `,
+          questionsHtml: `
+            <h4 style="margin-bottom:8px;">Questions 14–19</h4>
+            <p style="margin-bottom:8px; font-size:13px; color:#475569;">Choose the correct heading for each paragraph from the list below:</p>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:4px; font-size:13px; margin-bottom:12px; line-height:1.6;">
+              <strong>i.</strong> New terminology reflecting changing attitudes to waste disposal<br>
+              <strong>ii.</strong> Fundamental changes in behaviour in the past and future<br>
+              <strong>iii.</strong> Ways of rewarding the public for recycling<br>
+              <strong>iv.</strong> A surprising approach to waste disposal by several countries<br>
+              <strong>v.</strong> Difficult choices for individuals and businesses<br>
+              <strong>vi.</strong> Arguments against incineration from a country that uses it<br>
+              <strong>vii.</strong> A number of justifications for the use of incineration
+            </div>
+            <div class="q-row"><strong>14.</strong> Paragraph A <select id="rd_q14"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option></select></div>
+            <div class="q-row"><strong>15.</strong> Paragraph B <select id="rd_q15"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option></select></div>
+            <div class="q-row"><strong>16.</strong> Paragraph C <select id="rd_q16"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option></select></div>
+            <div class="q-row"><strong>17.</strong> Paragraph D <select id="rd_q17"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option></select></div>
+            <div class="q-row"><strong>18.</strong> Paragraph E <select id="rd_q18"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option></select></div>
+            <div class="q-row"><strong>19.</strong> Paragraph F <select id="rd_q19"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option></select></div>
 
-          <h4 style="margin:16px 0 8px;">Questions 11–13</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
-          <div class="q-block">
-            <p><strong>11.</strong> Most 'Missouri' programme three-year-olds scored highly in areas such as listening, speaking, reasoning and interacting with others.</p>
-            <label><input type="radio" name="rd_q11" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q11" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q11" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>12.</strong> 'Missouri' programme children of young, uneducated, single parents scored less highly on the tests.</p>
-            <label><input type="radio" name="rd_q12" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q12" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q12" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>13.</strong> The richer families in the 'Missouri' programme had higher stress levels.</p>
-            <label><input type="radio" name="rd_q13" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q13" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q13" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-        `
-      },
-      {
-        part: 2,
-        title: "Passage 2: Disappearing Delta (Questions 14–26)",
-        passageHtml: `
-          <h3 style="margin-bottom:12px;">Disappearing Delta</h3>
-          <p style="margin-bottom:12px;"><strong>A</strong> The fertile land of the Nile delta is being eroded along Egypt's Mediterranean coast at an astounding rate, in some parts estimated at 100 metres per year. In the past, land scoured away from the coastline by the currents of the Mediterranean Sea used to be replaced by sediment brought down to the delta by the River Nile, but this is no longer happening.</p>
-          <p style="margin-bottom:12px;"><strong>B</strong> Up to now, people have blamed this loss of delta land on the two large dams at Aswan in the south of Egypt, which hold back virtually all of the sediment that used to flow down the river. Before the dams were built, the Nile flowed freely, carrying huge quantities of sediment north from Africa's interior to be deposited on the Nile delta. This continued for 7,000 years, eventually covering a region of over 22,000 square kilometres with layers of fertile silt. Annual flooding brought in new, nutrient-rich soil to the delta region, replacing what had been washed away by the sea, and dispensing with the need for fertilizers in Egypt's richest food-growing area. But when the Aswan dams were constructed in the 20th century to provide electricity and irrigation, and to protect the huge population centre of Cairo and its surrounding areas from annual flooding and drought, most of the sediment with its natural fertilizer accumulated up above the dam in the southern, upstream half of Lake Nasser, instead of passing down to the delta.</p>
-          <p style="margin-bottom:12px;"><strong>C</strong> Now, however, there turns out to be more to the story. It appears that the sediment-free water emerging from the Aswan dams picks up silt and sand as it erodes the river bed and banks on the 800-kilometre trip to Cairo. Daniel Jean Stanley of the Smithsonian Institute noticed that water samples taken in Cairo, just before the river enters the delta, indicated that the river sometimes carries more than 850 grams of sediment per cubic metre of water - almost half of what it carried before the dams were built. 'I'm ashamed to say that the significance of this didn't strike me until after I had read 50 or 60 studies,' says Stanley in Marine Geology. 'There is still a lot of sediment coming into the delta, but virtually no sediment comes out into the Mediterranean to replenish the coastline. So this sediment must be trapped on the delta itself.'</p>
-          <p style="margin-bottom:12px;"><strong>D</strong> Once north of Cairo, most of the Nile water is diverted into more than 10,000 kilometres of irrigation canals and only a small proportion reaches the sea directly through the rivers in the delta. The water in the irrigation canals is still or very slow-moving and thus cannot carry sediment, Stanley explains. The sediment sinks to the bottom of the canals and then is added to fields by farmers or pumped with the water into the four large freshwater lagoons that are located near the outer edges of the delta. So very little of it actually reaches the coastline to replace what is being washed away by the Mediterranean currents.</p>
-          <p style="margin-bottom:12px;"><strong>E</strong> The farms on the delta plains and fishing and aquaculture in the lagoons account for much of Egypt's food supply. But by the time the sediment has come to rest in the fields and lagoons it is laden with municipal, industrial and agricultural waste from the Cairo region, which is home to more than 40 million people. 'Pollutants are building up faster and faster,' says Stanley. Based on his investigations of sediment from the delta lagoons, Frederic Siegel of George Washington University concurs. 'In Manzalah Lagoon, for example, the increase in mercury, lead, copper and zinc coincided with the building of the High Dam at Aswan, the availability of cheap electricity, and the development of major power-based industries,' he says. Since that time the concentration of mercury has increased significantly. Lead from engines that use leaded fuels and from other industrial sources has also increased dramatically. These poisons can easily enter the food chain, affecting the productivity of fishing and farming. Another problem is that agricultural wastes include fertilizers which stimulate increases in plant growth in the lagoons and upset the ecology of the area, with serious effects on the fishing industry.</p>
-          <p style="margin-bottom:12px;"><strong>F</strong> According to Siegel, international environmental organisations are beginning to pay closer attention to the region, partly because of the problems of erosion and pollution of the Nile delta, but principally because they fear the impact this situation could have on the whole Mediterranean coastal ecosystem. But there are no easy solutions. In the immediate future, Stanley believes that one solution would be to make artificial floods to flush out the delta waterways, in the same way that natural floods did before the construction of the dams. He says, however, that in the long term an alternative process such as desalination may have to be used to increase the amount of water available. 'In my view, Egypt must devise a way to have more water running through the river and the delta,' says Stanley. Easier said than done in a desert region with a rapidly growing population.</p>
-        `,
-        questionsHtml: `
-          <h4 style="margin-bottom:8px;">Questions 14–17</h4>
-          <p style="margin-bottom:8px; font-size:13px; color:#475569;">Choose the correct heading for paragraphs B, D, E and F from the list below:</p>
-          <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:4px; font-size:13px; margin-bottom:12px; line-height:1.6;">
-            <strong>i.</strong> Effects of irrigation on sedimentation &nbsp;|&nbsp; <strong>ii.</strong> The danger of flooding the Cairo area<br>
-            <strong>iii.</strong> Causing pollution in the Mediterranean &nbsp;|&nbsp; <strong>iv.</strong> Interrupting a natural process<br>
-            <strong>v.</strong> The threat to food production &nbsp;|&nbsp; <strong>vi.</strong> Less valuable sediment than before<br>
-            <strong>vii.</strong> Egypt's disappearing coastline &nbsp;|&nbsp; <strong>viii.</strong> Looking at the long-term impact
-          </div>
-          <div class="q-row"><strong>14.</strong> Paragraph B
-            <select id="rd_q14"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option></select>
-          </div>
-          <div class="q-row"><strong>15.</strong> Paragraph D
-            <select id="rd_q15"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option></select>
-          </div>
-          <div class="q-row"><strong>16.</strong> Paragraph E
-            <select id="rd_q16"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option></select>
-          </div>
-          <div class="q-row"><strong>17.</strong> Paragraph F
-            <select id="rd_q17"><option value="">--</option><option>i</option><option>ii</option><option>iii</option><option>iv</option><option>v</option><option>vi</option><option>vii</option><option>viii</option></select>
-          </div>
+            <h4 style="margin:16px 0 8px;">Questions 20–23</h4>
+            <p style="margin-bottom:8px; font-size:13px; color:#475569;">Match each person with the correct statement, A–G:</p>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:4px; font-size:13px; margin-bottom:12px; line-height:1.6;">
+              <strong>A.</strong> Incineration does not encourage responsible attitudes to waste disposal.<br>
+              <strong>B.</strong> Recycling can sometimes create serious problems for the future.<br>
+              <strong>C.</strong> Greater consumerism leads to higher levels of waste.<br>
+              <strong>D.</strong> Proper systems are needed for the recycling of environmentally friendly products.<br>
+              <strong>E.</strong> Landfill is better for the environment than incineration.<br>
+              <strong>F.</strong> Incineration of waste is now relatively harmless to the environment.<br>
+              <strong>G.</strong> Efforts to reduce waste may affect profits for some types of companies.
+            </div>
+            <div class="q-row"><strong>20.</strong> Ted Michaels <select id="rd_q20"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="q-row"><strong>21.</strong> Joergen Fenhann <select id="rd_q21"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="q-row"><strong>22.</strong> Joan Marc Simon <select id="rd_q22"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="q-row"><strong>23.</strong> Tim Burns <select id="rd_q23"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
 
-          <h4 style="margin:16px 0 8px;">Questions 18–23</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>.</p>
-          <div class="q-block">
-            <p><strong>18.</strong> Coastal erosion occurred along Egypt's Mediterranean coast before the building of the Aswan dams.</p>
-            <label><input type="radio" name="rd_q18" value="YES"> YES</label>
-            <label><input type="radio" name="rd_q18" value="NO"> NO</label>
-            <label><input type="radio" name="rd_q18" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>19.</strong> Some people predicted that the Aswan dams would cause land loss before they were built.</p>
-            <label><input type="radio" name="rd_q19" value="YES"> YES</label>
-            <label><input type="radio" name="rd_q19" value="NO"> NO</label>
-            <label><input type="radio" name="rd_q19" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>20.</strong> The Aswan dams were built to increase the fertility of the Nile delta.</p>
-            <label><input type="radio" name="rd_q20" value="YES"> YES</label>
-            <label><input type="radio" name="rd_q20" value="NO"> NO</label>
-            <label><input type="radio" name="rd_q20" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>21.</strong> Stanley found that the levels of sediment in the river water in Cairo were relatively high.</p>
-            <label><input type="radio" name="rd_q21" value="YES"> YES</label>
-            <label><input type="radio" name="rd_q21" value="NO"> NO</label>
-            <label><input type="radio" name="rd_q21" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>22.</strong> Sediment in the irrigation canals on the Nile delta causes flooding.</p>
-            <label><input type="radio" name="rd_q22" value="YES"> YES</label>
-            <label><input type="radio" name="rd_q22" value="NO"> NO</label>
-            <label><input type="radio" name="rd_q22" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>23.</strong> Water is pumped from the irrigation canals into the lagoons.</p>
-            <label><input type="radio" name="rd_q23" value="YES"> YES</label>
-            <label><input type="radio" name="rd_q23" value="NO"> NO</label>
-            <label><input type="radio" name="rd_q23" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
+            <h4 style="margin:16px 0 8px;">Questions 24–26</h4>
+            <p style="margin-bottom:8px; font-size:13px; color:#475569;">Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+            <div style="line-height:2.1; font-size:14px;">
+              <strong>What recent history tells us about recycling</strong><br>
+              Richard Fisher, a researcher from Cranfield University, points out that the pace of consumerism has increased more quickly than was predicted in the 1980s. There has, for example, been unexpected growth in waste from <strong>24</strong> <input type="text" id="rd_q24" class="inline-q"> products. He suggests that the need to protect the environment should be linked to basic values, and adds that it might be better if consumers had more influence over <strong>25</strong> <input type="text" id="rd_q25" class="inline-q"> and more direction was provided by <strong>26</strong> <input type="text" id="rd_q26" class="inline-q">.
+            </div>
+          `
+        },
+        {
+          part: 3,
+          title: "Passage 3: Movement Underwater (Questions 27–40)",
+          passageHtml: `
+            <h3 style="margin-bottom:12px;">Movement Underwater</h3>
+            <p style="margin-bottom:12px;"><strong>A</strong> Self-propelled motion is a fundamental ability in many organisms. From the beating flagella of tiny plankton keeping afloat near the ocean surface to the playful perfection of dolphins surfing the bow wave of a ship, marine creatures have adopted a huge variety of styles, speeds, and methods of movement. Each species has its own particular need for the evolutionary developments that have taken place, but the basic requirements are the same—finding food, avoiding predation, seeking a mate or a safe place to have young, or migrating to an area with more favorable conditions.</p>
+            <p style="margin-bottom:12px;"><strong>B</strong> The particular physical properties of water that most affect movement are density, viscosity (stickiness), and buoyancy. Seawater is about 800 times denser than air and nearly 100 times as viscous. Consequently, there is much more resistance to movement than on land, as anyone will know who has ever tried to wade through waist-deep water. However, with density comes much greater buoyancy, so that organisms need spend relatively little energy to stay afloat. As they move through the ocean environment, organisms seek to make wave motion, currents, and natural turbulence work to their advantage, not detriment.</p>
+            <p style="margin-bottom:12px;"><strong>C</strong> Most fishes have swim bladders to help them offset the density of their bodies and so maintain neutral buoyancy with minimal effort. These small, gas-filled chambers contain specialized networks of blood vessels that can add or remove gases such as oxygen and carbon dioxide. The ability to remain indefinitely at a constant depth without expending energy is especially important for slow-moving fishes that seek food in the shallows, or for those that hunt and scavenge in kelp forests. Active swimmers, such as mackerel, skipjacks, and sharks, do not have swim bladders because they need to change depth more rapidly than they could regulate the gas content. These fishes must swim forever or they will sink.</p>
+            <p style="margin-bottom:12px;"><strong>D</strong> Many animals, especially the tiny zooplankton, have taken to a life of simply drifting near the surface, contentedly feeding on the microscopic phytoplankton and bacteria floating there. Although life among the plankton might seem easy, there is in fact a remarkable range of movement. Some tiny plankton only 1–2 mm in length actually travel long distances each day. Species that live below the level where sunlight reaches, nightly swim hundreds of meters up to the surface to feed in the relative safety of darkness. At dawn, they sink back down in an effort to escape predators—a double journey equivalent to a person swimming 700 km a day.</p>
+            <p style="margin-bottom:12px;"><strong>E</strong> It has taken marine creatures millions of years of evolution to overcome the chief deterrent to motion through a dense medium such as water—that of drag resistance. Swimming efficiency has been achieved by minimizing the three types of drag created by friction, turbulence, and body form. To reduce surface friction, the body must be smooth and rounded. In addition, the scales of most fishes are coated with slime to lubricate their passage through water. To reduce the turbulent drag created as water flows around the moving shape, a rounded front end and tapered back end are required. To reduce form drag, the cross-sectional area of the body should be minimal—a pencil shape would be ideal. The combined shape, taking into account all three types of drag, is the streamlined torpedo form of a tuna, the fastest-swimming of all fishes.</p>
+            <p style="margin-bottom:12px;"><strong>F</strong> Speed is only one of three important aspects of swimming ability. Tuna, swordfish, and mackerel all specialize in fast, steady cruising, but there are many other fishes for whom sustained speed is less important, such as the barracuda. This formidable predator specializes in swift acceleration, and has a far higher success rate for its attacks than its steady-cruising cousins. The freshwater pike, which lurks in the shadows until its quarry is within striking distance and then lunges with great rapidity, achieves a remarkable 70–80 percent success rate. The third specialization is maneuverability, best demonstrated by the butterfly fishes. These have disk-shaped bodies that permit abrupt changes of track. Many fishes are generalists, being at least partly proficient in all three modes of movement.</p>
+            <p style="margin-bottom:12px;"><strong>G</strong> Almost all fishes swim by undulation. Strong W-shaped muscles along the side of the body progressively contract and relax in sequence, from head to tail and from side to side, creating a traveling horizontal wave. The body is thrown into a series of curves that press sideways and back against the water, producing a forward thrust. The narrow, elongated forms of eels and sea snakes allow easy undulation along their full length. In contrast, the more stubby and inflexible bodies of armor-plated trunkfish use only the swish of their short tail fins to move themselves through the water. Most other fishes combine elements of both methods, coordinating powerful strokes of the tail fins with subtle body undulations.</p>
+            <p style="margin-bottom:12px;"><strong>H</strong> A fish’s fins also play a vital and versatile role. The vertically oriented dorsal and ventral fins on the back and belly control sideways motion, while up-and-down motion is controlled by the pectoral and pelvic fins on the fish's sides. Whereas the shape of the tail fin relates directly to speed—crescent-moon shaped for fast cruising, broad and flat for acceleration—the style and arrangement of the other fins are crucial for maneuverability. Puffer fishes scull with tiny, oscillating pectoral fins, while butterfly fishes undulate their broad dorsal and ventral fins, twisting and turning with great precision through intricate coral reefs.</p>
+          `,
+          questionsHtml: `
+            <h4 style="margin-bottom:8px;">Questions 27–31</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Reading Passage 3 has eight paragraphs, A–H. Which paragraph contains the following information?</p>
+            <div class="q-row"><strong>27.</strong> A strategy to avoid being attacked <select id="rd_q27"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>28.</strong> How fish are able to keep afloat naturally <select id="rd_q28"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>29.</strong> The physical process by which fish propel themselves ahead <select id="rd_q29"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>30.</strong> A list of reasons why different creatures move from one place to another <select id="rd_q30"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>31.</strong> How the medium of water both restricts and aids movement <select id="rd_q31"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
 
-          <h4 style="margin:16px 0 8px;">Questions 24–26</h4>
-          <p style="margin-bottom:8px; font-size:13px; color:#475569;">Complete the summary with the list of words A–H:</p>
-          <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:4px; font-size:13px; margin-bottom:10px;">
-            <strong>A.</strong> artificial floods &nbsp;|&nbsp; <strong>B.</strong> desalination &nbsp;|&nbsp; <strong>C.</strong> delta waterways &nbsp;|&nbsp; <strong>D.</strong> natural floods &nbsp;|&nbsp;
-            <strong>E.</strong> nutrients &nbsp;|&nbsp; <strong>F.</strong> pollutants &nbsp;|&nbsp; <strong>G.</strong> population control &nbsp;|&nbsp; <strong>H.</strong> sediment
-          </div>
-          <div style="line-height:2.1; font-size:14px;">
-            In addition to the problem of coastal erosion, there has been a marked increase in the level of <strong>24</strong>
-            <select id="rd_q24"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select>
-            contained in the silt deposited in the Nile delta. To deal with this, Stanley suggests the use of <strong>25</strong>
-            <select id="rd_q25"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select>
-            in the short term, and increasing the amount of water available through <strong>26</strong>
-            <select id="rd_q26"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select>
-            in the longer term.
-          </div>
-        `
-      },
-      {
-        part: 3,
-        title: "Passage 3: The Return of Artificial Intelligence (Questions 27–40)",
-        passageHtml: `
-          <h3 style="margin-bottom:6px;">The Return of Artificial Intelligence</h3>
-          <p style="font-style:italic; color:#475569; margin-bottom:14px;">It is becoming acceptable again to talk of computers performing human tasks such as problem-solving and pattern-recognition</p>
-          <p style="margin-bottom:12px;"><strong>A</strong> After years in the wilderness, the term 'artificial intelligence' (AI) seems poised to make a comeback. AI was big in the 1980s but vanished in the 1990s. It re-entered public consciousness with the release of AI, a movie about a robot boy. This has ignited public debate about AI, but the term is also being used once more within the computer industry. Researchers, executives and marketing people are now using the expression without irony or inverted commas. And it is not always hype. The term is being applied, with some justification, to products that depend on technology that was originally developed by AI researchers. Admittedly, the rehabilitation of the term has a long way to go, and some firms still prefer to avoid using it. But the fact that others are starting to use it again suggests that AI has moved on from being seen as an over-ambitious and under-achieving field of research.</p>
-          <p style="margin-bottom:12px;"><strong>B</strong> The field was launched, and the term 'artificial intelligence' coined, at a conference in 1956 by a group of researchers that included Marvin Minsky, John McCarthy, Herbert Simon and Alan Newell, all of whom went on to become leading figures in the field. The expression provided an attractive but informative name for a research programme that encompassed such previously disparate fields as operations research, cybernetics, logic and computer science. The goal they shared was an attempt to capture or mimic human abilities using machines. That said, different groups of researchers attacked different problems, from speech recognition to chess playing, in different ways; AI unified the field in name only. But it was a term that captured the public imagination.</p>
-          <p style="margin-bottom:12px;"><strong>C</strong> Most researchers agree that AI peaked around 1985. A public reared on science-fiction movies and excited by the growing power of computers had high expectations. For years, AI researchers had implied that a breakthrough was just around the corner. Marvin Minsky said in 1967 that within a generation the problem of creating 'artificial intelligence' would be substantially solved. Prototypes of medical-diagnosis programs and speech recognition software appeared to be making progress. It proved to be a false dawn. Thinking computers and household robots failed to materialise, and a backlash ensued. 'There was undue optimism in the early 1980s,' says David Leake, a researcher at Indiana University. 'Then when people realised these were hard problems, there was retrenchment. By the late 1980s, the term AI was being avoided by many researchers, who opted instead to align themselves with specific sub-disciplines such as neural networks, agent technology, case-based reasoning, and so on.'</p>
-          <p style="margin-bottom:12px;"><strong>D</strong> Ironically, in some ways AI was a victim of its own success. Whenever an apparently mundane problem was solved, such as building a system that could land an aircraft unattended, the problem was deemed not to have been AI in the first place. 'If it works, it can't be AI,' as Dr Leake characterises it. The effect of repeatedly moving the goal-posts in this way was that AI came to refer to 'blue-sky' research that was still years away from commercialisation. Researchers joked that AI stood for 'almost implemented'. Meanwhile, the technologies that made it onto the market, such as speech recognition, language translation and decision-support software, were no longer regarded as AI. Yet all three once fell well within the umbrella of AI research.</p>
-          <p style="margin-bottom:12px;"><strong>E</strong> But the tide may now be turning, according to Dr Leake. HNC Software of San Diego, backed by a government agency, reckon that their new approach to artificial intelligence is the most powerful and promising approach ever discovered. HNC claim that their system, based on a cluster of 30 processors, could be used to spot camouflaged vehicles on a battlefield or extract a voice signal from a noisy background - tasks humans can do well, but computers cannot. 'Whether or not their technology lives up to the claims made for it, the fact that HNC are emphasising the use of AI is itself an interesting development,' says Dr Leake.</p>
-          <p style="margin-bottom:12px;"><strong>F</strong> Another factor that may boost the prospects for AI in the near future is that investors are now looking for firms using clever technology, rather than just a clever business model, to differentiate themselves. In particular, the problem of information overload, exacerbated by the growth of e-mail and the explosion in the number of web pages, means there are plenty of opportunities for new technologies to help filter and categorise information - classic AI problems. That may mean that more artificial intelligence companies will start to emerge to meet this challenge.</p>
-          <p style="margin-bottom:12px;"><strong>G</strong> The 1969 film, 2001: A Space Odyssey, featured an intelligent computer called HAL 9000. As well as understanding and speaking English, HAL could play chess and even learned to lipread. HAL thus encapsulated the optimism of the 1960s that intelligent computers would be widespread by 2001. But 2001 has been and gone, and there is still no sign of a HAL-like computer. Individual systems can play chess or transcribe speech, but a general theory of machine intelligence still remains elusive. It may be, however, that the comparison with HAL no longer seems quite so important, and AI can now be judged by what it can do, rather than by how well it matches up to a 30-year-old science-fiction film. 'People are beginning to realise that there are impressive things that these systems can do,' says Dr Leake hopefully.</p>
-        `,
-        questionsHtml: `
-          <h4 style="margin-bottom:8px;">Questions 27–31</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Reading Passage 3 has seven paragraphs, A–G. Which paragraph contains the following information? (You may use any letter more than once.)</p>
-          <div class="q-row"><strong>27.</strong> how AI might have a military impact
-            <select id="rd_q27"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
-          </div>
-          <div class="q-row"><strong>28.</strong> the fact that AI brings together a range of separate research areas
-            <select id="rd_q28"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
-          </div>
-          <div class="q-row"><strong>29.</strong> the reason why AI has become a common topic of conversation again
-            <select id="rd_q29"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
-          </div>
-          <div class="q-row"><strong>30.</strong> how AI could help deal with difficulties related to the amount of information available electronically
-            <select id="rd_q30"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
-          </div>
-          <div class="q-row"><strong>31.</strong> where the expression AI was first used
-            <select id="rd_q31"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select>
-          </div>
+            <h4 style="margin:16px 0 8px;">Questions 32–35</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Complete the table below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+            <table style="width:100%; border-collapse:collapse; font-size:13px; margin-bottom:16px;">
+              <thead>
+                <tr style="background:#0b1a30; color:#fff;">
+                  <th style="border:1px solid #cbd5e1; padding:8px;">Specialised ability</th>
+                  <th style="border:1px solid #cbd5e1; padding:8px;">Example fish species</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border:1px solid #cbd5e1; padding:8px;">Ability to maintain the same <strong>32</strong> <input type="text" id="rd_q32" class="inline-q"> over long distances</td>
+                  <td style="border:1px solid #cbd5e1; padding:8px;">Swordfish</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #cbd5e1; padding:8px;">Rapid <strong>33</strong> <input type="text" id="rd_q33" class="inline-q"></td>
+                  <td style="border:1px solid #cbd5e1; padding:8px;">Barracuda</td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #cbd5e1; padding:8px;">Sudden attack on prey following period of lying in wait</td>
+                  <td style="border:1px solid #cbd5e1; padding:8px;"><strong>34</strong> <input type="text" id="rd_q34" class="inline-q"></td>
+                </tr>
+                <tr>
+                  <td style="border:1px solid #cbd5e1; padding:8px;">Rapid changes of direction</td>
+                  <td style="border:1px solid #cbd5e1; padding:8px;"><strong>35</strong> <input type="text" id="rd_q35" class="inline-q"></td>
+                </tr>
+              </tbody>
+            </table>
 
-          <h4 style="margin:16px 0 8px;">Questions 32–37</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
-          <div class="q-block">
-            <p><strong>32.</strong> The researchers who launched the field of AI had worked together on other projects in the past.</p>
-            <label><input type="radio" name="rd_q32" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q32" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q32" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>33.</strong> In 1985, AI was at its lowest point.</p>
-            <label><input type="radio" name="rd_q33" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q33" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q33" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>34.</strong> Research into agent technology was more costly than research into neural networks.</p>
-            <label><input type="radio" name="rd_q34" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q34" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q34" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>35.</strong> Applications of AI have already had a degree of success.</p>
-            <label><input type="radio" name="rd_q35" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q35" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q35" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>36.</strong> The problems waiting to be solved by AI have not changed since 1967.</p>
-            <label><input type="radio" name="rd_q36" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q36" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q36" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-          <div class="q-block">
-            <p><strong>37.</strong> The film 2001: A Space Odyssey reflected contemporary ideas about the potential of AI computers.</p>
-            <label><input type="radio" name="rd_q37" value="TRUE"> TRUE</label>
-            <label><input type="radio" name="rd_q37" value="FALSE"> FALSE</label>
-            <label><input type="radio" name="rd_q37" value="NOT GIVEN"> NOT GIVEN</label>
-          </div>
-
-          <h4 style="margin:16px 0 8px;">Questions 38–40</h4>
-          <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose the correct letter, A, B, C or D.</p>
-          <div class="q-block">
-            <p><strong>38.</strong> According to researchers, in the late 1980s there was a feeling that</p>
-            <label><input type="radio" name="rd_q38" value="A"> A. a general theory of AI would never be developed.</label>
-            <label><input type="radio" name="rd_q38" value="B"> B. original expectations of AI may not have been justified.</label>
-            <label><input type="radio" name="rd_q38" value="C"> C. a wide range of applications was close to fruition.</label>
-            <label><input type="radio" name="rd_q38" value="D"> D. more powerful computers were the key to further progress.</label>
-          </div>
-          <div class="q-block">
-            <p><strong>39.</strong> In Dr Leake's opinion, the reputation of AI suffered as a result of</p>
-            <label><input type="radio" name="rd_q39" value="A"> A. changing perceptions.</label>
-            <label><input type="radio" name="rd_q39" value="B"> B. premature implementation.</label>
-            <label><input type="radio" name="rd_q39" value="C"> C. poorly planned projects.</label>
-            <label><input type="radio" name="rd_q39" value="D"> D. commercial pressures.</label>
-          </div>
-          <div class="q-block">
-            <p><strong>40.</strong> The prospects for AI may benefit from</p>
-            <label><input type="radio" name="rd_q40" value="A"> A. existing AI applications.</label>
-            <label><input type="radio" name="rd_q40" value="B"> B. new business models.</label>
-            <label><input type="radio" name="rd_q40" value="C"> C. orders from internet-only companies.</label>
-            <label><input type="radio" name="rd_q40" value="D"> D. new investment priorities.</label>
-          </div>
-        `
+            <h4 style="margin:16px 0 8px;">Questions 36–40</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Complete the diagram labels below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.</p>
+            <img src="fish-diagram.png" alt="" onerror="this.style.display='none'" style="max-width:100%; margin-bottom:10px; border:1px solid #cbd5e1; border-radius:4px;">
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:14px; line-height:2.1; font-size:14px;">
+              <div>• streamlined shape narrowing towards rear: to reduce <strong>36</strong> <input type="text" id="rd_q36" class="inline-q"> drag</div>
+              <div>• fin controlling <strong>37</strong> <input type="text" id="rd_q37" class="inline-q"> movement</div>
+              <div>• fins controlling <strong>38</strong> <input type="text" id="rd_q38" class="inline-q"> movement</div>
+              <div>• fins which are important for <strong>39</strong> <input type="text" id="rd_q39" class="inline-q"> of fish</div>
+              <div>• minimal cross-sectional body area: to decrease <strong>40</strong> <input type="text" id="rd_q40" class="inline-q"> drag</div>
+            </div>
+          `
+        }
+      ],
+      answers: {
+        1: ["governess"],
+        2: ["diary"],
+        3: ["artists"],
+        4: ["museums"],
+        5: ["ambition"],
+        6: ["mycology"],
+        7: ["false"],
+        8: ["not given"],
+        9: ["true"],
+        10: ["false"],
+        11: ["true"],
+        12: ["false"],
+        13: ["not given"],
+        14: ["iv"],
+        15: ["vii"],
+        16: ["vi"],
+        17: ["i"],
+        18: ["v"],
+        19: ["ii"],
+        20: ["f"],
+        21: ["c"],
+        22: ["d"],
+        23: ["g"],
+        24: ["electronic"],
+        25: ["business"],
+        26: ["government"],
+        27: ["d"],
+        28: ["c"],
+        29: ["g"],
+        30: ["a"],
+        31: ["b"],
+        32: ["speed"],
+        33: ["acceleration"],
+        34: ["freshwater pike", "pike"],
+        35: ["butterfly fishes", "butterfly fish"],
+        36: ["turbulent"],
+        37: ["up-and-down", "up and down"],
+        38: ["sideways"],
+        39: ["manoeuvrability", "maneuverability"],
+        40: ["form"]
       }
-    ],
-    answers: {
-      1: "D", 2: "B", 3: "C", 4: "E",
-      5: "B", 6: "D", 7: "A", 8: "B", 9: "D", 10: "C",
-      11: "TRUE", 12: "FALSE", 13: "NOT GIVEN",
-      14: "iv", 15: "i", 16: "v", 17: "viii",
-      18: "YES", 19: "NOT GIVEN", 20: "NO", 21: "YES", 22: "NOT GIVEN", 23: "YES",
-      24: "F", 25: "A", 26: "B",
-      27: "E", 28: "B", 29: "A", 30: "F", 31: "B",
-      32: "NOT GIVEN", 33: "FALSE", 34: "NOT GIVEN", 35: "TRUE", 36: "FALSE", 37: "TRUE",
-      38: "B", 39: "A", 40: "D"
+    },
+
+    // --- READING VARIANT 2: Louis Braille / Storytelling / Indoor Air Pollution ---
+    {
+      variantId: "Reading Variant 2",
+      passages: [
+        {
+          part: 1,
+          title: "Passage 1: The Life of Louis Braille (Questions 1–13)",
+          passageHtml: `
+            <h3 style="margin-bottom:6px;">The Life of Louis Braille</h3>
+            <p style="font-style:italic; color:#475569; margin-bottom:14px;">Teacher and advocate for the blind, Louis Braille designed the coding system, based on patterns of raised dots, by which the blind can read through touch</p>
+            <p style="margin-bottom:12px;">Louis Braille was born in Coupvray, France on January 4, 1809, the only child of Louis and Constance Braille. His father made leather saddles and harnesses for farmers in the area. At the age of three, while playing in his father’s shop, young Louis was struck in the eye by a tool. Within weeks of the accident, the infection that had developed in his eyes took away his sight completely. Although there were few options for blind people at that time, Braille’s parents wanted their son to be educated. He attended school in their village with sighted children and followed the lessons through listening alone. He was an excellent student, mostly because of his exceptional memory.</p>
+            <p style="margin-bottom:12px;">In 1819 Braille received a scholarship that enabled him to attend the Institut National des Jeunes Aveugles (National Institute of Blind Youth) in Paris, France. He continued to excel in his studies and also began playing the piano and organ. The same year Braille entered the school, Captain Charles Barbier invented sonography, or night writing, a system of embossed symbols (standing out from the surface) that soldiers adopted to communicate silently at night on the battlefield. The fifteen-year-old Braille was inspired by a lecture Barbier gave at the Institute a few years later. Braille adapted Barbier’s system to replace the awkward embossed-word books in the Institute’s library, which were the only thing he and his classmates could use up to that point.</p>
+            <p style="margin-bottom:12px;">Louis Braille was one of many people at the school who found Barbier’s system promising; but he also discovered its shortcomings. It was quite complex (soldiers had difficulty learning it) and it was based on sounds rather than letters. Braille spent three years developing a much simpler system. Braille began experimenting with shapes cut from leather as well as nails and tacks hammered into boards. He finally settled on a six-dot code, based on the twenty-six letters of the alphabet, which could be recognized with a single contact of one finger.</p>
+            <p style="margin-bottom:12px;">By changing the number and placement of dots, he coded letters, punctuation, numbers, familiar words, scientific symbols, mathematical and musical notation, and capitalization. With the right hand the reader touched individual dots, and with the left hand he or she moved toward the next line, grasping the text as smoothly and rapidly as sighted readers. Using the Braille system, students were also able to take notes and write essays by punching dots into paper with a pointed instrument that was lined up with a metal guide. This writing technique devised by Braille was known as ‘decapoint’ and it was later developed by one of his colleagues into a machine that operated like a typewriter.</p>
+            <p style="margin-bottom:12px;">At the age of twenty, Braille published a written account describing the use of his coded system. In 1837 he issued a second publication featuring an expanded system of coding text. King Louis Philippe (1773–1850) praised the system publicly after a demonstration at the Paris Exposition of Industry in 1834, and Braille’s fellow students loved it. However, Braille’s system proved to be controversial at the Institute. The school’s director, Alexandre Francois Pignier, supported using the Braille system, but Pierre-Armand Dufau banned it when he became director of the school in 1840. Sighted instructors and school board members worried that growing numbers of well-educated blind individuals might take away their jobs so they decided to stick with the embossed-letter system. Nonetheless, by 1850, when illness forced Louis Braille to retire from teaching, his six-dot method was well on its way to widespread acceptance.</p>
+            <p style="margin-bottom:12px;">Braille’s ear for music enabled him to become an accomplished cellist and organist. Later in life, his musical talents led him to play the organ all over France, where he became famous as a musician, composer, and teacher. Unfortunately, he grew seriously ill with incurable tuberculosis (a lung infection) in 1835. Shortly before his death, a former student of his, a blind musician, gave a performance in Paris. She made a point of letting the audience know that she had learned everything she knew using the forgotten system developed by the now-dying Braille. This created renewed interest and a revival of the Braille system, although it was not fully accepted until 1854, two years after the inventor’s death. The system underwent alteration from time to time. The version employed today was first used in the United States in 1860 at the Missouri School for the Blind.</p>
+          `,
+          questionsHtml: `
+            <h4 style="margin-bottom:8px;">Questions 1–7</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Complete the notes below. Write <strong>ONE WORD ONLY</strong> from the passage for each answer.</p>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:14px; line-height:2.1; font-size:14px; margin-bottom:16px;">
+              <div><strong>Louis Braille — Early life (In Coupvray)</strong></div>
+              <div>• was born in 1809</div>
+              <div>• became blind as the result of an <strong>1</strong> <input type="text" id="rd_q1" class="inline-q"> in the eye</div>
+              <div>• excelled at the local school on account of his outstanding memory</div>
+              <div style="margin-top:6px;"><strong>National Institute of Blind Youth, Paris</strong></div>
+              <div>• Braille was awarded a scholarship</div>
+              <div>• Captain Charles Barbier developed sonography, based on a system originally used by <strong>2</strong> <input type="text" id="rd_q2" class="inline-q"></div>
+              <div>• Braille became aware of sonography after attending Barbier’s <strong>3</strong> <input type="text" id="rd_q3" class="inline-q"></div>
+              <div style="margin-top:6px;"><strong>The development of the Braille system</strong></div>
+              <div>• Problems with Barbier’s system: too complex; <strong>4</strong> <input type="text" id="rd_q4" class="inline-q"> were used as its basis instead of letters</div>
+              <div>• Braille’s system could be recognised with the touch of an individual’s <strong>5</strong> <input type="text" id="rd_q5" class="inline-q"></div>
+              <div>• the left hand takes readers to the following <strong>6</strong> <input type="text" id="rd_q6" class="inline-q"> while the right hand touches dots</div>
+              <div>• blind students could write using Braille’s method called <strong>7</strong> <input type="text" id="rd_q7" class="inline-q"></div>
+            </div>
+
+            <h4 style="margin-bottom:8px;">Questions 8–13</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose <strong>TRUE</strong>, <strong>FALSE</strong> or <strong>NOT GIVEN</strong>.</p>
+            <div class="q-block">
+              <p><strong>8.</strong> Braille received financial assistance from King Louis Philippe.</p>
+              <label><input type="radio" name="rd_q8" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q8" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q8" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>9.</strong> Braille’s invention was rejected by students at the National Institute of Blind Youth.</p>
+              <label><input type="radio" name="rd_q9" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q9" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q9" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>10.</strong> Sighted teachers at the National Institute of Blind Youth felt threatened by Braille’s reading system.</p>
+              <label><input type="radio" name="rd_q10" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q10" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q10" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>11.</strong> Braille’s students visited him after his retirement.</p>
+              <label><input type="radio" name="rd_q11" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q11" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q11" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>12.</strong> Braille’s system became popular again after it was promoted by a musician.</p>
+              <label><input type="radio" name="rd_q12" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q12" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q12" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>13.</strong> The Braille system that is currently used is unchanged from Braille’s original invention.</p>
+              <label><input type="radio" name="rd_q13" value="TRUE"> TRUE</label>
+              <label><input type="radio" name="rd_q13" value="FALSE"> FALSE</label>
+              <label><input type="radio" name="rd_q13" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+          `
+        },
+        {
+          part: 2,
+          title: "Passage 2: Storytelling, from prehistoric caves to modern cinemas (Questions 14–26)",
+          passageHtml: `
+            <h3 style="margin-bottom:12px;">Storytelling, from prehistoric caves to modern cinemas</h3>
+            <p style="margin-bottom:12px;"><strong>A</strong> It was told, we suppose, to people crouched around a fire: a tale of adventure, most likely – relating perhaps a remarkable hunt, an escape from mortal danger, or something else out of the ordinary. Whatever its thread, the weaving of this story was done with a prime purpose. The listeners must keep listening. They must not fall asleep. So, as the story went on, its audience should be sustained by one question above all: What happens next?</p>
+            <p style="margin-bottom:12px;"><strong>B</strong> The first fireside stories in human history can never be known. They were kept in the heads of those who told them. This method of storage is not necessarily inefficient. From documented oral traditions in Australia and elsewhere we know that specialised storytellers and poets can recite from memory literally thousands of lines, in verse or prose, word for word. But while memory is rightly considered an art in itself, it is clear that a primary purpose of making signs is to have a system of reminders or mnemonic cues – signs that help us to recall certain information in the mind’s eye. For example, in some Polynesian communities a notched memory stick may be used to help to guide a storyteller through successive stages of recitation.</p>
+            <p style="margin-bottom:12px;"><strong>C</strong> But in other parts of the world, the activity of storytelling historically resulted in the development or even the invention of writing systems. One theory about the arrival of literacy in ancient Greece, for example, argues that the epic tales traditionally attributed to Homer, a storyteller of the eighth century BC, were just so enchanting to hear that they had to be preserved. So the Greeks borrowed an alphabet from their neighbours in the eastern Mediterranean, the Phoenicians.</p>
+            <p style="margin-bottom:12px;"><strong>D</strong> The custom of recording stories can be found around the world, from the archives of ancient Egypt which were written on paper derived from papyrus plants, to the scrolls made from the bark of trees on which the North American Ojibway Indians set down their creation myth. It is a well tried and universal practice: so much so that to this day storytime is probably most often associated with words on paper. Nowadays the formal practice of narrating a story aloud would seem – so we assume – to have given way to newspapers, novels and comic strips. This, however, is not the case. Statistically it is doubtful that the majority of humans currently rely upon the written word to get access to stories. So what is the alternative source?</p>
+            <p style="margin-bottom:12px;"><strong>E</strong> Each year, millions of people across the world go to the cinema, now the supreme storyteller. Any account of visual storytelling must begin with the recognition that a ‘good story’ relies upon formal patterns of plot and characterisation that have been embedded in the practice of storytelling over many generations.</p>
+            <p style="margin-bottom:12px;"><strong>F</strong> Aspiring screenwriters really need look no further for essential advice than the fourth century BC Greek philosopher Aristotle. He left some incomplete lecture notes on the art of telling stories in various literary and dramatic modes, a slim volume known as <em>Poetics</em>. Though he can never have imagined a modern cinema, Aristotle is very accurate about the key elements required to get the crowds flocking to such a cultural centre. He analysed the process with cool rationalism. When a story enchants us, we lose the sense of where we are; we are drawn into the story so thoroughly that we forget it is a story being told, and react as though it is real. This is, in Aristotle’s phrase, “the suspension of disbelief”. We know the feeling. If we ever have stayed in our seats, stunned with grief, as the credits roll by, or for days after seeing that vivid evocation of horror have kept looking over our shoulders, then we have suspended disbelief. We have been caught in the storyteller’s web. Did it all really happen? We really thought so – for a while.</p>
+            <p style="margin-bottom:12px;"><strong>G</strong> Aristotle must have witnessed this experience often enough. He taught in Athens, the city where theatre developed as a primary form of civic ritual and recreation. Two theatrical types of storytelling, tragedy and comedy, caused Athenian audiences to lose themselves in sadness and laughter respectively. Tragedy, for Aristotle, was particularly potent in its capacity to enlist and then purge the emotions of those watching the story unfold on the stage, so he tried to identify those factors in the storyteller’s art that brought about such engagement. For analysis he had not only the masterpieces of classical Greek tragedy, but also Homer, whose <em>Iliad</em> and <em>Odyssey</em> were already considered landmarks – stories by which all other stories should be measured. So, what was the secret of Homer’s narrative art?</p>
+            <p style="margin-bottom:12px;"><strong>H</strong> It was not hard to find. Homer created credible heroes. His heroes belonged to the past, they were mighty and magnificent, yet they were not fantasy figures. Homer reported the speeches of his heroes as if he had heard them himself. He made his heroes sulk, argue, cheat, and cry. They were, in short, people who seemed real, though in a story, and audiences could care about them, follow them, and want to know what happened to them next. As Aristotle saw, the hero who shows some weaknesses is intrinsically dramatic.</p>
+          `,
+          questionsHtml: `
+            <h4 style="margin-bottom:8px;">Questions 14–18</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Reading Passage 2 has eight paragraphs, A–H. Which paragraph contains the following information?</p>
+            <div class="q-row"><strong>14.</strong> reference to a mistaken view of storytelling today <select id="rd_q14"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>15.</strong> a categorisation of stories <select id="rd_q15"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>16.</strong> mention of the ability to recall complete stories without assistance <select id="rd_q16"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>17.</strong> a reference to the fundamental aim of storytelling <select id="rd_q17"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+            <div class="q-row"><strong>18.</strong> how characters in a story can be made appealing to listeners <select id="rd_q18"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option><option>H</option></select></div>
+
+            <h4 style="margin:16px 0 8px;">Questions 19–22</h4>
+            <p style="margin-bottom:8px; font-size:13px; color:#475569;">Choose the correct practice, A–C, for each group:</p>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:4px; font-size:13px; margin-bottom:10px;">
+              <strong>A.</strong> adopting a means of writing from elsewhere<br>
+              <strong>B.</strong> recording stories on organic materials<br>
+              <strong>C.</strong> using tools while telling stories
+            </div>
+            <div class="q-row"><strong>19.</strong> Ancient Egyptians <select id="rd_q19"><option value="">--</option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="q-row"><strong>20.</strong> Ancient Greeks <select id="rd_q20"><option value="">--</option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="q-row"><strong>21.</strong> Ojibway Indians <select id="rd_q21"><option value="">--</option><option>A</option><option>B</option><option>C</option></select></div>
+            <div class="q-row"><strong>22.</strong> Polynesians <select id="rd_q22"><option value="">--</option><option>A</option><option>B</option><option>C</option></select></div>
+
+            <h4 style="margin:16px 0 8px;">Questions 23–26</h4>
+            <p style="margin-bottom:8px; font-size:13px; color:#475569;">Complete the sentences. Write <strong>ONE WORD ONLY</strong> from the text for each answer.</p>
+            <div style="line-height:2.1; font-size:14px;">
+              <div>• Aristotle’s work on storytelling is called <strong>23</strong> <input type="text" id="rd_q23" class="inline-q">.</div>
+              <div>• Aristotle saw <strong>24</strong> <input type="text" id="rd_q24" class="inline-q"> as a very powerful type of drama.</div>
+              <div>• In Aristotle’s time, Homer’s works were already regarded as <strong>25</strong> <input type="text" id="rd_q25" class="inline-q"> of literature.</div>
+              <div>• Aristotle recognised the dramatic potential of a hero who has several <strong>26</strong> <input type="text" id="rd_q26" class="inline-q">.</div>
+            </div>
+          `
+        },
+        {
+          part: 3,
+          title: "Passage 3: Reducing exposure to indoor air pollution in developing countries (Questions 27–40)",
+          passageHtml: `
+            <h3 style="margin-bottom:6px;">Reducing exposure to indoor air pollution in developing countries</h3>
+            <p style="font-style:italic; color:#475569; margin-bottom:14px;">In a review of ways of reducing smoke levels, interventions were considered in three areas: the source of smoke, the living environment and the user</p>
+            <p style="margin-bottom:8px;"><strong>Cooking on a cleaner fuel</strong></p>
+            <p style="margin-bottom:12px;">The most effective means of reducing indoor air pollution is to switch from biomass* to cleaner fuel that produces significantly lower emissions. For those who are able to switch to fuels such as kerosene or Liquified Petroleum Gas (LPG), the benefits are great. In many urban areas these fuels cost less per unit than biomass. However, there is often a larger initial investment needed to purchase the fuels and the stoves. For example, LPG must be purchased each week or month by the cylinder, but many people can only afford to get a little fuel daily. Making fuel available in smaller units would benefit poorer customers. In rural areas there is less incentive to switch fuels, as biomass is gathered at no financial cost to the user.</p>
+            <p style="margin-bottom:12px;">Another alternative fuel, biogas, is extremely effective, as it converts a renewable material (dung and other organic waste materials) into a gaseous, clean fuel. While biogas is being introduced in parts of Asia very successfully – there are over 120,000 biogas plants in Nepal alone – traditional attitudes in other regions make it harder to introduce.</p>
+            <p style="margin-bottom:8px;"><strong>Getting smoke out of the house</strong></p>
+            <p style="margin-bottom:12px;">For those trapped into using biomass as their main domestic fuel for the foreseeable future, options for reducing exposure to indoor air pollution will entail safe ways of getting smoke out of the home. Substantial reductions to smoke exposure have been obtained with relatively simple methods. For example, one project in Kenya reduced particulate and carbon monoxide pollution in homes by nearly 80% through the use of smoke hoods. These work on the same principle as chimneys but have the advantage of being freestanding and independent of the stove. Substantial benefits were also achieved by increasing the roof spaces in traditional houses and installing better-fitting doors. However, the enlargement of windows in the same project seemed to have little impact.</p>
+            <p style="margin-bottom:8px;"><strong>Cutting smoke volumes in improved biomass stoves</strong></p>
+            <p style="margin-bottom:12px;">Improved stoves were primarily designed to increase energy efficiency. The Upesi stove, incorporates a chimney, one would anticipate smoke would be reduced. There are some very effective chimney stoves which, when tested in the home, show a significant reduction in smoke. Good examples are the rocket stove and Ecostove, which are increasingly being used in Central America. However, there are also potential problems with many chimney stoves: they may not perform well if they are not installed properly, or are poorly designed. Chimneys are expensive and may be ineffective if the smoke returns through doors and windows. They can also block up quickly with soot and require regular cleaning.</p>
+            <p style="margin-bottom:8px;"><strong>Reducing the need for fire</strong></p>
+            <p style="margin-bottom:12px;">A very simple technology can reduce the need for fuel for cooking – this is the fireless cooker, or ‘hay box’. This acts like a slow cooker, and is good for making soups, rice or stews. The food is heated to boiling, then placed in a box filled with insulating material, such as hay or crumpled newspaper. The food continues to cook slowly. The development organization – Winrock found that the hay box was in demand with women’s groups in Nairobi, where they are proving as popular as improved stoves.</p>
+            <p style="margin-bottom:12px;">As much of the need for improved cooking comes from countries with abundant sunshine, it would seem a logical step to move towards solar power, and there are some passionate advocates for this technology. Solar cookers, which concentrate sunlight directly to cook food, have been seen as a clean, alternative way of cooking. Unfortunately, there has been limited success in practice. The use of solar energy means preparing a meal at midday, which does not coincide with the main family mealtime in many cultures. It also requires the cook to work outdoors.</p>
+            <p style="margin-bottom:8px;"><strong>Changing patterns of behaviour</strong></p>
+            <p style="margin-bottom:12px;">Simple changes in the way the cook behaves can reduce exposure to smoke. For example, making sure that fuel wood is dry cuts emissions. The use of a pot lid can reduce the fuel consumed during simmering by a factor of three, and overall emission levels by almost a half. On the other hand, keeping children away from the fire may seem an obvious way of reducing their exposure, but as many children are habitually carried on their mother’s back, this can be very difficult, especially where the mother is the only childminder. Cooking outdoors would also reduce exposure to indoor air pollution, and in some parts of the world, for example amongst the aborigines in Australia, this is standard practice. However, for most cultures, cooking indoors is standard.</p>
+            <p style="margin-bottom:8px;"><strong>Identifying appropriate solutions</strong></p>
+            <p style="margin-bottom:12px;">Experience has indicated that there is no point trying to dictate a solution to a community. This is a view supported by a World Health Organization and US aid-supported consultation on indoor air pollution and health: ‘A single-issue, technology-driven approach to indoor air quality is doomed to failure... Such an approach frequently demands changes of the local community that affect numerous aspects of their lives.’ The authors argue that ‘the key to success is to adopt project approaches that broaden the range of secure and sustainable choices available locally, and thus enable people to devise their own solutions’.</p>
+            <p style="font-size:13px; color:#475569;"><strong>Biomass*:</strong> renewable organic material that comes from plants and animals.</p>
+          `,
+          questionsHtml: `
+            <h4 style="margin-bottom:8px;">Questions 27–31</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose the correct letter, A, B, C or D.</p>
+            <div class="q-block">
+              <p><strong>27.</strong> For many people living in towns, one problem with switching to kerosene or LPG is that</p>
+              <label><input type="radio" name="rd_q27" value="A"> A. These have to be bought in relatively large quantities.</label>
+              <label><input type="radio" name="rd_q27" value="B"> B. These are usually more expensive than biomass fuel.</label>
+              <label><input type="radio" name="rd_q27" value="C"> C. The fuel containers are too heavy to carry very far.</label>
+              <label><input type="radio" name="rd_q27" value="D"> D. The right types of stove are often unavailable.</label>
+            </div>
+            <div class="q-block">
+              <p><strong>28.</strong> What does the writer say about biogas?</p>
+              <label><input type="radio" name="rd_q28" value="A"> A. It is a source of indoor pollution.</label>
+              <label><input type="radio" name="rd_q28" value="B"> B. It hasn’t been tried on a large scale yet.</label>
+              <label><input type="radio" name="rd_q28" value="C"> C. There is a reluctance to use it in some places.</label>
+              <label><input type="radio" name="rd_q28" value="D"> D. A lot of energy is wasted in the production process.</label>
+            </div>
+            <div class="q-block">
+              <p><strong>29.</strong> Which of the following was ineffective in one project in Kenya?</p>
+              <label><input type="radio" name="rd_q29" value="A"> A. installation of smoke hoods</label>
+              <label><input type="radio" name="rd_q29" value="B"> B. bigger windows</label>
+              <label><input type="radio" name="rd_q29" value="C"> C. better door construction</label>
+              <label><input type="radio" name="rd_q29" value="D"> D. enlargement of space under the roof</label>
+            </div>
+            <div class="q-block">
+              <p><strong>30.</strong> What does the writer say about chimneys on improved biomass stoves?</p>
+              <label><input type="radio" name="rd_q30" value="A"> A. They can cut smoke pollution considerably.</label>
+              <label><input type="radio" name="rd_q30" value="B"> B. They generally need very little maintenance.</label>
+              <label><input type="radio" name="rd_q30" value="C"> C. They do not have to be fitted by specialists.</label>
+              <label><input type="radio" name="rd_q30" value="D"> D. They work best if the room is well ventilated.</label>
+            </div>
+            <div class="q-block">
+              <p><strong>31.</strong> What point does the writer make about ‘hay boxes’?</p>
+              <label><input type="radio" name="rd_q31" value="A"> A. A reliable supply of hay is essential.</label>
+              <label><input type="radio" name="rd_q31" value="B"> B. Any type of food can be cooked in them.</label>
+              <label><input type="radio" name="rd_q31" value="C"> C. People cannot be easily convinced of their usefulness.</label>
+              <label><input type="radio" name="rd_q31" value="D"> D. Fuel is only required at the start of the cooking process.</label>
+            </div>
+
+            <h4 style="margin:16px 0 8px;">Questions 32–36</h4>
+            <p style="margin-bottom:10px; font-size:13px; color:#475569;">Choose <strong>YES</strong>, <strong>NO</strong> or <strong>NOT GIVEN</strong>.</p>
+            <div class="q-block">
+              <p><strong>32.</strong> Certain people strongly recommend a change to solar power for cooking.</p>
+              <label><input type="radio" name="rd_q32" value="YES"> YES</label>
+              <label><input type="radio" name="rd_q32" value="NO"> NO</label>
+              <label><input type="radio" name="rd_q32" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>33.</strong> Solar powered ovens are unavailable in many countries.</p>
+              <label><input type="radio" name="rd_q33" value="YES"> YES</label>
+              <label><input type="radio" name="rd_q33" value="NO"> NO</label>
+              <label><input type="radio" name="rd_q33" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>34.</strong> Covering a cooking pot has little effect on smoke emissions.</p>
+              <label><input type="radio" name="rd_q34" value="YES"> YES</label>
+              <label><input type="radio" name="rd_q34" value="NO"> NO</label>
+              <label><input type="radio" name="rd_q34" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>35.</strong> Keeping their children away from the source of heat is a practical option for most mothers.</p>
+              <label><input type="radio" name="rd_q35" value="YES"> YES</label>
+              <label><input type="radio" name="rd_q35" value="NO"> NO</label>
+              <label><input type="radio" name="rd_q35" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+            <div class="q-block">
+              <p><strong>36.</strong> There are some societies where cooking is normally done in the open.</p>
+              <label><input type="radio" name="rd_q36" value="YES"> YES</label>
+              <label><input type="radio" name="rd_q36" value="NO"> NO</label>
+              <label><input type="radio" name="rd_q36" value="NOT GIVEN"> NOT GIVEN</label>
+            </div>
+
+            <h4 style="margin:16px 0 8px;">Questions 37–40</h4>
+            <p style="margin-bottom:8px; font-size:13px; color:#475569;">Complete each sentence with the correct ending, A–G:</p>
+            <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:10px; border-radius:4px; font-size:13px; margin-bottom:10px; line-height:1.6;">
+              <strong>A.</strong> an increase in the size of windows.<br>
+              <strong>B.</strong> a fuel-saving method of cooking mainly without fire.<br>
+              <strong>C.</strong> the use of solid plant or animal matter as fuel.<br>
+              <strong>D.</strong> a focus on the single most effective cooking method.<br>
+              <strong>E.</strong> the possibility of choice for users.<br>
+              <strong>F.</strong> the conversion of solid organic waste into gas.<br>
+              <strong>G.</strong> the suitability of its design and construction.
+            </div>
+            <div class="q-row"><strong>37.</strong> The best way to cut smoke pollution is to discourage <select id="rd_q37"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="q-row"><strong>38.</strong> The effectiveness of a chimney stove depends on <select id="rd_q38"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="q-row"><strong>39.</strong> In Nairobi, a technique which proved popular was <select id="rd_q39"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+            <div class="q-row"><strong>40.</strong> Successful projects to reduce indoor pollution must involve <select id="rd_q40"><option value="">--</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></div>
+          `
+        }
+      ],
+      answers: {
+        1: ["infection"],
+        2: ["soldiers"],
+        3: ["lecture"],
+        4: ["sounds"],
+        5: ["finger"],
+        6: ["line"],
+        7: ["decapoint"],
+        8: ["not given"],
+        9: ["false"],
+        10: ["true"],
+        11: ["not given"],
+        12: ["true"],
+        13: ["false"],
+        14: ["d"],
+        15: ["g"],
+        16: ["b"],
+        17: ["a"],
+        18: ["h"],
+        19: ["b"],
+        20: ["a"],
+        21: ["b"],
+        22: ["c"],
+        23: ["poetics"],
+        24: ["tragedy"],
+        25: ["landmarks"],
+        26: ["weaknesses"],
+        27: ["a"],
+        28: ["c"],
+        29: ["b"],
+        30: ["a"],
+        31: ["d"],
+        32: ["yes"],
+        33: ["not given"],
+        34: ["no"],
+        35: ["no"],
+        36: ["yes"],
+        37: ["c"],
+        38: ["g"],
+        39: ["b"],
+        40: ["e"]
+      }
     }
+  ],
+
+  // ==========================================
+  // 4. PRACTICE MODE DATA (?mode=practice)
+  // ==========================================
+  practiceWriting: {
+    variantId: "Practice Writing 1",
+    task1Text: "The bar graph below shows the percentage growth in average property prices in three different countries between 2007 and 2010.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.",
+    task1Image: "practice1.png",
+    task2Text: "Some people think that parents should teach their children how to be good members of society. Others, however, believe that school is the best place to learn this.\n\nDiscuss both views and give your own opinion.\n\nWrite at least 250 words."
   }
+  // Keep your existing practiceListening and practiceReading blocks right here!
 };
