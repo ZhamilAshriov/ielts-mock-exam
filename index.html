@@ -30,8 +30,8 @@
     .card p { font-size: 14px; color: #475569; margin-bottom: 24px; line-height: 1.5; }
     .input-group { text-align: left; margin-bottom: 16px; }
     .input-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 6px; color: #334155; }
-    .input-group input { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; outline: none; }
-    .input-group input:focus { border-color: #0284c7; }
+    .input-group input, .input-group select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; outline: none; background: #fff; }
+    .input-group input:focus, .input-group select:focus { border-color: #D32F2F; }
     .btn-card { width: 100%; padding: 12px; background: #0b1a30; color: #fff; border: none; border-radius: 4px; font-weight: bold; font-size: 15px; cursor: pointer; margin-top: 8px; }
     .btn-card:hover { background: #1e293b; }
 
@@ -109,7 +109,7 @@
       color: #ffffff !important;
     }
 
-    .input-group input:focus, textarea.exam-text:focus {
+    .input-group input:focus, .input-group select:focus, textarea.exam-text:focus {
       outline: none !important;
       border-color: var(--hs-red) !important;
       box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15) !important;
@@ -117,6 +117,20 @@
   </style>
 </head>
 <body>
+
+  <!-- Portal Closed Lock Screen (Controlled via admin.html) -->
+  <div id="portal-closed-overlay" style="display: none; position: fixed; inset: 0; background: #0b1a30; color: #ffffff; z-index: 999999; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px;">
+    <div style="background: #ffffff; color: #0f172a; border-radius: 8px; padding: 40px 32px; max-width: 460px; width: 100%; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
+      <div class="hs-brand-header" style="margin-bottom: 16px; padding-bottom: 12px;">
+        <div class="hs-brand-title" style="font-size: 32px;">HIGH SCORE</div>
+        <div class="hs-brand-subtitle" style="font-size: 14px;">EDUCATIONAL CENTER</div>
+      </div>
+      <h1 style="font-size: 22px; color: #D32F2F; margin-bottom: 12px;">Exam Portal Currently Closed</h1>
+      <p id="portal-closed-msg" style="font-size: 15px; color: #475569; line-height: 1.5; margin-bottom: 0;">
+        The IELTS Mock Examination session is not open at this time. Please wait for your proctor to open access.
+      </p>
+    </div>
+  </div>
 
   <!-- Top Header -->
   <header>
@@ -132,7 +146,7 @@
     </div>
   </header>
 
-  <!-- SCREEN 1: Candidate Full Name Registration -->
+  <!-- SCREEN 1: Candidate Registration & Variant Selection -->
   <section class="screen active" id="screen-login">
     <div class="modal-container">
       <div class="card">
@@ -141,11 +155,32 @@
           <div class="hs-brand-subtitle">EDUCATIONAL CENTER</div>
         </div>
         <h1>Candidate Registration</h1>
-        <p>Enter your full legal name to begin the exam session.</p>
+        <p>Enter your full legal name and select your assigned test variants.</p>
+
         <div class="input-group">
           <label>Full Name</label>
           <input type="text" id="candidate-name" placeholder="e.g. John Doe" autocomplete="off" autofocus>
         </div>
+
+        <div class="input-group">
+          <label>Reading Test Variant</label>
+          <select id="reading-variant-select">
+            <option value="0">Reading Variant 1</option>
+            <option value="1">Reading Variant 2</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Writing Test Variant</label>
+          <select id="writing-variant-select">
+            <option value="0">Writing Variant 1</option>
+            <option value="1">Writing Variant 2</option>
+            <option value="2">Writing Variant 3</option>
+            <option value="3">Writing Variant 4</option>
+            <option value="4">Writing Variant 5</option>
+          </select>
+        </div>
+
         <button class="btn-card" onclick="handleLogin()">Proceed to Exam</button>
       </div>
     </div>
@@ -156,23 +191,19 @@
     <div class="modal-container">
       <div class="card">
         <h1>Section 1: Listening</h1>
-        <p>You will have <strong>36 minutes</strong> to complete all 40 questions across Parts 1–4, including transfer time.</p>
+        <p>The audio will be played through the room sound system. You will have <strong>36 minutes</strong> to complete all 40 questions across Parts 1–4, including transfer time.</p>
         <button class="btn-card" onclick="startListening()">Start Listening</button>
       </div>
     </div>
   </section>
 
-  <!-- SCREEN 3: Listening Workspace -->
+  <!-- SCREEN 3: Listening Workspace (No Audio Player — Central Room Audio) -->
   <section class="screen" id="screen-listening-exam">
-    <div id="listening-tabs-bar" style="padding: 10px 12px 0 12px; display: none; gap: 8px; align-items: center; flex-wrap: wrap;">
+    <div style="padding: 10px 12px 0 12px; display: flex; gap: 8px; flex-wrap: wrap;">
       <button class="task-tab active" id="tab-l1" onclick="switchListeningPart(1)">Part 1 (Q1–10)</button>
       <button class="task-tab" id="tab-l2" onclick="switchListeningPart(2)">Part 2 (Q11–20)</button>
       <button class="task-tab" id="tab-l3" onclick="switchListeningPart(3)">Part 3 (Q21–30)</button>
       <button class="task-tab" id="tab-l4" onclick="switchListeningPart(4)">Part 4 (Q31–40)</button>
-      <div id="listening-audio-wrap" style="margin-left: auto; display: flex; align-items: center; gap: 8px; background: #fff; padding: 4px 10px; border: 1px solid #cbd5e1; border-radius: 4px;">
-        <span style="font-size: 12px; font-weight: bold; color: #0b1a30;" id="audio-label">Part 1 Audio:</span>
-        <audio id="listening-audio-player" controls style="height: 30px;"></audio>
-      </div>
     </div>
     <div class="exam-split">
       <div class="pane" id="listening-workspace-pane">
@@ -180,8 +211,8 @@
       </div>
     </div>
     <footer>
-      <div id="listening-footer-left">Listening Section &nbsp;|&nbsp; Use the audio player at the top right for each part</div>
-      <div id="listening-footer-right">40 Questions total</div>
+      <div>Listening Section &nbsp;|&nbsp; Candidates must listen to central room speakers</div>
+      <div id="listening-footer-right">Part 1 Active (40 Questions total)</div>
     </footer>
   </section>
 
@@ -198,7 +229,7 @@
 
   <!-- SCREEN 5: Reading Workspace -->
   <section class="screen" id="screen-reading-exam">
-    <div id="reading-tabs-bar" style="padding: 10px 12px 0 12px; display: none; gap: 8px;">
+    <div style="padding: 10px 12px 0 12px; display: flex; gap: 8px;">
       <button class="task-tab active" id="tab-r1" onclick="switchReadingPart(1)">Passage 1 (Q1–13)</button>
       <button class="task-tab" id="tab-r2" onclick="switchReadingPart(2)">Passage 2 (Q14–26)</button>
       <button class="task-tab" id="tab-r3" onclick="switchReadingPart(3)">Passage 3 (Q27–40)</button>
@@ -250,7 +281,7 @@
     </footer>
   </section>
 
-  <!-- SCREEN 8: Thank You / Score (Practice) / Review / Exit -->
+  <!-- SCREEN 8: Thank You / Review / Exit -->
   <section class="screen" id="screen-finished">
     <div class="modal-container">
       <div class="card" style="width: 520px;">
@@ -262,15 +293,6 @@
         <p style="margin-bottom: 16px;">
           Thank you for taking the IELTS Mock Exam with us. Your responses have been recorded. If you have a moment, we’d love to hear your feedback below:
         </p>
-
-        <div id="practice-score-box" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
-          <div style="font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; margin-bottom: 6px;">Practice Mode Results</div>
-          <div style="display: flex; justify-content: space-around; font-size: 16px; color: #0b1a30;">
-            <div>Listening: <strong id="final-lis-score">0</strong> / 40</div>
-            <div>Reading: <strong id="final-rd-score">0</strong> / 40</div>
-          </div>
-          <div style="font-size: 12px; color: #64748b; margin-top: 6px;">Writing will be reviewed by your instructor.</div>
-        </div>
 
         <div id="review-form-wrap" style="text-align: left; margin-bottom: 16px;">
           <div style="display: flex; justify-content: center; gap: 8px; margin-bottom: 12px;" id="star-rating">
@@ -310,11 +332,24 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
+    // Live Admin Open/Close Switch Listener
+    db.collection("exam_meta").doc("portal_status").onSnapshot(doc => {
+      const data = doc.exists ? doc.data() : { isOpen: true };
+      const overlay = document.getElementById("portal-closed-overlay");
+      const msgEl = document.getElementById("portal-closed-msg");
+
+      if (data.isOpen === false) {
+        if (data.closedMessage) msgEl.innerText = data.closedMessage;
+        overlay.style.display = "flex";
+      } else {
+        overlay.style.display = "none";
+      }
+    });
+
     // 2. Exam State Variables
     let candidate = { fullName: "" };
     let assignedWriting = null;
     let assignedReading = null;
-    let activeListening = null;
     let examData = {
       listening: {},
       reading: {},
@@ -328,15 +363,20 @@
     let currentSection = "";
 
     const LISTENING_MINUTES = 36;
-    const isPractice = new URLSearchParams(window.location.search).get("mode") === "practice";
 
     function showScreen(id) {
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
       document.getElementById(id).classList.add("active");
     }
 
-    // 3. Candidate Login & Multi-Section Variant Rotation
+    // 3. Candidate Login & Student Variant Selection
     async function handleLogin() {
+      const statusDoc = await db.collection("exam_meta").doc("portal_status").get();
+      if (statusDoc.exists && statusDoc.data().isOpen === false) {
+        alert("The exam portal is currently closed by the administrator.");
+        return;
+      }
+
       const name = document.getElementById("candidate-name").value.trim();
       if (!name) {
         alert("Please enter your full name to begin the exam.");
@@ -344,91 +384,34 @@
       }
       candidate.fullName = name;
 
+      const rIdx = Number(document.getElementById("reading-variant-select").value);
+      const wIdx = Number(document.getElementById("writing-variant-select").value);
+
       if (typeof EXAM_DATA !== "undefined") {
-        if (isPractice) {
-          assignedWriting = EXAM_DATA.practiceWriting || null;
-          assignedReading = EXAM_DATA.practiceReading || null;
-          activeListening = EXAM_DATA.practiceListening || null;
-        } else {
-          activeListening = EXAM_DATA.officialListening || null;
-
-          const wTotal = (EXAM_DATA.writingVariants || []).length;
-          const rTotal = (EXAM_DATA.readingVariants || []).length;
-          const savedW = sessionStorage.getItem("hs_active_writing_idx");
-          const savedR = sessionStorage.getItem("hs_active_reading_idx");
-
-          if (savedW !== null && savedR !== null && wTotal > 0 && rTotal > 0) {
-            assignedWriting = EXAM_DATA.writingVariants[Number(savedW)];
-            assignedReading = EXAM_DATA.readingVariants[Number(savedR)];
-          } else {
-            try {
-              const counterRef = db.collection("exam_meta").doc("counters");
-              const indices = await db.runTransaction(async (transaction) => {
-                const doc = await transaction.get(counterRef);
-                const data = doc.exists ? doc.data() : {};
-                const curW = data.writingIndex || 0;
-                const curR = data.readingIndex || 0;
-                transaction.set(counterRef, {
-                  writingIndex: wTotal > 0 ? (curW + 1) % wTotal : 0,
-                  readingIndex: rTotal > 0 ? (curR + 1) % rTotal : 0
-                }, { merge: true });
-                return {
-                  w: wTotal > 0 ? curW % wTotal : 0,
-                  r: rTotal > 0 ? curR % rTotal : 0
-                };
-              });
-              if (wTotal > 0) {
-                assignedWriting = EXAM_DATA.writingVariants[indices.w];
-                sessionStorage.setItem("hs_active_writing_idx", String(indices.w));
-              }
-              if (rTotal > 0) {
-                assignedReading = EXAM_DATA.readingVariants[indices.r];
-                sessionStorage.setItem("hs_active_reading_idx", String(indices.r));
-              }
-            } catch (err) {
-              if (wTotal > 0) {
-                const pickW = Math.floor(Math.random() * wTotal);
-                assignedWriting = EXAM_DATA.writingVariants[pickW];
-                sessionStorage.setItem("hs_active_writing_idx", String(pickW));
-              }
-              if (rTotal > 0) {
-                const pickR = Math.floor(Math.random() * rTotal);
-                assignedReading = EXAM_DATA.readingVariants[pickR];
-                sessionStorage.setItem("hs_active_reading_idx", String(pickR));
-              }
-            }
-          }
-        }
+        assignedReading = EXAM_DATA.readingVariants[rIdx] || EXAM_DATA.readingVariants[0];
+        assignedWriting = EXAM_DATA.writingVariants[wIdx] || EXAM_DATA.writingVariants[0];
       }
 
       document.getElementById("header-user").innerText = `Candidate: ${name}`;
       showScreen("screen-listening-splash");
     }
 
-    // 4. Listening Section Logic
+    // 4. Listening Section Logic (Central Room Audio — No Player)
     function saveListeningState() {
       for (let q = 1; q <= 40; q++) {
-        if (isPractice && q >= 18 && q <= 20) continue;
-        if (!isPractice && q >= 27 && q <= 30) continue;
+        if (q >= 27 && q <= 30) continue;
         const textEl = document.getElementById(`lis_q${q}`);
         if (textEl) examData.listening[`q${q}`] = textEl.value.trim();
         const radioEl = document.querySelector(`input[name="lis_q${q}"]:checked`);
         if (radioEl) examData.listening[`q${q}`] = radioEl.value;
       }
-      if (isPractice && document.getElementById("lis_q18_20_group")) {
-        const picks = Array.from(document.querySelectorAll('input[name="lis_multi_18_20"]:checked')).map(cb => cb.value);
-        examData.listening.multi_18_20 = picks;
-        examData.listening.q18 = picks[0] || "";
-        examData.listening.q19 = picks[1] || "";
-        examData.listening.q20 = picks[2] || "";
-      }
-      if (!isPractice && document.getElementById("lis_q27_28_group")) {
+      if (document.getElementById("lis_q27_28_group")) {
         const p27 = Array.from(document.querySelectorAll('input[name="lis_multi_27_28"]:checked')).map(cb => cb.value);
         examData.listening.multi_27_28 = p27;
         examData.listening.q27 = p27[0] || "";
         examData.listening.q28 = p27[1] || "";
       }
-      if (!isPractice && document.getElementById("lis_q29_30_group")) {
+      if (document.getElementById("lis_q29_30_group")) {
         const p29 = Array.from(document.querySelectorAll('input[name="lis_multi_29_30"]:checked')).map(cb => cb.value);
         examData.listening.multi_29_30 = p29;
         examData.listening.q29 = p29[0] || "";
@@ -445,7 +428,7 @@
         const radioEl = document.querySelector(`input[name="lis_q${q}"][value="${val}"]`);
         if (radioEl) radioEl.checked = true;
       }
-      ["multi_18_20", "multi_27_28", "multi_29_30"].forEach(groupKey => {
+      ["multi_27_28", "multi_29_30"].forEach(groupKey => {
         if (Array.isArray(examData.listening[groupKey])) {
           document.querySelectorAll(`input[name="lis_${groupKey}"]`).forEach(cb => {
             cb.checked = examData.listening[groupKey].includes(cb.value);
@@ -455,16 +438,13 @@
     }
 
     function switchListeningPart(partNum) {
-      if (!activeListening) return;
+      if (typeof EXAM_DATA === "undefined" || !EXAM_DATA.listening) return;
       saveListeningState();
       currentListeningPart = partNum;
       [1, 2, 3, 4].forEach(n => document.getElementById(`tab-l${n}`).classList.toggle("active", n === partNum));
 
-      const partObj = activeListening.parts[partNum - 1];
+      const partObj = EXAM_DATA.listening.parts[partNum - 1];
       document.getElementById("listening-workspace-pane").innerHTML = `<h3 style="margin-bottom:12px;">${partObj.title}</h3>${partObj.html}`;
-      document.getElementById("audio-label").innerText = `Part ${partNum} Audio:`;
-      const player = document.getElementById("listening-audio-player");
-      player.src = partObj.audio;
       document.getElementById("listening-footer-right").innerText = `Part ${partNum} Active (40 Questions total)`;
       restoreListeningState();
     }
@@ -474,17 +454,10 @@
       document.getElementById("header-stage").innerText = "IELTS — Listening";
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-listening-exam");
-
-      if (activeListening) {
-        document.getElementById("listening-tabs-bar").style.display = "flex";
-        document.getElementById("listening-footer-left").innerText = "Listening Section | Use the audio player at the top right for each part";
-        switchListeningPart(1);
-      }
+      switchListeningPart(1);
 
       runTimer(LISTENING_MINUTES * 60, () => {
         saveListeningState();
-        const player = document.getElementById("listening-audio-player");
-        if (player) player.pause();
         showScreen("screen-reading-splash");
       });
     }
@@ -525,18 +498,11 @@
 
     function startReading() {
       saveListeningState();
-      const player = document.getElementById("listening-audio-player");
-      if (player) player.pause();
-
       currentSection = "reading";
       document.getElementById("header-stage").innerText = "IELTS — Reading";
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-reading-exam");
-
-      if (assignedReading) {
-        document.getElementById("reading-tabs-bar").style.display = "flex";
-        switchReadingPart(1);
-      }
+      switchReadingPart(1);
 
       runTimer(60 * 60, () => {
         saveReadingState();
@@ -628,8 +594,6 @@
         clearInterval(timerInterval);
         if (currentSection === "listening") {
           saveListeningState();
-          const player = document.getElementById("listening-audio-player");
-          if (player) player.pause();
           showScreen("screen-reading-splash");
         } else if (currentSection === "reading") {
           saveReadingState();
@@ -645,26 +609,19 @@
       let lisScore = 0;
       let rdScore = 0;
 
-      if (activeListening && activeListening.answers) {
-        const key = activeListening.answers;
+      if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.listening && EXAM_DATA.listening.answers) {
+        const key = EXAM_DATA.listening.answers;
         for (let q = 1; q <= 40; q++) {
-          if (isPractice && q >= 18 && q <= 20) continue;
-          if (!isPractice && q >= 27 && q <= 30) continue;
+          if (q >= 27 && q <= 30) continue;
           const userAns = (examData.listening[`q${q}`] || "").trim().toLowerCase().replace(/^£\s*/, "");
           if (userAns && key[q] && key[q].includes(userAns)) lisScore++;
         }
-        if (isPractice) {
-          [...new Set((examData.listening.multi_18_20 || []).map(v => v.toLowerCase()))].slice(0, 3).forEach(pick => {
-            if (["c", "e", "f"].includes(pick)) lisScore++;
-          });
-        } else {
-          [...new Set((examData.listening.multi_27_28 || []).map(v => v.toLowerCase()))].slice(0, 2).forEach(pick => {
-            if (["b", "c"].includes(pick)) lisScore++;
-          });
-          [...new Set((examData.listening.multi_29_30 || []).map(v => v.toLowerCase()))].slice(0, 2).forEach(pick => {
-            if (["d", "e"].includes(pick)) lisScore++;
-          });
-        }
+        [...new Set((examData.listening.multi_27_28 || []).map(v => v.toLowerCase()))].slice(0, 2).forEach(pick => {
+          if (["b", "c"].includes(pick)) lisScore++;
+        });
+        [...new Set((examData.listening.multi_29_30 || []).map(v => v.toLowerCase()))].slice(0, 2).forEach(pick => {
+          if (["d", "e"].includes(pick)) lisScore++;
+        });
       }
 
       if (assignedReading && assignedReading.answers) {
@@ -689,12 +646,11 @@
 
       const submissionData = {
         fullName: candidate.fullName,
-        examMode: isPractice ? "Practice / Beta" : "Official Mock",
+        examMode: "Official Mock",
         submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        listeningVariant: activeListening ? activeListening.variantId : "Practice Listening",
         listeningAnswers: examData.listening,
         listeningScore: scores.lisScore,
-        readingVariant: assignedReading ? assignedReading.variantId : "Practice Reading",
+        readingVariant: assignedReading ? assignedReading.variantId : "Unknown",
         readingAnswers: examData.reading,
         readingScore: scores.rdScore,
         writing: {
@@ -720,13 +676,6 @@
         a.click();
       }
 
-      sessionStorage.removeItem("hs_active_writing_idx");
-      sessionStorage.removeItem("hs_active_reading_idx");
-      if (isPractice) {
-        document.getElementById("final-lis-score").innerText = scores.lisScore;
-        document.getElementById("final-rd-score").innerText = scores.rdScore;
-        document.getElementById("practice-score-box").style.display = "block";
-      }
       showScreen("screen-finished");
     }
 
@@ -759,7 +708,7 @@
           fullName: candidate.fullName || "Anonymous Candidate",
           rating: selectedRating,
           comment: comment,
-          examMode: isPractice ? "Practice / Beta" : "Official Mock",
+          readingVariant: assignedReading ? assignedReading.variantId : "Unknown",
           writingVariant: assignedWriting ? assignedWriting.variantId : "Unknown",
           submittedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
@@ -779,16 +728,13 @@
     }
   </script>
 
-  <!-- 10. Anti-Cheat & Fullscreen Proctoring Script (Official Mode Only) -->
+  <!-- 10. Anti-Cheat & Fullscreen Proctoring Script -->
   <script>
   (function () {
     const MAX_WARNINGS = 3;
     const BAN_DURATION_MS = 24 * 60 * 60 * 1000;
     const STORAGE_BAN_KEY = 'hs_ielts_ban_until';
     const STORAGE_WARN_KEY = 'hs_ielts_warn_count';
-
-    const isPracticeMode = new URLSearchParams(window.location.search).get('mode') === 'practice';
-    if (isPracticeMode) return;
 
     let examActive = false;
     let studentName = 'Неизвестный кандидат';
