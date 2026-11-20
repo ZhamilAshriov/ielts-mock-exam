@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>IELTS Computer-Delivered Examination</title>
 
-  <!-- Подключение Google Firebase -->
+  <!-- Google Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
@@ -42,11 +42,19 @@
     .task-tab { padding: 8px 16px; border: 1px solid #cbd5e1; background: #e2e8f0; cursor: pointer; font-weight: bold; font-size: 13px; }
     .task-tab.active { background: #0b1a30; color: #fff; border-color: #0b1a30; }
 
+    /* Question Inputs & Layout */
+    .inline-q { padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; width: 155px; font-size: 14px; }
+    .q-block { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
+    .q-block p { margin-bottom: 6px; font-size: 14px; }
+    .q-block label { display: block; margin-bottom: 4px; font-size: 14px; cursor: pointer; }
+    .q-row { margin-bottom: 10px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+    .q-row select { padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; font-size: 14px; min-width: 110px; }
+
     /* Footer */
     footer { background: #fff; border-top: 1px solid #cbd5e1; padding: 8px 24px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
   </style>
 
-  <!-- Подключение фирменного шрифта для логотипа HIGH SCORE -->
+  <!-- HIGH SCORE Brand Font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap" rel="stylesheet">
@@ -106,12 +114,6 @@
       border-color: var(--hs-red) !important;
       box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15) !important;
     }
-    .inline-q { padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; width: 155px; font-size: 14px; }
-    .q-block { margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid #f1f5f9; }
-    .q-block p { margin-bottom: 6px; font-size: 14px; }
-    .q-block label { display: block; margin-bottom: 4px; font-size: 14px; cursor: pointer; }
-    .q-row { margin-bottom: 10px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; gap: 12px; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
-    .q-row select { padding: 4px 8px; border: 1px solid #94a3b8; border-radius: 4px; font-size: 14px; min-width: 110px; }
   </style>
 </head>
 <body>
@@ -154,7 +156,7 @@
     <div class="modal-container">
       <div class="card">
         <h1>Section 1: Listening</h1>
-        <p>The audio will be played through the room sound system. You will have <strong>36 minutes</strong> to complete all questions, including transfer time.</p>
+        <p>You will have <strong>36 minutes</strong> to complete all 40 questions across Parts 1–4, including transfer time.</p>
         <button class="btn-card" onclick="startListening()">Start Listening</button>
       </div>
     </div>
@@ -174,27 +176,21 @@
     </div>
     <div class="exam-split">
       <div class="pane" id="listening-workspace-pane">
-        <h3 style="margin-bottom: 12px;">Part 1: Questions 1–10</h3>
-        <p style="margin-bottom: 16px; color: #475569;">Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong>.</p>
-        <div style="line-height: 2.2; font-size: 15px;">
-          • Customer Surname: <input type="text" id="lis_q1" style="padding: 4px; border: 1px solid #cbd5e1; width: 140px;"> <br>
-          • Contact Phone: <input type="text" id="lis_q2" style="padding: 4px; border: 1px solid #cbd5e1; width: 140px;"> <br>
-          • Requested Area: <input type="text" id="lis_q3" style="padding: 4px; border: 1px solid #cbd5e1; width: 140px;">
-        </div>
+        <p style="color: #475569;">Loading Listening questions...</p>
       </div>
     </div>
     <footer>
-      <div id="listening-footer-left">Listening Section &nbsp;|&nbsp; Candidates must listen to central speakers</div>
-      <div id="listening-footer-right">Questions 1–10 active</div>
+      <div id="listening-footer-left">Listening Section &nbsp;|&nbsp; Use the audio player at the top right for each part</div>
+      <div id="listening-footer-right">40 Questions total</div>
     </footer>
   </section>
-  
+
   <!-- SCREEN 4: Reading Splash -->
   <section class="screen" id="screen-reading-splash">
     <div class="modal-container">
       <div class="card">
         <h1>Section 2: Reading</h1>
-        <p>You have exactly <strong>60 minutes</strong> to complete all 3 reading passages. There is no extra transfer time.</p>
+        <p>You have exactly <strong>60 minutes</strong> to complete all 3 reading passages (40 questions). There is no extra transfer time.</p>
         <button class="btn-card" onclick="startReading()">Start Reading (60 Minutes)</button>
       </div>
     </div>
@@ -209,18 +205,10 @@
     </div>
     <div class="exam-split">
       <div class="pane" id="reading-passage-pane">
-        <h3 style="margin-bottom: 10px;">Reading Passage 1</h3>
-        <p style="line-height: 1.6; text-align: justify; margin-bottom: 12px;">
-          The Roman aqueduct was an engineering marvel that supplied freshwater across vast territories...
-        </p>
+        <p style="color: #475569;">Loading Reading passage...</p>
       </div>
       <div class="pane" id="reading-questions-pane">
-        <h3 style="margin-bottom: 10px;">Questions 1–5</h3>
-        <p style="margin-bottom: 12px;">Choose the correct letter A, B, C or D.</p>
-        <div>
-          <label style="display:block; margin-bottom: 6px;"><input type="radio" name="rd_q1" value="A"> A. Structural durability</label>
-          <label style="display:block; margin-bottom: 6px;"><input type="radio" name="rd_q1" value="B"> B. Prevention of contamination</label>
-        </div>
+        <p style="color: #475569;">Loading Reading questions...</p>
       </div>
     </div>
     <footer>
@@ -262,7 +250,7 @@
     </footer>
   </section>
 
-  <!-- SCREEN 8: Thank You / Review / Exit -->
+  <!-- SCREEN 8: Thank You / Score (Practice) / Review / Exit -->
   <section class="screen" id="screen-finished">
     <div class="modal-container">
       <div class="card" style="width: 520px;">
@@ -274,7 +262,8 @@
         <p style="margin-bottom: 16px;">
           Thank you for taking the IELTS Mock Exam with us. Your responses have been recorded. If you have a moment, we’d love to hear your feedback below:
         </p>
-          <div id="practice-score-box" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
+
+        <div id="practice-score-box" style="display: none; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 14px; margin-bottom: 16px;">
           <div style="font-size: 12px; font-weight: bold; color: #475569; text-transform: uppercase; margin-bottom: 6px;">Practice Mode Results</div>
           <div style="display: flex; justify-content: space-around; font-size: 16px; color: #0b1a30;">
             <div>Listening: <strong id="final-lis-score">0</strong> / 40</div>
@@ -304,11 +293,11 @@
     </div>
   </section>
 
-  <!-- Подключение файла с вариантами заданий -->
+  <!-- Exam Variants & Questions Data -->
   <script src="exam-data.js"></script>
 
   <script>
-    // 1. Инициализация вашей базы данных Firebase
+    // 1. Firebase Initialization
     const firebaseConfig = {
       apiKey: "AIzaSyCN_FTvYGnk0dF-2RSjsiJbS8Kyb-SI7qY",
       authDomain: "ielts-mock-portal-30e72.firebaseapp.com",
@@ -321,15 +310,19 @@
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
 
-    // 2. Переменные экзамена
+    // 2. Exam State Variables
     let candidate = { fullName: "" };
     let assignedWriting = null;
+    let assignedReading = null;
+    let activeListening = null;
     let examData = {
       listening: {},
       reading: {},
       writing: { task1: "", task2: "" }
     };
     let currentWritingTask = 1;
+    let currentListeningPart = 1;
+    let currentReadingPart = 1;
     let timerInterval = null;
     let remainingSeconds = 0;
     let currentSection = "";
@@ -342,6 +335,7 @@
       document.getElementById(id).classList.add("active");
     }
 
+    // 3. Candidate Login & Multi-Section Variant Rotation
     async function handleLogin() {
       const name = document.getElementById("candidate-name").value.trim();
       if (!name) {
@@ -351,37 +345,57 @@
       candidate.fullName = name;
 
       if (typeof EXAM_DATA !== "undefined") {
-        // 1. If opened with ?mode=practice, use the separate practice Writing task
-        if (isPractice && EXAM_DATA.practiceWriting) {
-          assignedWriting = EXAM_DATA.practiceWriting;
-        } 
-        // 2. Otherwise, use the sequential rotation across your 5 real Writing variants
-        else if (EXAM_DATA.writingVariants && EXAM_DATA.writingVariants.length > 0) {
-          const total = EXAM_DATA.writingVariants.length;
-          const savedIndex = sessionStorage.getItem("hs_active_writing_idx");
+        if (isPractice) {
+          assignedWriting = EXAM_DATA.practiceWriting || null;
+          assignedReading = EXAM_DATA.practiceReading || null;
+          activeListening = EXAM_DATA.practiceListening || null;
+        } else {
+          activeListening = EXAM_DATA.officialListening || null;
 
-          if (savedIndex !== null && EXAM_DATA.writingVariants[Number(savedIndex)]) {
-            assignedWriting = EXAM_DATA.writingVariants[Number(savedIndex)];
+          const wTotal = (EXAM_DATA.writingVariants || []).length;
+          const rTotal = (EXAM_DATA.readingVariants || []).length;
+          const savedW = sessionStorage.getItem("hs_active_writing_idx");
+          const savedR = sessionStorage.getItem("hs_active_reading_idx");
+
+          if (savedW !== null && savedR !== null && wTotal > 0 && rTotal > 0) {
+            assignedWriting = EXAM_DATA.writingVariants[Number(savedW)];
+            assignedReading = EXAM_DATA.readingVariants[Number(savedR)];
           } else {
             try {
               const counterRef = db.collection("exam_meta").doc("counters");
-              const nextIndex = await db.runTransaction(async (transaction) => {
+              const indices = await db.runTransaction(async (transaction) => {
                 const doc = await transaction.get(counterRef);
-                const current = doc.exists ? (doc.data().writingIndex || 0) : 0;
-                transaction.set(counterRef, { writingIndex: (current + 1) % total }, { merge: true });
-                return current % total;
+                const data = doc.exists ? doc.data() : {};
+                const curW = data.writingIndex || 0;
+                const curR = data.readingIndex || 0;
+                transaction.set(counterRef, {
+                  writingIndex: wTotal > 0 ? (curW + 1) % wTotal : 0,
+                  readingIndex: rTotal > 0 ? (curR + 1) % rTotal : 0
+                }, { merge: true });
+                return {
+                  w: wTotal > 0 ? curW % wTotal : 0,
+                  r: rTotal > 0 ? curR % rTotal : 0
+                };
               });
-              assignedWriting = EXAM_DATA.writingVariants[nextIndex];
-              sessionStorage.setItem("hs_active_writing_idx", String(nextIndex));
+              if (wTotal > 0) {
+                assignedWriting = EXAM_DATA.writingVariants[indices.w];
+                sessionStorage.setItem("hs_active_writing_idx", String(indices.w));
+              }
+              if (rTotal > 0) {
+                assignedReading = EXAM_DATA.readingVariants[indices.r];
+                sessionStorage.setItem("hs_active_reading_idx", String(indices.r));
+              }
             } catch (err) {
-              let used = JSON.parse(localStorage.getItem("hs_used_writing") || "[]");
-              if (used.length >= total) used = [];
-              const available = EXAM_DATA.writingVariants.map((_, i) => i).filter(i => !used.includes(i));
-              const pick = available[Math.floor(Math.random() * available.length)];
-              used.push(pick);
-              localStorage.setItem("hs_used_writing", JSON.stringify(used));
-              assignedWriting = EXAM_DATA.writingVariants[pick];
-              sessionStorage.setItem("hs_active_writing_idx", String(pick));
+              if (wTotal > 0) {
+                const pickW = Math.floor(Math.random() * wTotal);
+                assignedWriting = EXAM_DATA.writingVariants[pickW];
+                sessionStorage.setItem("hs_active_writing_idx", String(pickW));
+              }
+              if (rTotal > 0) {
+                const pickR = Math.floor(Math.random() * rTotal);
+                assignedReading = EXAM_DATA.readingVariants[pickR];
+                sessionStorage.setItem("hs_active_reading_idx", String(pickR));
+              }
             }
           }
         }
@@ -390,29 +404,39 @@
       document.getElementById("header-user").innerText = `Candidate: ${name}`;
       showScreen("screen-listening-splash");
     }
-      
-    let currentListeningPart = 1;
-    let currentReadingPart = 1;
 
-    function savePracticeListeningState() {
-      if (!isPractice) return;
+    // 4. Listening Section Logic
+    function saveListeningState() {
       for (let q = 1; q <= 40; q++) {
-        if (q >= 18 && q <= 20) continue;
+        if (isPractice && q >= 18 && q <= 20) continue;
+        if (!isPractice && q >= 27 && q <= 30) continue;
         const textEl = document.getElementById(`lis_q${q}`);
         if (textEl) examData.listening[`q${q}`] = textEl.value.trim();
         const radioEl = document.querySelector(`input[name="lis_q${q}"]:checked`);
         if (radioEl) examData.listening[`q${q}`] = radioEl.value;
       }
-      const checkedBoxes = Array.from(document.querySelectorAll('input[name="lis_multi_18_20"]:checked')).map(cb => cb.value);
-      if (document.getElementById("lis_q18_20_group")) {
-        examData.listening.multi_18_20 = checkedBoxes;
-        examData.listening.q18 = checkedBoxes[0] || "";
-        examData.listening.q19 = checkedBoxes[1] || "";
-        examData.listening.q20 = checkedBoxes[2] || "";
+      if (isPractice && document.getElementById("lis_q18_20_group")) {
+        const picks = Array.from(document.querySelectorAll('input[name="lis_multi_18_20"]:checked')).map(cb => cb.value);
+        examData.listening.multi_18_20 = picks;
+        examData.listening.q18 = picks[0] || "";
+        examData.listening.q19 = picks[1] || "";
+        examData.listening.q20 = picks[2] || "";
+      }
+      if (!isPractice && document.getElementById("lis_q27_28_group")) {
+        const p27 = Array.from(document.querySelectorAll('input[name="lis_multi_27_28"]:checked')).map(cb => cb.value);
+        examData.listening.multi_27_28 = p27;
+        examData.listening.q27 = p27[0] || "";
+        examData.listening.q28 = p27[1] || "";
+      }
+      if (!isPractice && document.getElementById("lis_q29_30_group")) {
+        const p29 = Array.from(document.querySelectorAll('input[name="lis_multi_29_30"]:checked')).map(cb => cb.value);
+        examData.listening.multi_29_30 = p29;
+        examData.listening.q29 = p29[0] || "";
+        examData.listening.q30 = p29[1] || "";
       }
     }
 
-    function restorePracticeListeningState() {
+    function restoreListeningState() {
       for (let q = 1; q <= 40; q++) {
         const val = examData.listening[`q${q}`];
         if (!val) continue;
@@ -421,48 +445,52 @@
         const radioEl = document.querySelector(`input[name="lis_q${q}"][value="${val}"]`);
         if (radioEl) radioEl.checked = true;
       }
-      if (Array.isArray(examData.listening.multi_18_20)) {
-        document.querySelectorAll('input[name="lis_multi_18_20"]').forEach(cb => {
-          cb.checked = examData.listening.multi_18_20.includes(cb.value);
-        });
-      }
+      ["multi_18_20", "multi_27_28", "multi_29_30"].forEach(groupKey => {
+        if (Array.isArray(examData.listening[groupKey])) {
+          document.querySelectorAll(`input[name="lis_${groupKey}"]`).forEach(cb => {
+            cb.checked = examData.listening[groupKey].includes(cb.value);
+          });
+        }
+      });
     }
 
     function switchListeningPart(partNum) {
-      savePracticeListeningState();
+      if (!activeListening) return;
+      saveListeningState();
       currentListeningPart = partNum;
       [1, 2, 3, 4].forEach(n => document.getElementById(`tab-l${n}`).classList.toggle("active", n === partNum));
 
-      const partObj = EXAM_DATA.practiceListening.parts[partNum - 1];
+      const partObj = activeListening.parts[partNum - 1];
       document.getElementById("listening-workspace-pane").innerHTML = `<h3 style="margin-bottom:12px;">${partObj.title}</h3>${partObj.html}`;
       document.getElementById("audio-label").innerText = `Part ${partNum} Audio:`;
       const player = document.getElementById("listening-audio-player");
       player.src = partObj.audio;
       document.getElementById("listening-footer-right").innerText = `Part ${partNum} Active (40 Questions total)`;
-      restorePracticeListeningState();
+      restoreListeningState();
     }
 
-    // Старт Listening
     function startListening() {
       currentSection = "listening";
       document.getElementById("header-stage").innerText = "IELTS — Listening";
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-listening-exam");
 
-      if (isPractice && typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceListening) {
+      if (activeListening) {
         document.getElementById("listening-tabs-bar").style.display = "flex";
-        document.getElementById("listening-footer-left").innerText = "Listening Practice Mode | Use the audio player at the top right for each part";
+        document.getElementById("listening-footer-left").innerText = "Listening Section | Use the audio player at the top right for each part";
         switchListeningPart(1);
       }
 
       runTimer(LISTENING_MINUTES * 60, () => {
-        savePracticeListeningState();
+        saveListeningState();
+        const player = document.getElementById("listening-audio-player");
+        if (player) player.pause();
         showScreen("screen-reading-splash");
       });
     }
 
-    function savePracticeReadingState() {
-      if (!isPractice) return;
+    // 5. Reading Section Logic
+    function saveReadingState() {
       for (let q = 1; q <= 40; q++) {
         const selEl = document.getElementById(`rd_q${q}`);
         if (selEl) examData.reading[`q${q}`] = selEl.value;
@@ -471,7 +499,7 @@
       }
     }
 
-    function restorePracticeReadingState() {
+    function restoreReadingState() {
       for (let q = 1; q <= 40; q++) {
         const val = examData.reading[`q${q}`];
         if (!val) continue;
@@ -483,20 +511,20 @@
     }
 
     function switchReadingPart(partNum) {
-      savePracticeReadingState();
+      if (!assignedReading) return;
+      saveReadingState();
       currentReadingPart = partNum;
       [1, 2, 3].forEach(n => document.getElementById(`tab-r${n}`).classList.toggle("active", n === partNum));
 
-      const partObj = EXAM_DATA.practiceReading.passages[partNum - 1];
+      const partObj = assignedReading.passages[partNum - 1];
       document.getElementById("reading-passage-pane").innerHTML = `<div style="line-height:1.65; text-align:justify;">${partObj.passageHtml}</div>`;
       document.getElementById("reading-questions-pane").innerHTML = partObj.questionsHtml;
       document.getElementById("reading-footer-right").innerText = `Passage ${partNum} Active (40 Questions total)`;
-      restorePracticeReadingState();
+      restoreReadingState();
     }
 
-    // Старт Reading
     function startReading() {
-      savePracticeListeningState();
+      saveListeningState();
       const player = document.getElementById("listening-audio-player");
       if (player) player.pause();
 
@@ -505,18 +533,18 @@
       document.getElementById("header-timer-wrap").style.display = "flex";
       showScreen("screen-reading-exam");
 
-      if (isPractice && typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceReading) {
+      if (assignedReading) {
         document.getElementById("reading-tabs-bar").style.display = "flex";
         switchReadingPart(1);
       }
 
       runTimer(60 * 60, () => {
-        savePracticeReadingState();
+        saveReadingState();
         showScreen("screen-writing-splash");
       });
     }
 
-    // Отрисовка текста и картинки для выбранного варианта Writing
+    // 6. Writing Section Logic
     function renderWritingPrompt(taskNum) {
       const titleEl = document.getElementById("w-prompt-title");
       const textEl = document.getElementById("w-prompt-text");
@@ -544,7 +572,6 @@
       }
     }
 
-    // Старт Writing
     function startWriting() {
       currentSection = "writing";
       document.getElementById("header-stage").innerText = "IELTS — Writing";
@@ -557,7 +584,6 @@
       });
     }
 
-    // Переключение Task 1 / Task 2
     function switchWritingTask(taskNum) {
       examData.writing[`task${currentWritingTask}`] = document.getElementById("writing-area").value;
       currentWritingTask = taskNum;
@@ -575,7 +601,7 @@
       examData.writing[`task${currentWritingTask}`] = document.getElementById("writing-area").value;
     }
 
-    // Таймер
+    // 7. Timer & Section Controls
     function runTimer(seconds, onComplete) {
       clearInterval(timerInterval);
       remainingSeconds = seconds;
@@ -601,12 +627,12 @@
       if (confirm("Are you sure you want to finish this section early? You cannot return to it.")) {
         clearInterval(timerInterval);
         if (currentSection === "listening") {
-          savePracticeListeningState();
+          saveListeningState();
           const player = document.getElementById("listening-audio-player");
           if (player) player.pause();
           showScreen("screen-reading-splash");
         } else if (currentSection === "reading") {
-          savePracticeReadingState();
+          saveReadingState();
           showScreen("screen-writing-splash");
         } else if (currentSection === "writing") {
           completeAllExams();
@@ -614,57 +640,62 @@
       }
     }
 
-    function gradePracticeAnswers() {
+    // 8. Automated Scoring & Firestore Submission
+    function gradeAllAnswers() {
       let lisScore = 0;
       let rdScore = 0;
 
-      if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceListening) {
-        const key = EXAM_DATA.practiceListening.answers;
+      if (activeListening && activeListening.answers) {
+        const key = activeListening.answers;
         for (let q = 1; q <= 40; q++) {
-          if (q >= 18 && q <= 20) continue;
+          if (isPractice && q >= 18 && q <= 20) continue;
+          if (!isPractice && q >= 27 && q <= 30) continue;
           const userAns = (examData.listening[`q${q}`] || "").trim().toLowerCase().replace(/^£\s*/, "");
           if (userAns && key[q] && key[q].includes(userAns)) lisScore++;
         }
-        const multiPicks = [...new Set((examData.listening.multi_18_20 || []).map(v => v.toLowerCase()))].slice(0, 3);
-        multiPicks.forEach(pick => {
-          if (["c", "e", "f"].includes(pick)) lisScore++;
-        });
+        if (isPractice) {
+          [...new Set((examData.listening.multi_18_20 || []).map(v => v.toLowerCase()))].slice(0, 3).forEach(pick => {
+            if (["c", "e", "f"].includes(pick)) lisScore++;
+          });
+        } else {
+          [...new Set((examData.listening.multi_27_28 || []).map(v => v.toLowerCase()))].slice(0, 2).forEach(pick => {
+            if (["b", "c"].includes(pick)) lisScore++;
+          });
+          [...new Set((examData.listening.multi_29_30 || []).map(v => v.toLowerCase()))].slice(0, 2).forEach(pick => {
+            if (["d", "e"].includes(pick)) lisScore++;
+          });
+        }
       }
 
-      if (typeof EXAM_DATA !== "undefined" && EXAM_DATA.practiceReading) {
-        const rKey = EXAM_DATA.practiceReading.answers;
+      if (assignedReading && assignedReading.answers) {
+        const rKey = assignedReading.answers;
         for (let q = 1; q <= 40; q++) {
-          const userAns = (examData.reading[`q${q}`] || "").trim().toUpperCase();
-          if (userAns && rKey[q] && userAns === rKey[q].toUpperCase()) rdScore++;
+          const userAns = (examData.reading[`q${q}`] || "").trim().toLowerCase();
+          if (userAns && rKey[q] && rKey[q].includes(userAns)) rdScore++;
         }
       }
 
       return { lisScore, rdScore };
     }
 
-    // Финал: Автосохранение в Cloud Firestore
     async function completeAllExams() {
       clearInterval(timerInterval);
-      savePracticeListeningState();
-      savePracticeReadingState();
+      saveListeningState();
+      saveReadingState();
       document.getElementById("header-timer-wrap").style.display = "none";
       document.getElementById("header-stage").innerText = "IELTS — Finished";
 
-      const scores = isPractice ? gradePracticeAnswers() : { lisScore: null, rdScore: null };
+      const scores = gradeAllAnswers();
 
       const submissionData = {
         fullName: candidate.fullName,
         examMode: isPractice ? "Practice / Beta" : "Official Mock",
         submittedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        listeningAnswers: isPractice ? examData.listening : {
-          q1: document.getElementById("lis_q1") ? document.getElementById("lis_q1").value.trim() : "",
-          q2: document.getElementById("lis_q2") ? document.getElementById("lis_q2").value.trim() : "",
-          q3: document.getElementById("lis_q3") ? document.getElementById("lis_q3").value.trim() : ""
-        },
-        readingAnswers: isPractice ? examData.reading : {
-          q1: document.querySelector('input[name="rd_q1"]:checked')?.value || ""
-        },
+        listeningVariant: activeListening ? activeListening.variantId : "Practice Listening",
+        listeningAnswers: examData.listening,
         listeningScore: scores.lisScore,
+        readingVariant: assignedReading ? assignedReading.variantId : "Practice Reading",
+        readingAnswers: examData.reading,
         readingScore: scores.rdScore,
         writing: {
           variant: assignedWriting ? assignedWriting.variantId : "Unknown",
@@ -690,6 +721,7 @@
       }
 
       sessionStorage.removeItem("hs_active_writing_idx");
+      sessionStorage.removeItem("hs_active_reading_idx");
       if (isPractice) {
         document.getElementById("final-lis-score").innerText = scores.lisScore;
         document.getElementById("final-rd-score").innerText = scores.rdScore;
@@ -697,7 +729,8 @@
       }
       showScreen("screen-finished");
     }
-    // Система отзывов
+
+    // 9. Post-Exam Review System
     let selectedRating = 5;
 
     function setRating(stars) {
@@ -746,7 +779,7 @@
     }
   </script>
 
-  <!-- Скрипт контроля полноэкранного режима и античита -->
+  <!-- 10. Anti-Cheat & Fullscreen Proctoring Script (Official Mode Only) -->
   <script>
   (function () {
     const MAX_WARNINGS = 3;
