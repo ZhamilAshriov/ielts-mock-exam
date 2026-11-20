@@ -60,13 +60,61 @@
       cursor: pointer;
     }
 
+    /* Portal Switch Control Card */
+    .control-bar {
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .status-pill {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .status-open { background: #dcfce7; color: #15803d; border: 1px solid #86efac; }
+    .status-closed { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+
+    .btn-switch-open {
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-switch-open:hover { background: #15803d; }
+
+    .btn-switch-close {
+      background: #dc2626;
+      color: #fff;
+      border: none;
+      padding: 9px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-switch-close:hover { background: #b91c1c; }
+
     /* Table View */
     #dashboard-view { display: none; }
     .table-card {
       background: #fff;
       border-radius: 8px;
       border: 1px solid #cbd5e1;
-      overflow: hidden;
+      overflow-x: auto;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
@@ -86,7 +134,7 @@
     }
     .btn-view:hover { background: #0369a1; }
 
-    /* Essay Review Modal */
+    /* Essay & Answer Review Modal */
     #review-modal {
       display: none;
       position: fixed;
@@ -145,6 +193,16 @@
       border-radius: 4px;
       color: #1e293b;
     }
+    .ans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px;
+      font-size: 13px;
+      background: #fff;
+      padding: 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+    }
     .close-btn {
       background: transparent;
       border: none;
@@ -163,16 +221,36 @@
   </header>
 
   <main>
-    <!-- Simple Access Protection -->
+    <!-- PIN Access Gate -->
     <div id="auth-gate">
       <h3 style="margin-bottom: 6px;">Teacher Verification</h3>
-      <p style="font-size: 13px; color: #64748b;">Enter PIN to view candidate papers</p>
-      <input type="password" id="admin-pin" class="pin-input" placeholder="Enter PIN (Default: 1234)">
+      <p style="font-size: 13px; color: #64748b;">Enter PIN to view candidate papers &amp; control portal</p>
+      <input type="password" id="admin-pin" class="pin-input" placeholder="Enter PIN" onkeydown="if(event.key==='Enter') verifyPin()">
       <button class="btn-login" onclick="verifyPin()">Unlock Dashboard</button>
     </div>
 
-    <!-- Candidate List Table -->
+    <!-- Admin Controls + Candidate List Table -->
     <div id="dashboard-view">
+
+      <!-- Portal Open/Close Control Bar -->
+      <div class="control-bar">
+        <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+          <span style="font-weight: bold; font-size: 15px; color: #0b1a30;">Exam Website Access:</span>
+          <span id="portal-status-pill" class="status-pill status-open">Checking...</span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1; min-width: 260px;">
+          <input type="text" id="closed-msg-input" placeholder="Message shown when portal is closed..."
+            value="The IELTS Mock Examination session is not open at this time. Please wait for your proctor to open access."
+            style="flex: 1; min-width: 220px; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 13px;">
+        </div>
+
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="btn-switch-open" onclick="setPortalState(true)">Open Website</button>
+          <button class="btn-switch-close" onclick="setPortalState(false)">Close Website</button>
+        </div>
+      </div>
+
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
         <h2 style="font-size: 18px;">Exam Results Table</h2>
         <button onclick="fetchSubmissions()" style="padding: 6px 12px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; font-size: 13px;">🔄 Refresh List</button>
@@ -183,11 +261,12 @@
           <thead>
             <tr>
               <th>Candidate Name</th>
-              <th>Submitted Time</th>
-              <th>Task 1 Words</th>
-              <th>Task 2 Words</th>
-              <th>Listening Ans</th>
-              <th>Reading Ans</th>
+              <th>Submitted</th>
+              <th>Listening</th>
+              <th>Reading</th>
+              <th>Variants</th>
+              <th>Task 1</th>
+              <th>Task 2</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -209,7 +288,7 @@
       <div class="modal-body">
         <div class="essay-card">
           <h4>
-            <span>Writing Task 1</span>
+            <span id="m-w1-title">Writing Task 1</span>
             <span id="m-t1-words" style="color: #64748b; font-weight: normal;">Words: 0</span>
           </h4>
           <div class="essay-text" id="m-task1">No response provided.</div>
@@ -221,6 +300,22 @@
             <span id="m-t2-words" style="color: #64748b; font-weight: normal;">Words: 0</span>
           </h4>
           <div class="essay-text" id="m-task2">No response provided.</div>
+        </div>
+
+        <div class="essay-card">
+          <h4>
+            <span>Listening Answers</span>
+            <span id="m-lis-score" style="color: #0284c7;">Score: - / 40</span>
+          </h4>
+          <div class="ans-grid" id="m-lis-grid"></div>
+        </div>
+
+        <div class="essay-card">
+          <h4>
+            <span id="m-rd-title">Reading Answers</span>
+            <span id="m-rd-score" style="color: #0284c7;">Score: - / 40</span>
+          </h4>
+          <div class="ans-grid" id="m-rd-grid"></div>
         </div>
       </div>
     </div>
@@ -239,9 +334,10 @@
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
+    const statusRef = db.collection("exam_meta").doc("portal_status");
 
     let allDocs = [];
-    const ADMIN_PIN = "1234"; // Смените этот PIN при желании
+    const ADMIN_PIN = "1234"; // Change this PIN anytime
 
     // 2. PIN Protection
     function verifyPin() {
@@ -249,16 +345,48 @@
       if (pin === ADMIN_PIN) {
         document.getElementById("auth-gate").style.display = "none";
         document.getElementById("dashboard-view").style.display = "block";
+        watchPortalStatus();
         fetchSubmissions();
       } else {
         alert("Incorrect PIN code.");
       }
     }
 
-    // 3. Fetch submissions from Cloud Firestore
+    // 3. Live Open/Close Portal Controls
+    function watchPortalStatus() {
+      statusRef.onSnapshot(doc => {
+        const data = doc.exists ? doc.data() : { isOpen: true };
+        const pill = document.getElementById("portal-status-pill");
+        if (data.isOpen === false) {
+          pill.className = "status-pill status-closed";
+          pill.innerText = "● CLOSED";
+        } else {
+          pill.className = "status-pill status-open";
+          pill.innerText = "● OPEN";
+        }
+        if (data.closedMessage) {
+          document.getElementById("closed-msg-input").value = data.closedMessage;
+        }
+      });
+    }
+
+    async function setPortalState(isOpen) {
+      const msg = document.getElementById("closed-msg-input").value.trim();
+      try {
+        await statusRef.set({
+          isOpen: isOpen,
+          closedMessage: msg,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+      } catch (err) {
+        alert("Failed to update website status: " + err.message);
+      }
+    }
+
+    // 4. Fetch submissions from Cloud Firestore
     async function fetchSubmissions() {
       const tbody = document.getElementById("candidates-body");
-      tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #64748b;">Loading papers...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #64748b;">Loading papers...</td></tr>`;
 
       try {
         const snapshot = await db.collection("mock_results").get();
@@ -267,56 +395,76 @@
           allDocs.push({ id: doc.id, ...doc.data() });
         });
 
-        // Сортировка: новые сверху
         allDocs.sort((a, b) => (b.submittedAt?.seconds || 0) - (a.submittedAt?.seconds || 0));
 
         document.getElementById("count-badge").innerText = allDocs.length;
         renderTable();
       } catch (err) {
         console.error("Failed to fetch:", err);
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #dc2626;">Error loading data from Firebase.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #dc2626;">Error loading data from Firebase.</td></tr>`;
       }
     }
 
     function renderTable() {
       const tbody = document.getElementById("candidates-body");
       if (allDocs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #64748b;">No submissions yet.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #64748b;">No submissions yet.</td></tr>`;
         return;
       }
 
       tbody.innerHTML = allDocs.map((item, idx) => {
         const timeStr = item.submittedAt 
-          ? new Date(item.submittedAt.seconds * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+          ? new Date(item.submittedAt.seconds * 1000).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
           : "N/A";
 
-        const lisCount = item.listeningAnswers ? Object.keys(item.listeningAnswers).length : 0;
-        const rdCount = item.readingAnswers ? Object.keys(item.readingAnswers).length : 0;
+        const lisScore = typeof item.listeningScore === "number" ? `${item.listeningScore} / 40` : "-";
+        const rdScore = typeof item.readingScore === "number" ? `${item.readingScore} / 40` : "-";
+        const rVar = (item.readingVariant || "").replace("Reading Variant ", "R");
+        const wVar = (item.writing?.variant || "").replace("Writing Variant ", "W");
 
         return `
           <tr>
             <td style="font-weight: bold; color: #0b1a30;">${item.fullName || "Anonymous"}</td>
             <td>${timeStr}</td>
+            <td style="font-weight: bold; color: #0284c7;">${lisScore}</td>
+            <td style="font-weight: bold; color: #0284c7;">${rdScore}</td>
+            <td style="font-size: 12px; color: #475569;">${rVar || "-"} / ${wVar || "-"}</td>
             <td>${item.writing?.task1Words || 0} w</td>
             <td>${item.writing?.task2Words || 0} w</td>
-            <td>${lisCount} saved</td>
-            <td>${rdCount} saved</td>
             <td>
-              <button class="btn-view" onclick="openReview(${idx})">Review Essays</button>
+              <button class="btn-view" onclick="openReview(${idx})">Review Paper</button>
             </td>
           </tr>
         `;
       }).join("");
     }
 
-    // 4. Modal Display
+    // 5. Modal Display (Essays + Listening/Reading Answers)
+    function formatAnswerGrid(ansObj) {
+      if (!ansObj) return "<div>No answers recorded.</div>";
+      let html = "";
+      for (let q = 1; q <= 40; q++) {
+        const val = ansObj[`q${q}`] || "—";
+        html += `<div><strong>Q${q}:</strong> ${val}</div>`;
+      }
+      return html;
+    }
+
     function openReview(index) {
       const student = allDocs[index];
       document.getElementById("modal-candidate-name").innerText = `Candidate: ${student.fullName}`;
+      document.getElementById("m-w1-title").innerText = `Writing Task 1 (${student.writing?.variant || "Variant"})`;
       document.getElementById("m-t1-words").innerText = `Words: ${student.writing?.task1Words || 0}`;
       document.getElementById("m-task1").innerText = student.writing?.task1 || "[No response entered]";
       document.getElementById("m-t2-words").innerText = `Words: ${student.writing?.task2Words || 0}`;
       document.getElementById("m-task2").innerText = student.writing?.task2 || "[No response entered]";
+
+      document.getElementById("m-lis-score").innerText = typeof student.listeningScore === "number" ? `Score: ${student.listeningScore} / 40` : "Score: N/A";
+      document.getElementById("m-lis-grid").innerHTML = formatAnswerGrid(student.listeningAnswers);
+
+      document.getElementById("m-rd-title").innerText = `Reading Answers (${student.readingVariant || "Variant"})`;
+      document.getElementById("m-rd-score").innerText = typeof student.readingScore === "number" ? `Score: ${student.readingScore} / 40` : "Score: N/A";
+      document.getElementById("m-rd-grid").innerHTML = formatAnswerGrid(student.readingAnswers);
 
       document.getElementById("review-modal").style.display = "flex";
     }
@@ -325,65 +473,63 @@
       document.getElementById("review-modal").style.display = "none";
     }
   </script>
-  <!-- Панель живых уведомлений для администратора -->
-<div id="proctor-alerts-box" style="position: fixed; bottom: 20px; right: 20px; width: 340px; max-height: 80vh; overflow-y: auto; z-index: 99999; font-family: sans-serif; display: flex; flex-direction: column; gap: 10px;"></div>
 
-<script>
-  (function () {
-    const alertsBox = document.getElementById('proctor-alerts-box');
-    const pageLoadTime = Date.now();
+  <!-- Live Proctor Violation Alerts -->
+  <div id="proctor-alerts-box" style="position: fixed; bottom: 20px; right: 20px; width: 340px; max-height: 80vh; overflow-y: auto; z-index: 99999; font-family: sans-serif; display: flex; flex-direction: column; gap: 10px;"></div>
 
-    // Короткий звуковой сигнал без внешних аудиофайлов
-    function playBeep() {
-      try {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctx.createOscillator();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(880, ctx.currentTime);
-        osc.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 0.25);
-      } catch (e) {}
-    }
+  <script>
+    (function () {
+      const alertsBox = document.getElementById('proctor-alerts-box');
+      const pageLoadTime = Date.now();
 
-    function showAlertCard(data) {
-      // Игнорируем старые нарушения, которые были до открытия admin.html
-      if (data.timestamp && data.timestamp < pageLoadTime - 5000) return;
-
-      playBeep();
-      const card = document.createElement('div');
-      card.style.cssText = 'background: #fee2e2; border-left: 5px solid #dc2626; color: #7f1d1d; padding: 14px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); position: relative;';
-      card.innerHTML = `
-        <div style="font-weight: bold; font-size: 15px; margin-bottom: 4px;">⚠️ Нарушение: ${data.student}</div>
-        <div style="font-size: 13px; margin-bottom: 4px;">${data.reason}</div>
-        <div style="font-size: 11px; opacity: 0.8;">Время: ${data.time}</div>
-        <button onclick="this.parentElement.remove()" style="position: absolute; top: 8px; right: 10px; background: none; border: none; font-weight: bold; cursor: pointer; color: #7f1d1d;">✕</button>
-      `;
-      alertsBox.prepend(card);
-    }
-
-    // Подписка на новые нарушения в реальном времени
-    setTimeout(function () {
-      if (typeof firebase === 'undefined') return;
-
-      if (firebase.firestore) {
-        firebase.firestore().collection('violations')
-          .where('timestamp', '>', pageLoadTime)
-          .onSnapshot(function (snapshot) {
-            snapshot.docChanges().forEach(function (change) {
-              if (change.type === 'added') showAlertCard(change.doc.data());
-            });
-          });
-      } else if (firebase.database) {
-        firebase.database().ref('violations')
-          .orderByChild('timestamp')
-          .startAt(pageLoadTime)
-          .on('child_added', function (snapshot) {
-            showAlertCard(snapshot.val());
-          });
+      function playBeep() {
+        try {
+          const ctx = new (window.AudioContext || window.webkitAudioContext)();
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(880, ctx.currentTime);
+          osc.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.25);
+        } catch (e) {}
       }
-    }, 1000);
-  })();
-</script>
+
+      function showAlertCard(data) {
+        if (data.timestamp && data.timestamp < pageLoadTime - 5000) return;
+
+        playBeep();
+        const card = document.createElement('div');
+        card.style.cssText = 'background: #fee2e2; border-left: 5px solid #dc2626; color: #7f1d1d; padding: 14px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); position: relative;';
+        card.innerHTML = `
+          <div style="font-weight: bold; font-size: 15px; margin-bottom: 4px;">⚠️ Нарушение: ${data.student}</div>
+          <div style="font-size: 13px; margin-bottom: 4px;">${data.reason}</div>
+          <div style="font-size: 11px; opacity: 0.8;">Время: ${data.time}</div>
+          <button onclick="this.parentElement.remove()" style="position: absolute; top: 8px; right: 10px; background: none; border: none; font-weight: bold; cursor: pointer; color: #7f1d1d;">✕</button>
+        `;
+        alertsBox.prepend(card);
+      }
+
+      setTimeout(function () {
+        if (typeof firebase === 'undefined') return;
+
+        if (firebase.firestore) {
+          firebase.firestore().collection('violations')
+            .where('timestamp', '>', pageLoadTime)
+            .onSnapshot(function (snapshot) {
+              snapshot.docChanges().forEach(function (change) {
+                if (change.type === 'added') showAlertCard(change.doc.data());
+              });
+            });
+        } else if (firebase.database) {
+          firebase.database().ref('violations')
+            .orderByChild('timestamp')
+            .startAt(pageLoadTime)
+            .on('child_added', function (snapshot) {
+              showAlertCard(snapshot.val());
+            });
+        }
+      }, 1000);
+    })();
+  </script>
 </body>
 </html>
