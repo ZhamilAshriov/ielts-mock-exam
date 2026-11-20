@@ -888,6 +888,16 @@
         triggerViolation('Переключил вкладку или свернул окно');
       }
     });
+
+    // Press Ctrl + Shift + U to clear local ban & warnings
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') {
+        localStorage.removeItem('hs_ielts_ban_until');
+        localStorage.removeItem('hs_ielts_warn_count');
+        alert('Local ban and warnings cleared.');
+        window.location.reload();
+      }
+    });
   })();
   </script>
 </body>
