@@ -108,6 +108,18 @@
     }
     .btn-switch-close:hover { background: #b91c1c; }
 
+    .btn-export {
+      background: #15803d;
+      color: #fff;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    .btn-export:hover { background: #166534; }
+
     /* Table View */
     #dashboard-view { display: none; }
     .table-card {
@@ -269,9 +281,12 @@
         </div>
       </div>
 
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
         <h2 style="font-size: 18px;">Exam Results Table</h2>
-        <button onclick="fetchSubmissions()" style="padding: 6px 12px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; font-size: 13px;">🔄 Refresh List</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-export" onclick="exportResultsCSV()">📥 Export Excel (CSV)</button>
+          <button onclick="fetchSubmissions()" style="padding: 6px 12px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; font-size: 13px;">🔄 Refresh List</button>
+        </div>
       </div>
 
       <div class="table-card">
@@ -280,8 +295,8 @@
             <tr>
               <th>Candidate Name</th>
               <th>Submitted</th>
-              <th>Listening</th>
-              <th>Reading</th>
+              <th>Listening Band</th>
+              <th>Reading Band</th>
               <th>Variants</th>
               <th>Task 1</th>
               <th>Task 2</th>
@@ -323,7 +338,7 @@
         <div class="essay-card">
           <h4>
             <span>Listening Answers</span>
-            <span id="m-lis-score" style="color: #0284c7;">Score: - / 40</span>
+            <span id="m-lis-score" style="color: #0284c7;">Band: -</span>
           </h4>
           <div class="ans-grid" id="m-lis-grid"></div>
         </div>
@@ -331,7 +346,7 @@
         <div class="essay-card">
           <h4>
             <span id="m-rd-title">Reading Answers</span>
-            <span id="m-rd-score" style="color: #0284c7;">Score: - / 40</span>
+            <span id="m-rd-score" style="color: #0284c7;">Band: -</span>
           </h4>
           <div class="ans-grid" id="m-rd-grid"></div>
         </div>
@@ -356,6 +371,49 @@
 
     let allDocs = [];
     const ADMIN_PIN = "1234"; // Change this PIN anytime
+
+    // Official IELTS Academic Band Conversion (Raw /40 -> Band)
+    function getListeningBand(raw) {
+      if (typeof raw !== "number") return null;
+      if (raw >= 39) return 9.0;
+      if (raw >= 37) return 8.5;
+      if (raw >= 35) return 8.0;
+      if (raw >= 32) return 7.5;
+      if (raw >= 30) return 7.0;
+      if (raw >= 26) return 6.5;
+      if (raw >= 23) return 6.0;
+      if (raw >= 18) return 5.5;
+      if (raw >= 16) return 5.0;
+      if (raw >= 13) return 4.5;
+      if (raw >= 10) return 4.0;
+      if (raw >= 8)  return 3.5;
+      if (raw >= 6)  return 3.0;
+      if (raw >= 4)  return 2.5;
+      if (raw >= 2)  return 2.0;
+      if (raw === 1) return 1.5;
+      return 0.0;
+    }
+
+    function getReadingBand(raw) {
+      if (typeof raw !== "number") return null;
+      if (raw >= 39) return 9.0;
+      if (raw >= 37) return 8.5;
+      if (raw >= 35) return 8.0;
+      if (raw >= 33) return 7.5;
+      if (raw >= 30) return 7.0;
+      if (raw >= 27) return 6.5;
+      if (raw >= 23) return 6.0;
+      if (raw >= 19) return 5.5;
+      if (raw >= 15) return 5.0;
+      if (raw >= 13) return 4.5;
+      if (raw >= 10) return 4.0;
+      if (raw >= 8)  return 3.5;
+      if (raw >= 6)  return 3.0;
+      if (raw >= 4)  return 2.5;
+      if (raw >= 2)  return 2.0;
+      if (raw === 1) return 1.5;
+      return 0.0;
+    }
 
     // 2. PIN Protection
     function verifyPin() {
@@ -435,8 +493,12 @@
           ? new Date(item.submittedAt.seconds * 1000).toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
           : "N/A";
 
-        const lisScore = typeof item.listeningScore === "number" ? `${item.listeningScore} / 40` : "-";
-        const rdScore = typeof item.readingScore === "number" ? `${item.readingScore} / 40` : "-";
+        const lBand = getListeningBand(item.listeningScore);
+        const rBand = getReadingBand(item.readingScore);
+
+        const lisDisplay = lBand !== null ? `${lBand.toFixed(1)} <span style="font-weight:normal; color:#64748b; font-size:12px;">(${item.listeningScore}/40)</span>` : "-";
+        const rdDisplay = rBand !== null ? `${rBand.toFixed(1)} <span style="font-weight:normal; color:#64748b; font-size:12px;">(${item.readingScore}/40)</span>` : "-";
+
         const rVar = (item.readingVariant || "").replace("Reading Variant ", "R");
         const wVar = (item.writing?.variant || "").replace("Writing Variant ", "W");
 
@@ -444,8 +506,8 @@
           <tr>
             <td style="font-weight: bold; color: #0b1a30;">${item.fullName || "Anonymous"}</td>
             <td>${timeStr}</td>
-            <td style="font-weight: bold; color: #0284c7;">${lisScore}</td>
-            <td style="font-weight: bold; color: #0284c7;">${rdScore}</td>
+            <td style="font-weight: bold; color: #0284c7;">${lisDisplay}</td>
+            <td style="font-weight: bold; color: #0284c7;">${rdDisplay}</td>
             <td style="font-size: 12px; color: #475569;">${rVar || "-"} / ${wVar || "-"}</td>
             <td>${item.writing?.task1Words || 0} w</td>
             <td>${item.writing?.task2Words || 0} w</td>
@@ -460,7 +522,52 @@
       }).join("");
     }
 
-    // 5. Delete Submission from Cloud Firestore
+    // 5. Export Results Table to CSV (Automated Bands + Single Writing & Speaking Columns + Auto Overall Formula)
+    function exportResultsCSV() {
+      if (allDocs.length === 0) {
+        alert("No submissions available to export.");
+        return;
+      }
+
+      const headers = [
+        "Candidate Name",
+        "Listening",
+        "Reading",
+        "Writing",
+        "Speaking",
+        "Overall Band"
+      ];
+
+      const rows = allDocs.map((item, i) => {
+        const rowNum = i + 2; // Excel row number (Row 1 is headers)
+        const safeName = `"${String(item.fullName || "Anonymous").replace(/"/g, '""')}"`;
+        const lBand = getListeningBand(item.listeningScore);
+        const rBand = getReadingBand(item.readingScore);
+
+        const lisVal = lBand !== null ? lBand.toFixed(1) : "";
+        const rdVal = rBand !== null ? rBand.toFixed(1) : "";
+
+        // Excel formula: automatically averages Listening, Reading, Writing, Speaking & rounds to nearest 0.5 once all 4 are filled
+        const overallFormula = `"=IF(COUNT(B${rowNum}:E${rowNum})=4, ROUND(AVERAGE(B${rowNum}:E${rowNum})*2, 0)/2, """")"`;
+
+        return [safeName, lisVal, rdVal, "", "", overallFormula].join(",");
+      });
+
+      const csvContent = "\uFEFF" + [headers.join(","), ...rows].join("\r\n");
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+
+      const today = new Date().toISOString().slice(0, 10);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `IELTS_Mock_Bands_${today}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // 6. Delete Submission from Cloud Firestore
     async function deleteSubmission(index) {
       const student = allDocs[index];
       if (!student || !student.id) return;
@@ -479,7 +586,7 @@
       }
     }
 
-    // 6. Modal Display (Essays + Listening/Reading Answers)
+    // 7. Modal Display (Essays + Listening/Reading Answers)
     function formatAnswerGrid(ansObj) {
       if (!ansObj) return "<div>No answers recorded.</div>";
       let html = "";
@@ -499,11 +606,14 @@
       document.getElementById("m-t2-words").innerText = `Words: ${student.writing?.task2Words || 0}`;
       document.getElementById("m-task2").innerText = student.writing?.task2 || "[No response entered]";
 
-      document.getElementById("m-lis-score").innerText = typeof student.listeningScore === "number" ? `Score: ${student.listeningScore} / 40` : "Score: N/A";
+      const lBand = getListeningBand(student.listeningScore);
+      const rBand = getReadingBand(student.readingScore);
+
+      document.getElementById("m-lis-score").innerText = lBand !== null ? `Band ${lBand.toFixed(1)} (${student.listeningScore} / 40)` : "Band: N/A";
       document.getElementById("m-lis-grid").innerHTML = formatAnswerGrid(student.listeningAnswers);
 
       document.getElementById("m-rd-title").innerText = `Reading Answers (${student.readingVariant || "Variant"})`;
-      document.getElementById("m-rd-score").innerText = typeof student.readingScore === "number" ? `Score: ${student.readingScore} / 40` : "Score: N/A";
+      document.getElementById("m-rd-score").innerText = rBand !== null ? `Band ${rBand.toFixed(1)} (${student.readingScore} / 40)` : "Band: N/A";
       document.getElementById("m-rd-grid").innerHTML = formatAnswerGrid(student.readingAnswers);
 
       document.getElementById("review-modal").style.display = "flex";
