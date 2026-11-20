@@ -1,6 +1,6 @@
 const EXAM_DATA = {
   // ==========================================
-  // 1. OFFICIAL WRITING (5 VARIANTS)
+  // 1. WRITING VARIANTS (1–5)
   // ==========================================
   writingVariants: [
     {
@@ -36,15 +36,13 @@ const EXAM_DATA = {
   ],
 
   // ==========================================
-  // 2. OFFICIAL LISTENING (Part_1.mpeg - Part_4.mpeg)
+  // 2. LISTENING (40 QUESTIONS — ROOM AUDIO)
   // ==========================================
-  officialListening: {
-    variantId: "Official Listening 1",
+  listening: {
     parts: [
       {
         part: 1,
         title: "Part 1: Questions 1–10",
-        audio: "Part_1.mpeg",
         html: `
           <p style="margin-bottom: 14px; color: #475569;">Complete the notes below. Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>
           <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:18px; line-height:2.2; font-size:15px;">
@@ -75,7 +73,6 @@ const EXAM_DATA = {
       {
         part: 2,
         title: "Part 2: Questions 11–20",
-        audio: "Part_2.mpeg",
         html: `
           <p style="margin-bottom:10px; font-weight:bold;">Questions 11–16: Choose the correct letter, A–I, for each volunteer activity.</p>
           <div style="background:#f8fafc; border:1px solid #cbd5e1; padding:12px; border-radius:4px; font-size:13px; margin-bottom:14px; line-height:1.7;">
@@ -138,7 +135,6 @@ const EXAM_DATA = {
       {
         part: 3,
         title: "Part 3: Questions 21–30",
-        audio: "Part_3.mpeg",
         html: `
           <p style="margin-bottom:10px; font-weight:bold;">Questions 21–26: Choose the correct letter, A, B, or C.</p>
           <div class="q-block">
@@ -200,7 +196,6 @@ const EXAM_DATA = {
       {
         part: 4,
         title: "Part 4: Questions 31–40",
-        audio: "Part_4.mpeg",
         html: `
           <p style="margin-bottom: 14px; color: #475569;">Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.</p>
           <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:18px; line-height:2.2; font-size:15px;">
@@ -274,7 +269,7 @@ const EXAM_DATA = {
   },
 
   // ==========================================
-  // 3. OFFICIAL READING (2 ROTATING VARIANTS)
+  // 3. READING VARIANTS (1–2)
   // ==========================================
   readingVariants: [
     // --- READING VARIANT 1: Beatrix Potter / Waste Disposal / Movement Underwater ---
@@ -799,16 +794,5 @@ const EXAM_DATA = {
         40: ["e"]
       }
     }
-  ],
-
-  // ==========================================
-  // 4. PRACTICE MODE DATA (?mode=practice)
-  // ==========================================
-  practiceWriting: {
-    variantId: "Practice Writing 1",
-    task1Text: "The bar graph below shows the percentage growth in average property prices in three different countries between 2007 and 2010.\n\nSummarise the information by selecting and reporting the main features, and make comparisons where relevant.\n\nWrite at least 150 words.",
-    task1Image: "practice1.png",
-    task2Text: "Some people think that parents should teach their children how to be good members of society. Others, however, believe that school is the best place to learn this.\n\nDiscuss both views and give your own opinion.\n\nWrite at least 250 words."
-  }
-  // Keep your existing practiceListening and practiceReading blocks right here!
+  ]
 };
