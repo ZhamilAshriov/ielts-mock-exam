@@ -942,12 +942,18 @@
       }
     });
 
-    // Press Ctrl + Shift + U to clear local ban & warnings
+    // Press Ctrl + Shift + U to clear local ban & warnings (works on any keyboard layout)
     document.addEventListener('keydown', function (e) {
-      if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'u') {
+      if (e.ctrlKey && e.shiftKey && e.code === 'KeyU') {
         localStorage.removeItem('hs_ielts_ban_until');
         localStorage.removeItem('hs_ielts_warn_count');
         alert('Local ban and warnings cleared.');
+        window.location.reload();
+      }
+      // Press Ctrl + Shift + R for quick proctor reload without triggering a violation
+      if (e.ctrlKey && e.shiftKey && e.code === 'KeyR') {
+        e.preventDefault();
+        examActive = false;
         window.location.reload();
       }
     });
