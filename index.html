@@ -416,15 +416,18 @@
           if (!doc.exists) return;
           const cmd = doc.data().command;
           if (cmd === "reload") {
-            sessionRef.update({ command: "none" }).finally(() => {
-              window.location.reload();
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
+            sessionRef.delete().catch(() => {}).finally(() => {
+              window.location.href = window.location.href;
             });
           } else if (cmd === "block") {
+            if (heartbeatInterval) clearInterval(heartbeatInterval);
             const banUntil = Date.now() + (24 * 60 * 60 * 1000);
             localStorage.setItem("hs_ielts_ban_until", String(banUntil));
             localStorage.setItem("hs_ielts_warn_count", "3");
-            sessionRef.delete().catch(() => {});
-            window.location.reload();
+            sessionRef.delete().catch(() => {}).finally(() => {
+              window.location.href = window.location.href;
+            });
           }
         });
 
