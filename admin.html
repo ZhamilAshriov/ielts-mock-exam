@@ -294,6 +294,15 @@
           <span id="portal-status-pill" class="status-pill status-open">Checking...</span>
         </div>
 
+        <!-- Admin Unban Reminder -->
+      <div style="background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 13px; color: #92400e;">
+        <div>
+          <strong>Proctor Unban Reminder:</strong> To unlock a banned student laptop, press <strong>Ctrl + Shift + U</strong> on their screen, or open DevTools Console (<strong>F12</strong>) and run:
+          <code id="unban-cmd" style="background: #fef3c7; border: 1px solid #fcd34d; padding: 3px 8px; border-radius: 4px; font-family: monospace; color: #78350f; margin-left: 4px;">localStorage.clear(); location.reload();</code>
+        </div>
+        <button type="button" onclick="navigator.clipboard.writeText('localStorage.clear(); location.reload();'); this.innerText='✓ Copied'; setTimeout(()=>this.innerText='Copy Command', 1500);" style="background: #f59e0b; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 12px;">Copy Command</button>
+      </div>
+
         <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; flex: 1; min-width: 260px;">
           <input type="text" id="closed-msg-input" placeholder="Message shown when portal is closed..."
             value="The IELTS Mock Examination session is not open at this time. Please wait for your proctor to open access."
