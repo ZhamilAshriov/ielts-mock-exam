@@ -365,6 +365,8 @@
     let currentSection = "";
 
     const LISTENING_MINUTES = 34;
+    let activeSessionId = null;
+    let heartbeatInterval = null;
 
     function showScreen(id) {
       document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
@@ -396,6 +398,48 @@
 
       document.getElementById("header-user").innerText = `Candidate: ${name}`;
       showScreen("screen-listening-splash");
+      // Register live session in Firestore so admin.html can monitor, reload, or block
+      try {
+        const sessionRef = await db.collection("active_sessions").add({
+          fullName: name,
+          readingVariant: assignedReading ? assignedReading.variantId : "R1",
+          writingVariant: assignedWriting ? assignedWriting.variantId : "W1",
+          section: "Listening",
+          startedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastSeen: Date.now(),
+          command: "none"
+        });
+        activeSessionId = sessionRef.id;
+
+        // Listen for instant Reload or Block commands from admin.html
+        sessionRef.onSnapshot(doc => {
+          if (!doc.exists) return;
+          const cmd = doc.data().command;
+          if (cmd === "reload") {
+            sessionRef.update({ command: "none" }).finally(() => {
+              window.location.reload();
+            });
+          } else if (cmd === "block") {
+            const banUntil = Date.now() + (24 * 60 * 60 * 1000);
+            localStorage.setItem("hs_ielts_ban_until", String(banUntil));
+            localStorage.setItem("hs_ielts_warn_count", "3");
+            sessionRef.delete().catch(() => {});
+            window.location.reload();
+          }
+        });
+
+        // Update heartbeat every 15 seconds & track current section
+        heartbeatInterval = setInterval(() => {
+          if (activeSessionId) {
+            db.collection("active_sessions").doc(activeSessionId).update({
+              lastSeen: Date.now(),
+              section: currentSection || "Splash"
+            }).catch(() => {});
+          }
+        }, 15000);
+      } catch (e) {
+        console.error("Session tracking error:", e);
+      }
     }
 
     // 4. Listening Section Logic (Central Room Audio — No Player)
@@ -677,7 +721,11 @@
         a.download = `${cleanName}_BACKUP.json`;
         a.click();
       }
-
+      if (heartbeatInterval) clearInterval(heartbeatInterval);
+      if (activeSessionId) {
+        db.collection("active_sessions").doc(activeSessionId).delete().catch(() => {});
+        activeSessionId = null;
+      }
       showScreen("screen-finished");
     }
 
