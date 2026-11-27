@@ -307,11 +307,13 @@
       </div>
 
       <!-- Active Candidates Live Panel -->
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px;">
         <h2 style="font-size: 18px;"><span class="live-dot"></span>Active Candidates (Live)</h2>
-        <span style="font-size: 12px; color: #64748b;">Updates automatically in real time</span>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 12px; color: #64748b;">Updates automatically in real time</span>
+          <button onclick="refreshActiveCandidates()" style="padding: 5px 10px; cursor: pointer; border: 1px solid #cbd5e1; border-radius: 4px; background: #fff; font-size: 12px;">🔄 Refresh Active</button>
+        </div>
       </div>
-
       <div class="table-card">
         <table>
           <thead>
@@ -510,8 +512,17 @@
     }
 
     // 4. Live Active Candidates Listener & Remote Reload / Block
+    let activeUnsubscribe = null;
+
+    function refreshActiveCandidates() {
+      document.getElementById("active-candidates-body").innerHTML =
+        `<tr><td colspan="5" style="text-align: center; color: #64748b;">Refreshing active sessions...</td></tr>`;
+      watchActiveCandidates();
+    }
+
     function watchActiveCandidates() {
-      db.collection("active_sessions").onSnapshot(snapshot => {
+      if (activeUnsubscribe) activeUnsubscribe();
+      activeUnsubscribe = db.collection("active_sessions").onSnapshot(snapshot => {
         const tbody = document.getElementById("active-candidates-body");
         const sessions = [];
         const cutoff = Date.now() - (3 * 60 * 60 * 1000); // Hide stale sessions older than 3 hours
