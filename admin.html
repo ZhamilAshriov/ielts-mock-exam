@@ -128,6 +128,7 @@
       border: 1px solid #cbd5e1;
       overflow-x: auto;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
     }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
     th { background: #f1f5f9; padding: 12px 16px; font-weight: bold; border-bottom: 1px solid #cbd5e1; color: #475569; }
@@ -152,6 +153,18 @@
     }
     .btn-view:hover { background: #0369a1; }
 
+    .btn-reload {
+      background: #d97706;
+      color: #fff;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .btn-reload:hover { background: #b45309; }
+
     .btn-delete {
       background: #dc2626;
       color: #fff;
@@ -163,6 +176,15 @@
       font-size: 12px;
     }
     .btn-delete:hover { background: #b91c1c; }
+
+    .live-dot {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      background: #16a34a;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
 
     /* Essay & Answer Review Modal */
     #review-modal {
@@ -247,7 +269,10 @@
 
   <header>
     <div class="header-title">IELTS Examiner Dashboard</div>
-    <div>Submissions: <span class="badge-count" id="count-badge">0</span></div>
+    <div style="display: flex; gap: 14px; align-items: center;">
+      <div>Active: <span class="badge-count" style="background: #16a34a;" id="active-badge">0</span></div>
+      <div>Submissions: <span class="badge-count" id="count-badge">0</span></div>
+    </div>
   </header>
 
   <main>
@@ -259,7 +284,7 @@
       <button class="btn-login" onclick="verifyPin()">Unlock Dashboard</button>
     </div>
 
-    <!-- Admin Controls + Candidate List Table -->
+    <!-- Admin Controls + Active Candidates + Results Table -->
     <div id="dashboard-view">
 
       <!-- Portal Open/Close Control Bar -->
@@ -281,6 +306,30 @@
         </div>
       </div>
 
+      <!-- Active Candidates Live Panel -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+        <h2 style="font-size: 18px;"><span class="live-dot"></span>Active Candidates (Live)</h2>
+        <span style="font-size: 12px; color: #64748b;">Updates automatically in real time</span>
+      </div>
+
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Candidate Name</th>
+              <th>Current Section</th>
+              <th>Variants</th>
+              <th>Last Activity</th>
+              <th>Remote Controls</th>
+            </tr>
+          </thead>
+          <tbody id="active-candidates-body">
+            <tr><td colspan="5" style="text-align: center; color: #64748b;">No active candidates right now.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Completed Submissions Table -->
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
         <h2 style="font-size: 18px;">Exam Results Table</h2>
         <div style="display: flex; gap: 8px;">
@@ -422,6 +471,7 @@
         document.getElementById("auth-gate").style.display = "none";
         document.getElementById("dashboard-view").style.display = "block";
         watchPortalStatus();
+        watchActiveCandidates();
         fetchSubmissions();
       } else {
         alert("Incorrect PIN code.");
@@ -459,7 +509,73 @@
       }
     }
 
-    // 4. Fetch submissions from Cloud Firestore
+    // 4. Live Active Candidates Listener & Remote Reload / Block
+    function watchActiveCandidates() {
+      db.collection("active_sessions").onSnapshot(snapshot => {
+        const tbody = document.getElementById("active-candidates-body");
+        const sessions = [];
+        const cutoff = Date.now() - (3 * 60 * 60 * 1000); // Hide stale sessions older than 3 hours
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          if (!data.lastSeen || data.lastSeen > cutoff) {
+            sessions.push({ id: doc.id, ...data });
+          }
+        });
+
+        document.getElementById("active-badge").innerText = sessions.length;
+
+        if (sessions.length === 0) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #64748b;">No active candidates right now.</td></tr>`;
+          return;
+        }
+
+        tbody.innerHTML = sessions.map(s => {
+          const rVar = (s.readingVariant || "").replace("Reading Variant ", "R");
+          const wVar = (s.writingVariant || "").replace("Writing Variant ", "W");
+          const secLabel = s.section ? s.section.charAt(0).toUpperCase() + s.section.slice(1) : "In Exam";
+          const seenTime = s.lastSeen ? new Date(s.lastSeen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : "Active";
+          const safeName = String(s.fullName || "Candidate").replace(/'/g, "\\'");
+
+          return `
+            <tr>
+              <td style="font-weight: bold; color: #0b1a30;"><span class="live-dot"></span>${s.fullName || "Anonymous"}</td>
+              <td><span style="background: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-weight: bold; font-size: 12px;">${secLabel}</span></td>
+              <td style="font-size: 12px; color: #475569;">${rVar} / ${wVar}</td>
+              <td style="font-size: 12px; color: #64748b;">${seenTime}</td>
+              <td>
+                <div class="action-cell">
+                  <button class="btn-reload" onclick="sendCandidateCommand('${s.id}', 'reload', '${safeName}')">🔄 Reload</button>
+                  <button class="btn-delete" onclick="sendCandidateCommand('${s.id}', 'block', '${safeName}')">⛔ Block</button>
+                  <button onclick="removeStaleSession('${s.id}')" title="Remove from active list" style="background: #e2e8f0; color: #475569; border: none; padding: 6px 8px; border-radius: 4px; cursor: pointer; font-size: 12px;">✕</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      });
+    }
+
+    async function sendCandidateCommand(sessionId, cmd, studentName) {
+      const msg = cmd === "block"
+        ? `Are you sure you want to BLOCK "${studentName}" for 24 hours? Their exam will immediately lock.`
+        : `Force reload "${studentName}"'s exam browser tab?`;
+      if (!confirm(msg)) return;
+
+      try {
+        await db.collection("active_sessions").doc(sessionId).update({ command: cmd });
+      } catch (err) {
+        alert("Failed to send command: " + err.message);
+      }
+    }
+
+    async function removeStaleSession(sessionId) {
+      try {
+        await db.collection("active_sessions").doc(sessionId).delete();
+      } catch (e) {}
+    }
+
+    // 5. Fetch submissions from Cloud Firestore
     async function fetchSubmissions() {
       const tbody = document.getElementById("candidates-body");
       tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: #64748b;">Loading papers...</td></tr>`;
@@ -522,7 +638,7 @@
       }).join("");
     }
 
-    // 5. Export Results Table to CSV (Automated Bands + Single Writing & Speaking Columns + Auto Overall Formula)
+    // 6. Export Results Table to CSV
     function exportResultsCSV() {
       if (allDocs.length === 0) {
         alert("No submissions available to export.");
@@ -539,15 +655,13 @@
       ];
 
       const rows = allDocs.map((item, i) => {
-        const rowNum = i + 2; // Excel row number (Row 1 is headers)
+        const rowNum = i + 2;
         const safeName = `"${String(item.fullName || "Anonymous").replace(/"/g, '""')}"`;
         const lBand = getListeningBand(item.listeningScore);
         const rBand = getReadingBand(item.readingScore);
 
         const lisVal = lBand !== null ? lBand.toFixed(1) : "";
         const rdVal = rBand !== null ? rBand.toFixed(1) : "";
-
-        // Excel formula: automatically averages Listening, Reading, Writing, Speaking & rounds to nearest 0.5 once all 4 are filled
         const overallFormula = `"=IF(COUNT(B${rowNum}:E${rowNum})=4, ROUND(AVERAGE(B${rowNum}:E${rowNum})*2, 0)/2, """")"`;
 
         return [safeName, lisVal, rdVal, "", "", overallFormula].join(",");
@@ -567,7 +681,7 @@
       URL.revokeObjectURL(url);
     }
 
-    // 6. Delete Submission from Cloud Firestore
+    // 7. Delete Submission from Cloud Firestore
     async function deleteSubmission(index) {
       const student = allDocs[index];
       if (!student || !student.id) return;
@@ -586,7 +700,7 @@
       }
     }
 
-    // 7. Modal Display (Essays + Listening/Reading Answers)
+    // 8. Modal Display (Essays + Listening/Reading Answers)
     function formatAnswerGrid(ansObj) {
       if (!ansObj) return "<div>No answers recorded.</div>";
       let html = "";
